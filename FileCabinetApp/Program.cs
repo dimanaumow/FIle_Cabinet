@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -16,6 +17,7 @@ namespace FileCabinetApp
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
             new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -24,6 +26,7 @@ namespace FileCabinetApp
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
+            new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
@@ -94,16 +97,33 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void Exit(string parameters)
+        private static void Create(string parameters)
         {
-            Console.WriteLine("Exiting an application...");
-            isRunning = false;
+            Console.Write("First name: ");
+            var firstName = Console.ReadLine();
+            Console.Write("Last name: ");
+            var lastName = Console.ReadLine();
+            Console.Write("Date of birth: ");
+            var dataOfBirth = Console.ReadLine();
+
+            DateTime date;
+            CultureInfo iOCultureFormat = new CultureInfo("en-US");
+            DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+
+            var index = fileCabinetService.CreateRecord(firstName, lastName, date);
+            Console.WriteLine($"Record #{index} is created.");
         }
 
         private static void Stat(string parameters)
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Exit(string parameters)
+        {
+            Console.WriteLine("Exiting an application...");
+            isRunning = false;
         }
     }
 }
