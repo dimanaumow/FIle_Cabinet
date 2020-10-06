@@ -6,7 +6,7 @@ namespace FileCabinetApp
 {
     public class FileCabinetService
     {
-        private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>;
+        private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth)
         {
@@ -22,9 +22,7 @@ namespace FileCabinetApp
 
         public int GetStat()
         {
-            //TODO: add realization
-
-            return 0;
+            return this.list.Count;
         }
     }
 }
