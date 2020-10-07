@@ -16,10 +16,11 @@ namespace FileCabinetApp
 
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
+            new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
-            new Tuple<string, Action<string>>("help", PrintHelp),
+            new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("exit", Exit),
         };
 
@@ -29,6 +30,7 @@ namespace FileCabinetApp
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
+            new string[] {"edit", "edit record", "The 'edit' comand edit record"},
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
@@ -145,6 +147,62 @@ namespace FileCabinetApp
 
             var index = fileCabinetService.CreateRecord(firstName, lastName, date, expirience, balance, nationality);
             Console.WriteLine($"Record #{index} is created.");
+        }
+
+        public static void Edit(string parameters)
+        {
+            Console.Write("Input id recodrds for editing: ");
+            var id = int.Parse(Console.ReadLine());
+            if (id > fileCabinetService.GetStat())
+            {
+                Console.WriteLine($"#{id} records is not found.");
+            }
+            else
+            {
+                Console.Write("First name: ");
+                var firstName = Console.ReadLine();
+                while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+                {
+                    Console.Write("Incorrect input. Enter again first name: ");
+                    firstName = Console.ReadLine();
+                }
+
+                Console.Write("Last name: ");
+                var lastName = Console.ReadLine();
+                while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+                {
+                    Console.Write("Incorrect input. Enter again last name: ");
+                    lastName = Console.ReadLine();
+                }
+
+                Console.Write("Date of birth: ");
+                var dataOfBirth = Console.ReadLine();
+                DateTime date;
+                CultureInfo iOCultureFormat = new CultureInfo("en-US");
+                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
+                {
+                    Console.Write("Incorrect input. Enter again date of birth: ");
+                    dataOfBirth = Console.ReadLine();
+                    DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                }
+
+                Console.Write("Nationality: ");
+                var nationality = char.Parse(Console.ReadLine());
+
+                Console.Write("Expirience: ");
+                var expirience = short.Parse(Console.ReadLine());
+                while (expirience < 0 || expirience > DateTime.Now.Year - date.Year)
+                {
+                    Console.Write("Incorrect input. Enter again expirience: ");
+                    expirience = short.Parse(Console.ReadLine());
+                }
+
+                Console.Write("Balance: ");
+                var balance = decimal.Parse(Console.ReadLine());
+
+                fileCabinetService.EditRecord(id, firstName, lastName, date, expirience, balance, nationality);
+            }
         }
 
         private static void List(string parameters)
