@@ -103,20 +103,45 @@ namespace FileCabinetApp
         {
             Console.Write("First name: ");
             var firstName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            {
+                Console.Write("Incorrect input. Enter again first name: ");
+                firstName = Console.ReadLine();
+            }
+
             Console.Write("Last name: ");
             var lastName = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+            {
+                Console.Write("Incorrect input. Enter again last name: ");
+                lastName = Console.ReadLine();
+            }
+
             Console.Write("Date of birth: ");
             var dataOfBirth = Console.ReadLine();
-            Console.Write("Nationality: ");
-            var nationality = char.Parse(Console.ReadLine());
-            Console.Write("Expirience: ");
-            var expirience = short.Parse(Console.ReadLine());
-            Console.Write("Balance: ");
-            var balance = decimal.Parse(Console.ReadLine());
-
             DateTime date;
             CultureInfo iOCultureFormat = new CultureInfo("en-US");
             DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+            while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
+            {
+                Console.Write("Incorrect input. Enter again date of birth: ");
+                dataOfBirth = Console.ReadLine();
+                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+            }
+
+            Console.Write("Nationality: ");
+            var nationality = char.Parse(Console.ReadLine());
+
+            Console.Write("Expirience: ");
+            var expirience = short.Parse(Console.ReadLine());
+            while (expirience < 0 || expirience > DateTime.Now.Year - date.Year)
+            {
+                Console.Write("Incorrect input. Enter again expirience: ");
+                expirience = short.Parse(Console.ReadLine());
+            }
+
+            Console.Write("Balance: ");
+            var balance = decimal.Parse(Console.ReadLine());
 
             var index = fileCabinetService.CreateRecord(firstName, lastName, date, expirience, balance, nationality);
             Console.WriteLine($"Record #{index} is created.");
@@ -128,8 +153,8 @@ namespace FileCabinetApp
 
             foreach (var record in records)
             {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, " +
-                    $"Expirience years: {record.Expirience}, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
+                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
             }
         }
 
