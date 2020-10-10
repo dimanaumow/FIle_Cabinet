@@ -20,6 +20,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
+            new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -31,6 +32,7 @@ namespace FileCabinetApp
             new string[] { "create", "receive user input and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] {"edit", "edit record", "The 'edit' comand edit record"},
+            new string[] { "find", "return a list of records with desired property.", "The 'find' comand return a list of records with finded property." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
@@ -210,6 +212,29 @@ namespace FileCabinetApp
             var records = fileCabinetService.GetRecords();
 
             foreach (var record in records)
+            {
+                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
+                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+            }
+        }
+
+        private static void Find(string parametrs)
+        {
+            var findComandAttributes = parametrs.Split(new char[] { ' ' });
+            switch (findComandAttributes[0].ToUpper())
+            {
+                case "FIRSTNAME":
+                    FindFirstName(findComandAttributes[1]);
+                    break;
+            }
+        }
+
+        private static void FindFirstName(string firstName)
+        {
+            var temp = firstName.Substring(1, firstName.Length - 2);
+            var findRecords = fileCabinetService.FindByFirstName(temp);
+
+            foreach (var record in findRecords)
             {
                 Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
                     $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
