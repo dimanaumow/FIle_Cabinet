@@ -8,7 +8,7 @@ namespace FileCabinetApp
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
-
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
         {
             if (string.IsNullOrWhiteSpace(firstName))
@@ -71,6 +71,15 @@ namespace FileCabinetApp
             else
             {
                 this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
             }
 
             return record.Id;
@@ -144,6 +153,15 @@ namespace FileCabinetApp
             {
                 this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
             }
+
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+            }
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
@@ -160,17 +178,14 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
-            var result = new List<FileCabinetRecord>();
-
-            foreach (var record in this.list)
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
             {
-                if (record.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.Add(record);
-                }
+                return this.lastNameDictionary[lastName.ToUpper()].ToArray();
             }
-
-            return result.ToArray();
+            else
+            {
+                return Array.Empty<FileCabinetRecord>();
+            }
         }
 
         public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
