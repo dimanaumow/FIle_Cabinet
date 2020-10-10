@@ -7,6 +7,7 @@ namespace FileCabinetApp
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
         {
@@ -63,6 +64,15 @@ namespace FileCabinetApp
 
             this.list.Add(record);
 
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+            }
+
             return record.Id;
         }
 
@@ -113,7 +123,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"{nameof(expirience)} must be positive and less than year of life.");
             }
 
-            this.list[id - 1] = new FileCabinetRecord
+            var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
                 FirstName = firstName,
@@ -123,21 +133,29 @@ namespace FileCabinetApp
                 Balance = balance,
                 Nationality = nationality
             };
+
+            this.list[id - 1] = record;
+
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+            }
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
-            var result = new List<FileCabinetRecord>();
-
-            foreach (var record in this.list)
+            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
             {
-                if (record.FirstName.Equals(firstName, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.Add(record);
-                }
+                return this.firstNameDictionary[firstName.ToUpper()].ToArray();
             }
-
-            return result.ToArray();
+            else
+            {
+                return Array.Empty<FileCabinetRecord>();
+            }
         }
 
         public FileCabinetRecord[] FindByLastName(string lastName)
