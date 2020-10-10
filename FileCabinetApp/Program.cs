@@ -31,7 +31,7 @@ namespace FileCabinetApp
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
-            new string[] {"edit", "edit record", "The 'edit' comand edit record"},
+            new string[] { "edit", "edit record", "The 'edit' comand edit record" },
             new string[] { "find", "return a list of records with desired property.", "The 'find' comand return a list of records with finded property." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -229,6 +229,9 @@ namespace FileCabinetApp
                 case "LASTNAME":
                     FindLastName(findComandAttributes[1]);
                     break;
+                case "DATEOFBIRTH":
+                    FindDateOfBirth(findComandAttributes[1]);
+                    break;
             }
         }
 
@@ -248,6 +251,17 @@ namespace FileCabinetApp
         {
             var temp = lastName.Substring(1, lastName.Length - 2);
             var findRecords = fileCabinetService.FindByLastName(temp);
+
+            foreach (var record in findRecords)
+            {
+                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
+                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+            }
+        }
+
+        private static void FindDateOfBirth(string dateOfBirth)
+        {
+            var findRecords = fileCabinetService.FindByDateOfBirth(dateOfBirth);
 
             foreach (var record in findRecords)
             {

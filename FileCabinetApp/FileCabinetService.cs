@@ -155,6 +155,25 @@ namespace FileCabinetApp
             return result.ToArray();
         }
 
+        public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
+        {
+            int month = int.Parse(dateOfBirth.Substring(0, 2));
+            int day = int.Parse(dateOfBirth.Substring(3, 2));
+            int year = int.Parse(dateOfBirth.Substring(6, 4));
+
+            var result = new List<FileCabinetRecord>();
+
+            foreach (var record in this.list)
+            {
+                if (record.DateOfBirth == new DateTime(year, month, day))
+                {
+                    result.Add(record);
+                }
+            }
+
+            return result.ToArray();
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
