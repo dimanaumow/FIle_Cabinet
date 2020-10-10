@@ -226,6 +226,9 @@ namespace FileCabinetApp
                 case "FIRSTNAME":
                     FindFirstName(findComandAttributes[1]);
                     break;
+                case "LASTNAME":
+                    FindLastName(findComandAttributes[1]);
+                    break;
             }
         }
 
@@ -233,6 +236,18 @@ namespace FileCabinetApp
         {
             var temp = firstName.Substring(1, firstName.Length - 2);
             var findRecords = fileCabinetService.FindByFirstName(temp);
+
+            foreach (var record in findRecords)
+            {
+                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
+                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+            }
+        }
+
+        private static void FindLastName(string lastName)
+        {
+            var temp = lastName.Substring(1, lastName.Length - 2);
+            var findRecords = fileCabinetService.FindByLastName(temp);
 
             foreach (var record in findRecords)
             {

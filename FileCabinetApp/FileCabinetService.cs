@@ -140,6 +140,21 @@ namespace FileCabinetApp
             return result.ToArray();
         }
 
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            var result = new List<FileCabinetRecord>();
+
+            foreach (var record in this.list)
+            {
+                if (record.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(record);
+                }
+            }
+
+            return result.ToArray();
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
