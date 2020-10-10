@@ -9,6 +9,8 @@ namespace FileCabinetApp
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
         {
             if (string.IsNullOrWhiteSpace(firstName))
@@ -80,6 +82,15 @@ namespace FileCabinetApp
             else
             {
                 this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
             }
 
             return record.Id;
@@ -162,6 +173,15 @@ namespace FileCabinetApp
             {
                 this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
             }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+            }
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
@@ -194,17 +214,16 @@ namespace FileCabinetApp
             int day = int.Parse(dateOfBirth.Substring(3, 2));
             int year = int.Parse(dateOfBirth.Substring(6, 4));
 
-            var result = new List<FileCabinetRecord>();
+            var key = new DateTime(year, month, day);
 
-            foreach (var record in this.list)
+            if (this.dateOfBirthDictionary.ContainsKey(key))
             {
-                if (record.DateOfBirth == new DateTime(year, month, day))
-                {
-                    result.Add(record);
-                }
+                return this.dateOfBirthDictionary[key].ToArray();
             }
-
-            return result.ToArray();
+            else
+            {
+                return Array.Empty<FileCabinetRecord>();
+            }
         }
 
         public FileCabinetRecord[] GetRecords()
