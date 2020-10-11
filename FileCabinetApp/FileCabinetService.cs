@@ -4,6 +4,9 @@ using System.Text;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Provide service for work with user's record.
+    /// </summary>
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
@@ -11,6 +14,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
+        /// <summary>
+        /// Generates a unique user record.
+        /// </summary>
+        /// <param name="firstName">User firstName.</param>
+        /// <param name="lastName">User lastName.</param>
+        /// <param name="dateOfBirth">User's date of birth.</param>
+        /// <param name="expirience">User's expirience.</param>
+        /// <param name="balance">User's balance.</param>
+        /// <param name="nationality">User's nationality.</param>
+        /// <returns>Id of record.</returns>
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
         {
             if (string.IsNullOrWhiteSpace(firstName))
@@ -61,7 +74,7 @@ namespace FileCabinetApp
                 DateOfBirth = dateOfBirth,
                 Expirience = expirience,
                 Balance = balance,
-                Nationality = nationality
+                Nationality = nationality,
             };
 
             this.list.Add(record);
@@ -96,6 +109,16 @@ namespace FileCabinetApp
             return record.Id;
         }
 
+        /// <summary>
+        /// Changes the record by given ID.
+        /// </summary>
+        /// <param name="id">Id of record.</param>
+        /// <param name="firstName">User firstName.</param>
+        /// <param name="lastName">User lastName.</param>
+        /// <param name="dateOfBirth">User's date of birth.</param>
+        /// <param name="expirience">User's expirience.</param>
+        /// <param name="balance">User's balance.</param>
+        /// <param name="nationality">User's nationality.</param>
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
         {
             if (id > this.list.Count)
@@ -151,7 +174,7 @@ namespace FileCabinetApp
                 DateOfBirth = dateOfBirth,
                 Expirience = expirience,
                 Balance = balance,
-                Nationality = nationality
+                Nationality = nationality,
             };
 
             this.list[id - 1] = record;
@@ -184,6 +207,11 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Find all records with given firstName.
+        /// </summary>
+        /// <param name="firstName">User firstName.</param>
+        /// <returns>The array of finded records.</returns>
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
             if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
@@ -196,6 +224,11 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Find all records with given lastName.
+        /// </summary>
+        /// <param name="lastName">User lastNeme.</param>
+        /// <returns>The array of finded records.</returns>
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
@@ -208,6 +241,11 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Find all records with given date of birth.
+        /// </summary>
+        /// <param name="dateOfBirth">The user's date of birth.</param>
+        /// <returns>The array of finded records.</returns>
         public FileCabinetRecord[] FindByDateOfBirth(string dateOfBirth)
         {
             int month = int.Parse(dateOfBirth.Substring(0, 2));
@@ -226,11 +264,19 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Give all records.
+        /// </summary>
+        /// <returns>The array of all records.</returns>
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
         }
 
+        /// <summary>
+        /// Give the count of records.
+        /// </summary>
+        /// <returns>The count of records.</returns>
         public int GetStat()
         {
             return this.list.Count;

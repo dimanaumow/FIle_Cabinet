@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Provide work with file cabinet service.
+    /// </summary>
     public static class Program
     {
         private const string DeveloperName = "Dzmitry Naumov";
@@ -36,6 +39,10 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
+        /// <summary>
+        /// Start point for application.
+        /// </summary>
+        /// <param name="args">Array of command-line keys passed to the program.</param>
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
@@ -124,13 +131,12 @@ namespace FileCabinetApp
             Console.Write("Date of birth: ");
             var dataOfBirth = Console.ReadLine();
             DateTime date;
-            CultureInfo iOCultureFormat = new CultureInfo("en-US");
-            DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+            DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
             while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
             {
                 Console.Write("Incorrect input. Enter again date of birth: ");
                 dataOfBirth = Console.ReadLine();
-                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
             }
 
             Console.Write("Nationality: ");
@@ -151,7 +157,7 @@ namespace FileCabinetApp
             Console.WriteLine($"Record #{index} is created.");
         }
 
-        public static void Edit(string parameters)
+        private static void Edit(string parameters)
         {
             Console.Write("Input id recodrds for editing: ");
             var id = int.Parse(Console.ReadLine());
@@ -180,13 +186,12 @@ namespace FileCabinetApp
                 Console.Write("Date of birth: ");
                 var dataOfBirth = Console.ReadLine();
                 DateTime date;
-                CultureInfo iOCultureFormat = new CultureInfo("en-US");
-                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
                 while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
                 {
                     Console.Write("Incorrect input. Enter again date of birth: ");
                     dataOfBirth = Console.ReadLine();
-                    DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                    DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
                 }
 
                 Console.Write("Nationality: ");
