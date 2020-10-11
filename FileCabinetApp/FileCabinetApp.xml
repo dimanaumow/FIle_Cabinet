@@ -60,12 +60,7 @@
             <summary>
             Generates a unique user record.
             </summary>
-            <param name="firstName">User firstName.</param>
-            <param name="lastName">User lastName.</param>
-            <param name="dateOfBirth">User's date of birth.</param>
-            <param name="expirience">User's expirience.</param>
-            <param name="balance">User's balance.</param>
-            <param name="nationality">User's nationality.</param>
+            <param name="parameters">Parameters of new record.</param>
             <returns>Id of record.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordData)">
@@ -73,12 +68,7 @@
             Changes the record by given ID.
             </summary>
             <param name="id">Id of record.</param>
-            <param name="firstName">User firstName.</param>
-            <param name="lastName">User lastName.</param>
-            <param name="dateOfBirth">User's date of birth.</param>
-            <param name="expirience">User's expirience.</param>
-            <param name="balance">User's balance.</param>
-            <param name="nationality">User's nationality.</param>
+            <param name="parametrs">Parameters of record.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>
@@ -112,6 +102,12 @@
             Give the count of records.
             </summary>
             <returns>The count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.RecordData)">
+            <summary>
+            Validate record parameters.
+            </summary>
+            <param name="parameters">Parameters of record.</param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>

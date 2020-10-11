@@ -13,7 +13,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
 
         private static bool isRunning = true;
 
@@ -152,6 +152,11 @@ namespace FileCabinetApp
 
             Console.Write("Balance: ");
             var balance = decimal.Parse(Console.ReadLine());
+            while (balance < 0)
+            {
+                Console.Write("Incorect input. Enter agin balance: ");
+                balance = decimal.Parse(Console.ReadLine());
+            }
 
             var index = fileCabinetService.CreateRecord(new RecordData(firstName, lastName, date, expirience, balance, nationality));
             Console.WriteLine($"Record #{index} is created.");

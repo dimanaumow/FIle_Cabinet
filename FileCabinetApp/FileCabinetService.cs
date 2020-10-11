@@ -7,7 +7,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Provide service for work with user's record.
     /// </summary>
-    public class FileCabinetService
+    public abstract class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -21,45 +21,7 @@ namespace FileCabinetApp
         /// <returns>Id of record.</returns>
         public int CreateRecord(RecordData parameters)
         {
-            if (string.IsNullOrWhiteSpace(parameters.firstName))
-            {
-                if (parameters.firstName is null)
-                {
-                    throw new ArgumentNullException($"{nameof(parameters.firstName)} cannot be null.");
-                }
-
-                if (parameters.firstName.Length < 2 || parameters.firstName.Length > 60)
-                {
-                    throw new ArgumentException($"{nameof(parameters.firstName.Length)} must be in range 2 to 60.");
-                }
-
-                throw new ArgumentException($"{nameof(parameters.firstName)} cannot be empty or whiteSpace.");
-            }
-
-            if (string.IsNullOrWhiteSpace(parameters.lastName))
-            {
-                if (parameters.lastName is null)
-                {
-                    throw new ArgumentNullException($"{nameof(parameters.lastName)} cannot be null.");
-                }
-
-                if (parameters.lastName.Length < 2 || parameters.lastName.Length > 60)
-                {
-                    throw new ArgumentException($"{nameof(parameters.lastName.Length)} must be in range 2 to 60.");
-                }
-
-                throw new ArgumentException($"{nameof(parameters.lastName)} cannot be empty or whiteSpace.");
-            }
-
-            if (parameters.dateOfBirth < new DateTime(1950, 1, 1) || parameters.dateOfBirth > DateTime.Now)
-            {
-                throw new ArgumentException($"{nameof(parameters.dateOfBirth)} is incorrect.");
-            }
-
-            if (parameters.expirience < 0 || parameters.expirience > DateTime.Now.Year - parameters.dateOfBirth.Year)
-            {
-                throw new ArgumentException($"{nameof(parameters.expirience)} must be positive and less than year of life.");
-            }
+            this.ValidateParameters(parameters);
 
             var record = new FileCabinetRecord
             {
@@ -109,62 +71,24 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="id">Id of record.</param>
         /// <param name="parametrs">Parameters of record.</param>
-        public void EditRecord(int id, RecordData parametrs)
+        public void EditRecord(int id, RecordData parameters)
         {
             if (id > this.list.Count)
             {
                 throw new ArgumentException($"Element with #{nameof(id)} can't fine in this records list.");
             }
 
-            if (string.IsNullOrWhiteSpace(parametrs.firstName))
-            {
-                if (parametrs.firstName is null)
-                {
-                    throw new ArgumentNullException($"{nameof(parametrs.firstName)} cannot be null.");
-                }
-
-                if (parametrs.firstName.Length < 2 || parametrs.firstName.Length > 60)
-                {
-                    throw new ArgumentException($"{nameof(parametrs.firstName.Length)} must be in range 2 to 60.");
-                }
-
-                throw new ArgumentException($"{nameof(parametrs.firstName)} cannot be empty or whiteSpace.");
-            }
-
-            if (string.IsNullOrWhiteSpace(parametrs.lastName))
-            {
-                if (parametrs.lastName is null)
-                {
-                    throw new ArgumentNullException($"{nameof(parametrs.lastName)} cannot be null.");
-                }
-
-                if (parametrs.lastName.Length < 2 || parametrs.lastName.Length > 60)
-                {
-                    throw new ArgumentException($"{nameof(parametrs.lastName.Length)} must be in range 2 to 60.");
-                }
-
-                throw new ArgumentException($"{nameof(parametrs.lastName)} cannot be empty or whiteSpace.");
-            }
-
-            if (parametrs.dateOfBirth < new DateTime(1950, 1, 1) || parametrs.dateOfBirth > DateTime.Now)
-            {
-                throw new ArgumentException($"{nameof(parametrs.dateOfBirth)} is incorrect.");
-            }
-
-            if (parametrs.expirience < 0 || parametrs.expirience > DateTime.Now.Year - parametrs.dateOfBirth.Year)
-            {
-                throw new ArgumentException($"{nameof(parametrs.expirience)} must be positive and less than year of life.");
-            }
+            this.ValidateParameters(parameters);
 
             var record = new FileCabinetRecord
             {
                 Id = id,
-                FirstName = parametrs.firstName,
-                LastName = parametrs.lastName,
-                DateOfBirth = parametrs.dateOfBirth,
-                Expirience = parametrs.expirience,
-                Balance = parametrs.balance,
-                Nationality = parametrs.nationality,
+                FirstName = parameters.firstName,
+                LastName = parameters.lastName,
+                DateOfBirth = parameters.dateOfBirth,
+                Expirience = parameters.expirience,
+                Balance = parameters.balance,
+                Nationality = parameters.nationality,
             };
 
             this.list[id - 1] = record;
@@ -271,5 +195,11 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        /// <summary>
+        /// Validate record parameters.
+        /// </summary>
+        /// <param name="parameters">Parameters of record.</param>
+        protected abstract void ValidateParameters(RecordData parameters);
     }
 }
