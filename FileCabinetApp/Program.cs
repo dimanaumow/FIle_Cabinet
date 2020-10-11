@@ -153,14 +153,13 @@ namespace FileCabinetApp
             Console.Write("Balance: ");
             var balance = decimal.Parse(Console.ReadLine());
 
-            var index = fileCabinetService.CreateRecord(firstName, lastName, date, expirience, balance, nationality);
+            var index = fileCabinetService.CreateRecord(new RecordData(firstName, lastName, date, expirience, balance, nationality));
             Console.WriteLine($"Record #{index} is created.");
         }
 
         private static void Edit(string parameters)
         {
-            Console.Write("Input id recodrds for editing: ");
-            var id = int.Parse(Console.ReadLine());
+            var id = int.Parse(parameters);
             if (id > fileCabinetService.GetStat())
             {
                 Console.WriteLine($"#{id} records is not found.");
@@ -208,7 +207,8 @@ namespace FileCabinetApp
                 Console.Write("Balance: ");
                 var balance = decimal.Parse(Console.ReadLine());
 
-                fileCabinetService.EditRecord(id, firstName, lastName, date, expirience, balance, nationality);
+                fileCabinetService.EditRecord(id, new RecordData(firstName, lastName, date, expirience, balance, nationality));
+                Console.WriteLine($"Record #{id} is edited.");
             }
         }
 
