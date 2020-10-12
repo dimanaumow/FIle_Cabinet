@@ -84,15 +84,15 @@ namespace FileCabinetApp
             switch (rule)
             {
                 case "DEFAULT":
-                    fileCabinetService = new FileCabinetDefaultService();
+                    fileCabinetService = new FileCabinetService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     break;
                 case "CUSTOM":
-                    fileCabinetService = new FileCabinetCustomService();
+                    fileCabinetService = new FileCabinetService(new CustomValidator());
                     Console.WriteLine("Using custom validation rules.");
                     break;
                 default:
-                    fileCabinetService = new FileCabinetDefaultService();
+                    fileCabinetService = new FileCabinetService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     break;
             }

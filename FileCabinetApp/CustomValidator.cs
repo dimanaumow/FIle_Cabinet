@@ -4,9 +4,9 @@ using System.Text;
 
 namespace FileCabinetApp
 {
-    public class FileCabinetCustomService : FileCabinetService
+    public class CustomValidator : IRecordValidator
     {
-        protected override void ValidateParameters(RecordData parameters)
+        public void ValidatePararmeters(RecordData parameters)
         {
             if (string.IsNullOrWhiteSpace(parameters.firstName))
             {

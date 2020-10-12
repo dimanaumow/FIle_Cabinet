@@ -7,12 +7,34 @@ namespace FileCabinetApp
     /// <summary>
     /// Provide service for work with user's record.
     /// </summary>
-    public abstract class FileCabinetService
+    public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private readonly IRecordValidator validator;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        public FileCabinetService() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">Validator rule.</param>
+        public FileCabinetService(IRecordValidator validator)
+            : this()
+        {
+            if (validator is null)
+            {
+                throw new ArgumentException($"{nameof(validator)} cannot be null.");
+            }
+
+            this.validator = validator;
+        }
 
         /// <summary>
         /// Generates a unique user record.
@@ -21,7 +43,7 @@ namespace FileCabinetApp
         /// <returns>Id of record.</returns>
         public int CreateRecord(RecordData parameters)
         {
-            this.ValidateParameters(parameters);
+            this.validator.ValidatePararmeters(parameters);
 
             var record = new FileCabinetRecord
             {
@@ -70,7 +92,7 @@ namespace FileCabinetApp
         /// Changes the record by given ID.
         /// </summary>
         /// <param name="id">Id of record.</param>
-        /// <param name="parametrs">Parameters of record.</param>
+        /// <param name="parameters">Parameters of record.</param>
         public void EditRecord(int id, RecordData parameters)
         {
             if (id > this.list.Count)
@@ -78,7 +100,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"Element with #{nameof(id)} can't fine in this records list.");
             }
 
-            this.ValidateParameters(parameters);
+            this.validator.ValidatePararmeters(parameters);
 
             var record = new FileCabinetRecord
             {
@@ -195,11 +217,5 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
-
-        /// <summary>
-        /// Validate record parameters.
-        /// </summary>
-        /// <param name="parameters">Parameters of record.</param>
-        protected abstract void ValidateParameters(RecordData parameters);
     }
 }

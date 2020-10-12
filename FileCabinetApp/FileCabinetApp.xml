@@ -56,6 +56,17 @@
             Provide service for work with user's record.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">Validator rule.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.RecordData)">
             <summary>
             Generates a unique user record.
@@ -68,7 +79,7 @@
             Changes the record by given ID.
             </summary>
             <param name="id">Id of record.</param>
-            <param name="parametrs">Parameters of record.</param>
+            <param name="parameters">Parameters of record.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>
@@ -103,11 +114,16 @@
             </summary>
             <returns>The count of records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.RecordData)">
+        <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
-            Validate record parameters.
+            
             </summary>
-            <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
+            <summary>
+            
+            </summary>
+            <param name="parameters"></param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
