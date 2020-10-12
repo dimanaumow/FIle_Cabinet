@@ -13,7 +13,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
+        private static FileCabinetService fileCabinetService;
 
         private static bool isRunning = true;
 
@@ -46,6 +46,7 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
+            CommandAgrsHandler(args);
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -75,6 +76,53 @@ namespace FileCabinetApp
                 }
             }
             while (isRunning);
+        }
+
+        private static void CommandAgrsHandler(string[] args)
+        {
+            string rule = ParseRule(args);
+            switch (rule)
+            {
+                case "DEFAULT":
+                    fileCabinetService = new FileCabinetDefaultService();
+                    Console.WriteLine("Using default validation rules.");
+                    break;
+                case "CUSTOM":
+                    fileCabinetService = new FileCabinetCustomService();
+                    Console.WriteLine("Using custom validation rules.");
+                    break;
+                default:
+                    fileCabinetService = new FileCabinetDefaultService();
+                    Console.WriteLine("Using default validation rules.");
+                    break;
+            }
+        }
+
+        private static string ParseRule(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string result;
+            string fullMode = "--validation-rules";
+            string shortMode = "-v";
+            var parseText = args[0].Split(new char[] { '=' });
+            if (parseText[0] == fullMode)
+            {
+                result = parseText[parseText.Length - 1].ToUpper();
+            }
+            else if (parseText[0] == shortMode)
+            {
+                result = args[1].ToUpper();
+            }
+            else
+            {
+                result = string.Empty;
+            }
+
+            return result;
         }
 
         private static void PrintMissedCommandInfo(string command)
@@ -211,6 +259,11 @@ namespace FileCabinetApp
 
                 Console.Write("Balance: ");
                 var balance = decimal.Parse(Console.ReadLine());
+                while (balance < 0)
+                {
+                    Console.Write("Incorect input. Enter agin balance: ");
+                    balance = decimal.Parse(Console.ReadLine());
+                }
 
                 fileCabinetService.EditRecord(id, new RecordData(firstName, lastName, date, expirience, balance, nationality));
                 Console.WriteLine($"Record #{id} is edited.");
