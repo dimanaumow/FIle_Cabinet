@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Service
 {
     /// <summary>
-    /// Provide service for work with user's record.
+    /// Implements IFileCabinetRecord interface.
     /// </summary>
-    public class FileCabinetService
+    public class FileCabinetService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private readonly IRecordValidator validator;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
@@ -38,7 +37,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Generates a unique user record.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="parameters">Parameters of new record.</param>
         /// <returns>Id of record.</returns>
@@ -90,7 +89,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Changes the record by given ID.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="id">Id of record.</param>
         /// <param name="parameters">Parameters of record.</param>
@@ -145,7 +144,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Find all records with given firstName.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="firstName">User firstName.</param>
         /// <returns>The array of finded records.</returns>
@@ -162,7 +161,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Find all records with given lastName.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="lastName">User lastNeme.</param>
         /// <returns>The array of finded records.</returns>
@@ -179,7 +178,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Find all records with given date of birth.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="dateOfBirth">The user's date of birth.</param>
         /// <returns>The array of finded records.</returns>
@@ -202,7 +201,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Give all records.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The array of all records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
@@ -211,7 +210,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Give the count of records.
+        /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The count of records.</returns>
         public int GetStat()
