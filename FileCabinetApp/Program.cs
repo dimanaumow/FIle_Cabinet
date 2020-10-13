@@ -16,6 +16,7 @@ namespace FileCabinetApp
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
         private static IFileCabinetService fileCabinetService;
+        private static bool isDefaultRule;
 
         private static bool isRunning = true;
 
@@ -37,9 +38,86 @@ namespace FileCabinetApp
             new string[] { "create", "receive user input and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "edit", "edit record", "The 'edit' comand edit record" },
-            new string[] { "find", "return a list of records with desired property.", "The 'find' comand return a list of records with finded property." },
+            new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
+            new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
+            new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
+
+        #region Converters_and_validators
+        private static Func<string, Tuple<bool, string, string>> stringConvrter = input =>
+        {
+            return new Tuple<bool, string, string>(true, input, input);
+        };
+
+        private static Func<string, Tuple<bool, string, DateTime>> dateConvrter = input =>
+        {
+            DateTime date;
+            bool isValid = DateTime.TryParse(input, new CultureInfo("en-US"), DateTimeStyles.None, out date);
+
+            return new Tuple<bool, string, DateTime>(isValid, input, date);
+        };
+
+        private static Func<string, Tuple<bool, string, short>> expirienceConverter = input =>
+        {
+            short expirience;
+            bool isValid = short.TryParse(input, out expirience);
+
+            return new Tuple<bool, string, short>(isValid, input, expirience);
+        };
+
+        private static Func<string, Tuple<bool, string, decimal>> balanceConverter = input =>
+        {
+            decimal balance;
+            bool isValid = decimal.TryParse(input, out balance);
+
+            return new Tuple<bool, string, decimal>(isValid, input, balance);
+        };
+
+        private static Func<string, Tuple<bool, string, char>> nationalityConverter = input =>
+        {
+            char nationality;
+            bool isValid = char.TryParse(input, out nationality);
+
+            return new Tuple<bool, string, char>(isValid, input, nationality);
+        };
+
+        private static Func<string, Tuple<bool, string>> firstNameValidator = input =>
+        {
+            bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
+            return new Tuple<bool, string>(isValid, input);
+        };
+
+        private static Func<string, Tuple<bool, string>> lastNameValidator = input =>
+        {
+            bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
+            return new Tuple<bool, string>(isValid, input);
+        };
+
+        private static Func<DateTime, Tuple<bool, string>> dateOfBirthValidator = date =>
+        {
+            bool isValid = !(date < new DateTime(1950, 1, 1) || date > DateTime.Now);
+            return new Tuple<bool, string>(isValid, date.ToString());
+        };
+
+        private static Func<short, Tuple<bool, string>> expirienceValidator = input =>
+        {
+            bool isValid = input >= 0 || isDefaultRule;
+            return new Tuple<bool, string>(isValid, input.ToString());
+        };
+
+        private static Func<decimal, Tuple<bool, string>> balanceValidator = input =>
+        {
+            bool isValid = input >= 0 || isDefaultRule;
+            return new Tuple<bool, string>(isValid, input.ToString());
+        };
+
+        private static Func<char, Tuple<bool, string>> nationalityValidator = nationality =>
+        {
+            bool isValid = char.IsLetter(nationality) || isDefaultRule;
+            return new Tuple<bool, string>(isValid, nationality.ToString());
+        };
+        #endregion
 
         /// <summary>
         /// Start point for application.
@@ -88,6 +166,7 @@ namespace FileCabinetApp
                 case "DEFAULT":
                     fileCabinetService = new FileCabinetService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
+                    isDefaultRule = true;
                     break;
                 case "CUSTOM":
                     fileCabinetService = new FileCabinetService(new CustomValidator());
@@ -96,6 +175,7 @@ namespace FileCabinetApp
                 default:
                     fileCabinetService = new FileCabinetService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
+                    isDefaultRule = true;
                     break;
             }
         }
@@ -163,52 +243,24 @@ namespace FileCabinetApp
         private static void Create(string parameters)
         {
             Console.Write("First name: ");
-            var firstName = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-            {
-                Console.Write("Incorrect input. Enter again first name: ");
-                firstName = Console.ReadLine();
-            }
+            var firstName = ReadInput(stringConvrter, firstNameValidator);
 
             Console.Write("Last name: ");
-            var lastName = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-            {
-                Console.Write("Incorrect input. Enter again last name: ");
-                lastName = Console.ReadLine();
-            }
+            var lastName = ReadInput(stringConvrter, lastNameValidator);
 
             Console.Write("Date of birth: ");
-            var dataOfBirth = Console.ReadLine();
-            DateTime date;
-            DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
-            while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
-            {
-                Console.Write("Incorrect input. Enter again date of birth: ");
-                dataOfBirth = Console.ReadLine();
-                DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
-            }
+            var dateOfBirth = ReadInput(dateConvrter, dateOfBirthValidator);
 
             Console.Write("Nationality: ");
-            var nationality = char.Parse(Console.ReadLine());
+            var nationality = ReadInput(nationalityConverter, nationalityValidator);
 
             Console.Write("Expirience: ");
-            var expirience = short.Parse(Console.ReadLine());
-            while (expirience < 0 || expirience > DateTime.Now.Year - date.Year)
-            {
-                Console.Write("Incorrect input. Enter again expirience: ");
-                expirience = short.Parse(Console.ReadLine());
-            }
+            var expirience = ReadInput(expirienceConverter, expirienceValidator);
 
             Console.Write("Balance: ");
-            var balance = decimal.Parse(Console.ReadLine());
-            while (balance < 0)
-            {
-                Console.Write("Incorect input. Enter agin balance: ");
-                balance = decimal.Parse(Console.ReadLine());
-            }
+            var balance = ReadInput(balanceConverter, balanceValidator);
 
-            var index = fileCabinetService.CreateRecord(new RecordData(firstName, lastName, date, expirience, balance, nationality));
+            var index = fileCabinetService.CreateRecord(new RecordData(firstName, lastName, dateOfBirth, expirience, balance, nationality));
             Console.WriteLine($"Record #{index} is created.");
         }
 
@@ -222,52 +274,24 @@ namespace FileCabinetApp
             else
             {
                 Console.Write("First name: ");
-                var firstName = Console.ReadLine();
-                while (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-                {
-                    Console.Write("Incorrect input. Enter again first name: ");
-                    firstName = Console.ReadLine();
-                }
+                var firstName = ReadInput(stringConvrter, firstNameValidator);
 
                 Console.Write("Last name: ");
-                var lastName = Console.ReadLine();
-                while (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-                {
-                    Console.Write("Incorrect input. Enter again last name: ");
-                    lastName = Console.ReadLine();
-                }
+                var lastName = ReadInput(stringConvrter, lastNameValidator);
 
                 Console.Write("Date of birth: ");
-                var dataOfBirth = Console.ReadLine();
-                DateTime date;
-                DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
-                while (date < new DateTime(1950, 1, 1) || date > DateTime.Now)
-                {
-                    Console.Write("Incorrect input. Enter again date of birth: ");
-                    dataOfBirth = Console.ReadLine();
-                    DateTime.TryParse(dataOfBirth, new CultureInfo("en-US"), DateTimeStyles.None, out date);
-                }
+                var dateOfBirth = ReadInput(dateConvrter, dateOfBirthValidator);
 
                 Console.Write("Nationality: ");
-                var nationality = char.Parse(Console.ReadLine());
+                var nationality = ReadInput(nationalityConverter, nationalityValidator);
 
                 Console.Write("Expirience: ");
-                var expirience = short.Parse(Console.ReadLine());
-                while (expirience < 0 || expirience > DateTime.Now.Year - date.Year)
-                {
-                    Console.Write("Incorrect input. Enter again expirience: ");
-                    expirience = short.Parse(Console.ReadLine());
-                }
+                var expirience = ReadInput(expirienceConverter, expirienceValidator);
 
                 Console.Write("Balance: ");
-                var balance = decimal.Parse(Console.ReadLine());
-                while (balance < 0)
-                {
-                    Console.Write("Incorect input. Enter agin balance: ");
-                    balance = decimal.Parse(Console.ReadLine());
-                }
+                var balance = ReadInput(balanceConverter, balanceValidator);
 
-                fileCabinetService.EditRecord(id, new RecordData(firstName, lastName, date, expirience, balance, nationality));
+                fileCabinetService.EditRecord(id, new RecordData(firstName, lastName, dateOfBirth, expirience, balance, nationality));
                 Console.WriteLine($"Record #{id} is edited.");
             }
         }
@@ -345,6 +369,35 @@ namespace FileCabinetApp
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
+        }
+
+        private static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
+        {
+            do
+            {
+                T value;
+
+                var input = Console.ReadLine();
+                var conversionResult = converter(input);
+
+                if (!conversionResult.Item1)
+                {
+                    Console.WriteLine($"Conversion failed: {conversionResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                value = conversionResult.Item3;
+
+                var validationResult = validator(value);
+                if (!validationResult.Item1)
+                {
+                    Console.WriteLine($"Validation failed: {validationResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                return value;
+            }
+            while (true);
         }
     }
 }

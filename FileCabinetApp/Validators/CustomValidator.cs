@@ -4,8 +4,15 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// Implement IRecordValidator interface.
+    /// </summary>
     public class CustomValidator : IRecordValidator
     {
+        /// <summary>
+        /// Validate record parameters using custom rules.
+        /// </summary>
+        /// <param name="parameters">User's data</param>
         public void ValidatePararmeters(RecordData parameters)
         {
             if (string.IsNullOrWhiteSpace(parameters.firstName))
