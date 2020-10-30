@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
@@ -28,6 +30,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("exit", Exit),
         };
 
@@ -41,6 +44,7 @@ namespace FileCabinetApp
             new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
             new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
             new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
+            new string[] { "export csv", "export recods in csv format", "The 'export csv' command exports all records in csv format" },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
@@ -356,6 +360,38 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
                     $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+            }
+        }
+
+        private static void Export(string parameters)
+        {
+            var exportComandAttributes = parameters.Split(' ', 2);
+
+            switch (exportComandAttributes[0].ToUpper())
+            {
+                case "CSV":
+                    ExportToCsv(exportComandAttributes[1]);
+                    break;
+                default:
+                    Console.WriteLine("Your comand is incorrect.");
+                    break;
+            }
+        }
+
+        private static void ExportToCsv(string path)
+        {
+            try
+            {
+                var snapshot = fileCabinetService.MakeSnapShot();
+                snapshot.SaveToCSV(new StreamWriter(path, false, Encoding.Default ));
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Cannot be open this file {path}");
+            }
+            finally
+            {
+                Console.WriteLine($"All record write in file {path}");
             }
         }
 

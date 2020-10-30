@@ -198,16 +198,38 @@
             </summary>
             <returns>The count of records.</returns>
         </member>
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            Implement IRecordValidator interface.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
+            <summary>
+            Validate record parameters using custom rules.
+            </summary>
+            <param name="parameters">User's data</param>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            Implement IRecordValidator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
+            <summary>
+            Validate record parameters using default rules.
+            </summary>
+            <param name="parameters">User's data.</param>
+        </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
-            
+            Provide interface for different validation rule.
             </summary>
         </member>
         <member name="M:FileCabinetApp.IRecordValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
             <summary>
-            
+            Validation rule for record parameters.
             </summary>
-            <param name="parameters"></param>
+            <param name="parameters">User's data.</param>
         </member>
     </members>
 </doc>

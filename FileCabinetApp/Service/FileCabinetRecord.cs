@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FileCabinetApp.Service
@@ -50,5 +51,11 @@ namespace FileCabinetApp.Service
         /// </summary>
         /// <value>User nationality.</value>
         public char Nationality { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}", 
+                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Expirience, this.Balance, this.Nationality);
+        }
     }
 }
