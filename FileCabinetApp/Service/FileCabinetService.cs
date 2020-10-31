@@ -217,5 +217,10 @@ namespace FileCabinetApp.Service
         {
             return this.list.Count;
         }
+
+        public FileCabinetServiceSnapshot MakeSnapShot()
+        {
+            return new FileCabinetServiceSnapshot(this.list.ToArray());
+        }
     }
 }
