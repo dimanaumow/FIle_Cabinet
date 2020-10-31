@@ -9,20 +9,30 @@ namespace FileCabinetApp.Service
     public class FileCabinetRecordCsvWriter
     {
         private TextWriter writer;
+        private FileCabinetRecord[] records;
 
-        public FileCabinetRecordCsvWriter(TextWriter writer)
+        public FileCabinetRecordCsvWriter(TextWriter writer, FileCabinetRecord[] records)
         {
             if (writer is null)
             {
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
+            if (records is null)
+            {
+                throw new ArgumentNullException($"{nameof(records)} cannot be null.");
+            }
+
             this.writer = writer;
+            this.records = records;
         }
 
-        public void Write(FileCabinetRecord record)
+        public void Write()
         {
-            writer.Write(record.ToString(), CultureInfo.InvariantCulture);
+            foreach (var record in records)
+            {
+                writer.Write(record.ToString(), CultureInfo.InvariantCulture);
+            }
         }
     }
 }

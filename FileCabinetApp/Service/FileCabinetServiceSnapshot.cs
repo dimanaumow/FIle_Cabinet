@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml;
 
 namespace FileCabinetApp.Service
 {
     public class FileCabinetServiceSnapshot
     {
-        private readonly FileCabinetRecord[] records; 
+        private readonly FileCabinetRecord[] records;
 
         public FileCabinetServiceSnapshot(FileCabinetRecord[] records)
         {
@@ -26,15 +27,19 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            TextWriter textWriter = writer;
+            var csvWriter = new FileCabinetRecordCsvWriter(writer, records);
+            csvWriter.Write();
+        }
 
-            var csvWriter = new FileCabinetRecordCsvWriter(textWriter);
-            textWriter.Write("Id,First Name,Last Name,Date of Birth");
-
-            foreach (var record in this.records)
+        public void SaveToXml(StreamWriter writer)
+        {
+            if (writer is null)
             {
-                csvWriter.Write(record);
+                throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
+
+            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), records);
+            xmlWriter.Write();
         }
     }
 }

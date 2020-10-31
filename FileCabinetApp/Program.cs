@@ -372,26 +372,46 @@ namespace FileCabinetApp
                 case "CSV":
                     ExportToCsv(exportComandAttributes[1]);
                     break;
+                case "XML":
+                    ExportToXml(exportComandAttributes[1]);
+                    break;
                 default:
                     Console.WriteLine("Your comand is incorrect.");
                     break;
             }
         }
 
-        private static void ExportToCsv(string path)
+        private static void ExportToCsv(string fileName)
         {
             try
             {
                 var snapshot = fileCabinetService.MakeSnapShot();
-                snapshot.SaveToCSV(new StreamWriter(path, false, Encoding.Default ));
+                using (var streamWriter = new StreamWriter(fileName, false))
+                {
+                    snapshot.SaveToCSV(streamWriter);
+                    Console.WriteLine($"All record write in file {fileName}");
+                }
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine($"Cannot be open this file {path}");
+                Console.WriteLine($"Cannot be open this file {fileName}");
             }
-            finally
+        }
+
+        private static void ExportToXml(string fileName)
+        {
+            try
             {
-                Console.WriteLine($"All record write in file {path}");
+                var snapshot = fileCabinetService.MakeSnapShot();
+                using (var streamWriter = new StreamWriter(fileName, false))
+                {
+                    snapshot.SaveToXml(streamWriter);
+                    Console.WriteLine($"All record write in file {fileName}");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Cannot be open this file {fileName}");
             }
         }
 
