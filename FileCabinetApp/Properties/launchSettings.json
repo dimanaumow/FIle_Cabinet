@@ -2,7 +2,7 @@
   "profiles": {
     "FileCabinetApp": {
       "commandName": "Project",
-      "commandLineArgs": "-v CustOm"
+      "commandLineArgs": "-s memORy"
     }
   }
 }

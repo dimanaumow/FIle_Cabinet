@@ -18,8 +18,8 @@ namespace FileCabinetApp
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
         private static IFileCabinetService fileCabinetService;
+        private static IRecordValidator validator;
         private static bool isDefaultRule;
-
         private static bool isRunning = true;
 
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
@@ -44,8 +44,17 @@ namespace FileCabinetApp
             new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
             new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
             new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
-            new string[] { "export csv", "export recods in csv format", "The 'export csv' command exports all records in csv format" },
+            new string[] { "export csv", "export records in csv format", "The 'export csv' command export all records in csv format" },
+            new string[] { "export xml", "export records in xml format", "The 'export xml' command export all records in xml format" },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
+        };
+
+        private static string[] comandLineParameters = new string[]
+        {
+            "--validation-rules",
+            "-v",
+            "--storage",
+            "-s",
         };
 
         #region Converters_and_validators
@@ -164,51 +173,84 @@ namespace FileCabinetApp
 
         private static void CommandAgrsHandler(string[] args)
         {
-            string rule = ParseRule(args);
+            string rule;
+            int commandIndex = ParseRule(args, out rule);
             switch (rule)
             {
                 case "DEFAULT":
                     fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     isDefaultRule = true;
+                    validator = new DefaultValidator();
                     break;
                 case "CUSTOM":
                     fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                     Console.WriteLine("Using custom validation rules.");
+                    validator = new CustomValidator();
                     break;
                 default:
                     fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     isDefaultRule = true;
+                    validator = new DefaultValidator();
                     break;
+            }
+
+            if (commandIndex >= 3)
+            {
+                switch (rule)
+                {
+                    case "MEMORY":
+                        fileCabinetService = new FileCabinetMemoryService(validator);
+                        Console.WriteLine("Use memory service");
+                        break;
+                    case "FILE":
+                        string fullPath = "cabinet-records.db";
+                        FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                        fileCabinetService = new FileCabinetFilesystemService(fileStream);
+                        Console.WriteLine("Use file service");
+                        break;
+                }
             }
         }
 
-        private static string ParseRule(string[] args)
+        private static int ParseRule(string[] args, out string rule)
         {
             if (args.Length == 0)
             {
-                return string.Empty;
+                rule = string.Empty;
+                return -1;
             }
 
-            string result;
-            string fullMode = "--validation-rules";
-            string shortMode = "-v";
-            var parseText = args[0].Split(new char[] { '=' });
-            if (parseText[0] == fullMode)
+            int index = -1;
+
+            var parseText = args[0].Split(' ');
+            if (parseText[0] == comandLineParameters[0])
             {
-                result = parseText[parseText.Length - 1].ToUpper();
+                rule = parseText[parseText.Length - 1].ToUpper();
+                index = 0;
             }
-            else if (parseText[0] == shortMode)
+            else if (parseText[0] == comandLineParameters[1])
             {
-                result = args[1].ToUpper();
+                rule = args[1].ToUpper();
+                index = 1;
+            }
+            else if (parseText[0] == comandLineParameters[2])
+            {
+                rule = parseText[parseText.Length - 1].ToUpper();
+                index = 3;
+            }
+            else if (parseText[0] == comandLineParameters[3])
+            {
+                rule = args[1].ToUpper();
+                index = 4;
             }
             else
             {
-                result = string.Empty;
+                rule = string.Empty;
             }
 
-            return result;
+            return index;
         }
 
         private static void PrintMissedCommandInfo(string command)
