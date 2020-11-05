@@ -36,6 +36,69 @@
             <param name="balance">User's balance.</param>
             <param name="nationality">User's nationality.</param>
         </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetMemoryService">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetMemoryService"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.#ctor(FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetMemoryService"/> class.
+            </summary>
+            <param name="validator">Validator rule.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.CreateRecord(FileCabinetApp.RecordData)">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <param name="parameters">Parameters of new record.</param>
+            <returns>Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.EditRecord(System.Int32,FileCabinetApp.RecordData)">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <param name="id">Id of record.</param>
+            <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByFirstName(System.String)">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <param name="firstName">User firstName.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByLastName(System.String)">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <param name="lastName">User lastNeme.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByDateOfBirth(System.String)">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <param name="dateOfBirth">The user's date of birth.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.GetRecords">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <returns>The array of all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.GetStat">
+            <summary>
+            Implements IFileCabinetRecord interface.
+            </summary>
+            <returns>The count of records.</returns>
+        </member>
         <member name="T:FileCabinetApp.Service.FileCabinetRecord">
             <summary>
             Encapsulates user data as a record.
@@ -82,69 +145,6 @@
             Gets or sets the user's nationality.
             </summary>
             <value>User nationality.</value>
-        </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetService">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetService"/> class.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetService"/> class.
-            </summary>
-            <param name="validator">Validator rule.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.CreateRecord(FileCabinetApp.RecordData)">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <param name="parameters">Parameters of new record.</param>
-            <returns>Id of record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordData)">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <param name="id">Id of record.</param>
-            <param name="parameters">Parameters of record.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <param name="firstName">User firstName.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <param name="lastName">User lastNeme.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.FindByDateOfBirth(System.String)">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <param name="dateOfBirth">The user's date of birth.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.GetRecords">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <returns>The array of all records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetService.GetStat">
-            <summary>
-            Implements IFileCabinetRecord interface.
-            </summary>
-            <returns>The count of records.</returns>
         </member>
         <member name="T:FileCabinetApp.Service.IFileCabinetService">
             <summary>
