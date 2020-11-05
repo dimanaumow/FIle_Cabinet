@@ -1,17 +1,24 @@
 ﻿using FileCabinetApp.Validators;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Text;
 
 namespace FileCabinetApp.Service
 {
-    public class FileCabinetFilesystemService : IFileCabinetService
+    public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
         public const int LengtOfString = 120;
-        public const int SizeRecord = sizeof(char) + sizeof(int) + (2 * LengtOfString) + (3 * sizeof(int)) + sizeof(decimal) + sizeof(char) + sizeof(short);
+        public const int RecordSize = (4 * sizeof(int)) + (2 * LengtOfString) + sizeof(decimal) + sizeof(char) + sizeof(short) + 2;
         private readonly FileStream fileStream;
+        private readonly BinaryReader binReader;
+        private readonly BinaryWriter binWriter;
         private readonly IRecordValidator validator;
+        private int position;
+        private bool disposed;
         private int id;
 
         public FileCabinetFilesystemService(FileStream fileStream)
@@ -33,31 +40,31 @@ namespace FileCabinetApp.Service
 
             this.validator = validator;
             this.fileStream = fileStream;
+            this.binReader = new BinaryReader(fileStream);
+            this.binWriter = new BinaryWriter(fileStream);
+            this.disposed = true;
+            this.position = 0;
             this.id = 1;
         }
 
         public int CreateRecord(RecordData parameters)
         {
             this.validator.ValidatePararmeters(parameters);
-
-            var data = this.ParseRecordToByteArray(parameters, this.id);
-            this.id++;
-            this.fileStream.Write(data, 0, data.Length);
-            this.fileStream.Flush();
-
-            return this.id;
+            this.WriteRecordToBinaryFile(this.position, parameters, this.id);
+            this.position += RecordSize;
+            return this.id++;
         }
 
         public void EditRecord(int id, RecordData parameters)
         {
-            this.validator.ValidatePararmeters(parameters);
+            //this.validator.ValidatePararmeters(parameters);
 
-            var data = this.ParseRecordToByteArray(parameters, this.id);
-            int startPosition = this.id + SizeRecord;
-            this.fileStream.Position = startPosition;
-            this.fileStream.Write(data, 0, data.Length);
+            //var data = this.ParseRecordToByteArray(parameters, this.id);
+            //int startPosition = this.id + RecordSize;
+            //this.fileStream.Position = startPosition;
+            //this.fileStream.Write(data, 0, data.Length);
 
-            this.fileStream.Flush();
+            //this.fileStream.Flush();
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
@@ -76,9 +83,8 @@ namespace FileCabinetApp.Service
         }
 
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
 
         public int GetStat()
         {
@@ -90,90 +96,74 @@ namespace FileCabinetApp.Service
             throw new NotImplementedException();
         }
 
-        private byte[] ParseRecordToByteArray(RecordData parameters, int id)
+        private void WriteRecordToBinaryFile(int position, RecordData parameters, int id)
         {
-            short reserved = 0;
-            byte[] data = new byte[SizeRecord];
-
-            using (var memoryStream = new MemoryStream(data))
-            using (var binaryWriter = new BinaryWriter(memoryStream))
-            {
-                binaryWriter.Write(reserved);
-                binaryWriter.Write(id);
-
-                var firstNameBytes = Encoding.ASCII.GetBytes(parameters.firstName);
-                var lastNameBytes = Encoding.ASCII.GetBytes(parameters.lastName);
-
-                var nameBuffer = new byte[LengtOfString];
-
-                Array.Copy(firstNameBytes, nameBuffer, firstNameBytes.Length);
-                binaryWriter.Write(nameBuffer, 0, nameBuffer.Length);
-
-                Array.Copy(lastNameBytes, nameBuffer, lastNameBytes.Length);
-                binaryWriter.Write(nameBuffer, 0, nameBuffer.Length);
-
-                binaryWriter.Write(parameters.dateOfBirth.Year);
-                binaryWriter.Write(parameters.dateOfBirth.Month);
-                binaryWriter.Write(parameters.dateOfBirth.Day);
-                binaryWriter.Write(parameters.balance);
-                binaryWriter.Write(parameters.expirience);
-                binaryWriter.Write(parameters.nationality);
-            }
-
-            return data;
+            this.binWriter.Seek(position, SeekOrigin.Begin);
+            this.binWriter.Write((short)0);
+            this.binWriter.Write(id);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.firstName, new string(' ', LengtOfString - parameters.firstName.Length)).ToCharArray()));
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.lastName, new string(' ', LengtOfString - parameters.lastName.Length)).ToCharArray()));
+            this.binWriter.Write(parameters.dateOfBirth.Month);
+            this.binWriter.Write(parameters.dateOfBirth.Day);
+            this.binWriter.Write(parameters.dateOfBirth.Year);
+            this.binWriter.Write(parameters.expirience);
+            this.binWriter.Write(parameters.balance);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.nationality.ToString(CultureInfo.InvariantCulture)));
         }
 
-        private FileCabinetRecord MakeFileCabinetRecord(byte[] data)
+        private FileCabinetRecord ReadRecordOutBinaryFile(long position)
         {
-            if (data is null)
+            this.binReader.BaseStream.Position = position;
+            this.binReader.ReadInt16();
+
+            var record = new FileCabinetRecord()
             {
-                throw new ArgumentNullException($"{nameof(data)} cannot be null.");
-            }
-
-            var record = new FileCabinetRecord();
-            using (var memoryStream = new MemoryStream(data))
-            using (var binaryReader = new BinaryReader(memoryStream))
-            {
-                record.Id = binaryReader.ReadInt32();
-
-                var nameLength = binaryReader.ReadInt32();
-                var nameBuffer = binaryReader.ReadBytes(LengtOfString);
-
-                record.FirstName = Encoding.ASCII.GetString(nameBuffer, 0, nameLength);
-
-                var lastNameLength = binaryReader.ReadInt32();
-                var lastNameBuffer = binaryReader.ReadBytes(LengtOfString);
-
-                record.LastName = Encoding.ASCII.GetString(lastNameBuffer, 0, lastNameLength);
-
-                int year = binaryReader.ReadInt32();
-                int month = binaryReader.ReadInt32();
-                int day = binaryReader.ReadInt32();
-
-                record.DateOfBirth = new DateTime(year, month, day);
-                record.Balance = binaryReader.ReadDecimal();
-                record.Expirience = binaryReader.ReadInt16();
-                record.Nationality = binaryReader.ReadChar();
-            }
+                Id = this.binReader.ReadInt32(),
+                FirstName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
+                LastName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
+                DateOfBirth = DateTime.Parse($"{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}", CultureInfo.InvariantCulture),
+                Expirience = this.binReader.ReadInt16(),
+                Balance = this.binReader.ReadDecimal(),
+                Nationality = Encoding.Unicode.GetString(this.binReader.ReadBytes(sizeof(char))).First(),
+            };
 
             return record;
         }
 
-        private List<FileCabinetRecord> BinaryRecordsToList()
+        private List<FileCabinetRecord> GetRecordsCollection()
         {
-            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-            long numberOfRecords = this.fileStream.Length / SizeOfRecord;
-            for (int i = 0; i < numberOfRecords; i++)
+            List<FileCabinetRecord> records = new List<FileCabinetRecord>();
+
+            for (int i = 0; i <= this.position; i += RecordSize)
             {
-                var recordBuffer = new byte[SizeOfRecord];
-
-                this.fileStream.Read(recordBuffer, (i * (int)SizeOfRecord) + 1, (int)SizeOfRecord);
-                var record = BytesToUser(recordBuffer);
-
-                list.Add(record);
+                var record = this.ReadRecordOutBinaryFile(i);
+                records.Add(record);
             }
 
-            return list;
+            return records;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.binReader.Close();
+                this.binWriter.Close();
+                this.fileStream.Close();
+            }
+
+            this.disposed = true;
         }
     }
 }
