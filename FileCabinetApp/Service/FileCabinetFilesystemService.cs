@@ -68,17 +68,56 @@ namespace FileCabinetApp.Service
 
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            throw new NotImplementedException();
+            var records = GetRecordsCollection();
+            var result = new List<FileCabinetRecord>();
+
+            foreach (var record in records)
+            {
+                if (string.Equals(record.FirstName, firstName, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(record);
+                }
+            }
+
+            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            throw new NotImplementedException();
+            var records = GetRecordsCollection();
+            var result = new List<FileCabinetRecord>();
+
+            foreach (var record in records)
+            {
+                if (string.Equals(record.LastName, lastName, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(record);
+                }
+            }
+
+            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
-            throw new NotImplementedException();
+            var records = GetRecordsCollection();
+            var result = new List<FileCabinetRecord>();
+
+            int month = int.Parse(dateOfBirth.Substring(0, 2));
+            int day = int.Parse(dateOfBirth.Substring(3, 2));
+            int year = int.Parse(dateOfBirth.Substring(6, 4));
+
+            var key = new DateTime(year, month, day);
+
+            foreach (var record in records)
+            {
+                if (record.DateOfBirth == key)
+                {
+                    result.Add(record);
+                }
+            }
+
+            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
