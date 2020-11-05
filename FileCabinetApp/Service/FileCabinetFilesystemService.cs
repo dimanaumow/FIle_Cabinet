@@ -12,7 +12,7 @@ namespace FileCabinetApp.Service
     public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
         public const int LengtOfString = 120;
-        public const int RecordSize = (4 * sizeof(int)) + (2 * LengtOfString) + sizeof(decimal) + sizeof(char) + sizeof(short) + 2;
+        public const int RecordSize = 518;
         private readonly FileStream fileStream;
         private readonly BinaryReader binReader;
         private readonly BinaryWriter binWriter;
@@ -87,9 +87,7 @@ namespace FileCabinetApp.Service
             new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
 
         public int GetStat()
-        {
-            throw new NotImplementedException();
-        }
+            => this.GetRecordsCollection().Count;
 
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
@@ -134,7 +132,7 @@ namespace FileCabinetApp.Service
         {
             List<FileCabinetRecord> records = new List<FileCabinetRecord>();
 
-            for (int i = 0; i <= this.position; i += RecordSize)
+            for (int i = 0; i < this.position; i += RecordSize)
             {
                 var record = this.ReadRecordOutBinaryFile(i);
                 records.Add(record);
