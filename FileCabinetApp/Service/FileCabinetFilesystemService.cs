@@ -57,14 +57,13 @@ namespace FileCabinetApp.Service
 
         public void EditRecord(int id, RecordData parameters)
         {
-            //this.validator.ValidatePararmeters(parameters);
+            if (id > this.id)
+            {
+                throw new ArgumentException($"Element with #{nameof(id)} can't fine in this records list.");
+            }
 
-            //var data = this.ParseRecordToByteArray(parameters, this.id);
-            //int startPosition = this.id + RecordSize;
-            //this.fileStream.Position = startPosition;
-            //this.fileStream.Write(data, 0, data.Length);
-
-            //this.fileStream.Flush();
+            int position = (id - 1) * RecordSize;
+            this.WriteRecordToBinaryFile(position, parameters, id);
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
