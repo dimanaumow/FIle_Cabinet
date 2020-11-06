@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileCabinetGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--output-type=csv --output=d:\\data\\records.csv --records-amount=10000 --start-id=30"
+    }
+  }
+}
