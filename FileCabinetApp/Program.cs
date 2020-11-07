@@ -31,6 +31,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("export", Export),
+            new Tuple<string, Action<string>>("import", Import),
             new Tuple<string, Action<string>>("exit", Exit),
         };
 
@@ -44,8 +45,10 @@ namespace FileCabinetApp
             new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
             new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
             new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
-            new string[] { "export csv", "export records in csv format", "The 'export csv' command export all records in csv format" },
-            new string[] { "export xml", "export records in xml format", "The 'export xml' command export all records in xml format" },
+            new string[] { "export csv", "export records in csv format.", "The 'export csv' command export all records in csv format." },
+            new string[] { "export xml", "export records in xml format.", "The 'export xml' command export all records in xml format." },
+            new string[] { "import csv", "import records from csv file.", "The 'import csv' command import all records from csv file." },
+            new string[] { "import xml", "import records from xml file.", "The 'import xml' command import all records from xml file." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
@@ -455,6 +458,49 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"Cannot be open this file {fileName}");
             }
+        }
+
+        private static void Import(string args)
+        {
+            var importCommandAttributes = args.Split(' ', 2);
+
+            switch (importCommandAttributes[0].ToUpper())
+            {
+                case "CSV":
+                    ImportCsv(importCommandAttributes[1]);
+                    break;
+                case "XML":
+                    ImportXml(importCommandAttributes[1]);
+                    break;
+                default:
+                    Console.WriteLine("Import error: invalid import file type");
+                    break;
+            }
+        }
+
+        private static void ImportCsv(string path)
+        {
+            var snapshot = new FileCabinetServiceSnapshot(Array.Empty<FileCabinetRecord>());
+            try
+            {
+                using (var stream = File.Open(@path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var st = new StreamReader(stream))
+                {
+                    snapshot.LoadFromCsv(st);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"Import error: file {path} not exist");
+            }
+
+            int completed = fileCabinetService.Restore(snapshot);
+            Console.WriteLine($"{completed} recordses were imported from {path}");
+        }
+
+        private static void ImportXml(string path)
+        {
+
         }
 
         private static void Stat(string parameters)

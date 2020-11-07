@@ -54,7 +54,7 @@ namespace FileCabinetApp.Service
 
         public override string ToString()
         {
-            return string.Format(new CultureInfo("en-US"), "#{0}: {1}, {2}, {3}, {4}, {5}, {6}", 
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}", 
                 this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Expirience, this.Balance, this.Nationality);
         }
     }
