@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
+using FileCabinetApp.Service;
 
 namespace FileCabinetGenerator
 {
@@ -11,14 +12,6 @@ namespace FileCabinetGenerator
         private static int recordsAmount; 
         private static int startId;
 
-        private static Tuple<string, string>[] commands = new Tuple<string, string>[]
-        {
-            new Tuple<string, string>("--output-type", "-t"),
-            new Tuple<string, string>("--output", "-o"),
-            new Tuple<string, string>("--records-amount", "-a"),
-            new Tuple<string, string>("--start-id", "-i"),
-        };
-
         static void Main(string[] args)
         {
             var commandPairs = GetCurrentComandPairs(args);
@@ -27,6 +20,12 @@ namespace FileCabinetGenerator
             Console.WriteLine(outputPath);
             Console.WriteLine(recordsAmount);
             Console.WriteLine(startId);
+
+            var records = GenerateRecords();
+            foreach (var record in records)
+            {
+                Console.WriteLine(record);
+            }
         }
 
         private static IEnumerable<(string, string)> GetCurrentComandPairs(string[] args)
@@ -80,6 +79,16 @@ namespace FileCabinetGenerator
                         }
                         break; 
                 }
+            }
+        }
+
+        private static IEnumerable<FileCabinetRecord> GenerateRecords()
+        {
+            var recordGenerator = new FileCabinetRecordGenerator();
+
+            for (int i = 1; i <= recordsAmount; i++)
+            { 
+                yield return recordGenerator.Generate(startId++);
             }
         }
     }
