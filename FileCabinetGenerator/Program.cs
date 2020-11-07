@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using FileCabinetApp.Service;
 
@@ -7,6 +8,9 @@ namespace FileCabinetGenerator
 {
     public static class Program
     {
+        public const string exportTypeCsv = "csv";
+        public const string exportTypeXml = "xml";
+
         private static string outputType;
         private static string outputPath;
         private static int recordsAmount; 
@@ -21,11 +25,7 @@ namespace FileCabinetGenerator
             Console.WriteLine(recordsAmount);
             Console.WriteLine(startId);
 
-            var records = GenerateRecords();
-            foreach (var record in records)
-            {
-                Console.WriteLine(record);
-            }
+            Export();
         }
 
         private static IEnumerable<(string, string)> GetCurrentComandPairs(string[] args)
@@ -89,6 +89,35 @@ namespace FileCabinetGenerator
             for (int i = 1; i <= recordsAmount; i++)
             { 
                 yield return recordGenerator.Generate(startId++);
+            }
+        }
+
+        private static void Export()
+        {
+            if (string.Equals(outputType, exportTypeCsv, StringComparison.OrdinalIgnoreCase))
+            {
+                ExportCsv();
+            }
+            else if (string.Equals(outputType, exportTypeCsv, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("xml");
+            }
+            else
+            {
+                Console.WriteLine($"This .{nameof(outputType)} type file is incorrect.");
+            }
+        }
+
+        private static void ExportCsv()
+        {
+            using (var writer = new StreamWriter(outputPath))
+            {
+                var csvWriter = new CsvWriter(writer);
+
+                foreach (var record in GenerateRecords())
+                {
+                    csvWriter.Write(record);
+                }
             }
         }
     }
