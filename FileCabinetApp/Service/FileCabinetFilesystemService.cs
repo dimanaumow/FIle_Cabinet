@@ -179,6 +179,59 @@ namespace FileCabinetApp.Service
             return records;
         }
 
+        public int Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException($"{nameof(snapshot)} cannot be null.");
+            }
+
+            int count = 0;
+            foreach (var record in snapshot.Records)
+            {
+                try
+                {
+                    int id = record.Id;
+                    if (id <= 0)
+                    {
+                        throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
+                    }
+
+                    int countRecords = this.GetStat();
+                    int size = countRecords;
+                    var data = new RecordData();
+                    data.firstName = record.FirstName;
+                    data.lastName = record.LastName;
+                    data.dateOfBirth = record.DateOfBirth;
+                    data.balance = record.Balance;
+                    data.expirience = record.Expirience;
+                    data.nationality = record.Nationality;
+
+                    if (id <= countRecords)
+                    {
+                        this.EditRecord(id, data);
+                        count++;
+                    }
+                    else
+                    {
+                        this.WriteRecordToBinaryFile(RecordSize * size++, data, id);
+                        this.position += RecordSize;
+                        count++;
+                    }
+                }
+                catch (IndexOutOfRangeException indexOutOfRangeException)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed: {exception.Message}");
+                }
+            }
+
+            return count;
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
