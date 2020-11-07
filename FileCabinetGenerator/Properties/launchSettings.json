@@ -2,7 +2,7 @@
   "profiles": {
     "FileCabinetGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "-t csv -o d:\\AutocodeEPAM\\FileCabinet\\records.csv -a 200 -i 1"
+      "commandLineArgs": "-t xml -o d:\\AutocodeEPAM\\FileCabinet\\records.xml -a 150 -i 100"
     }
   }
 }

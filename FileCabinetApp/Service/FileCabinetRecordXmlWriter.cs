@@ -33,13 +33,7 @@ namespace FileCabinetApp.Service
 
         public void Write()
         {
-            var listRecords = new List<FileCabinetRecord>(this.records);
-            foreach (var record in listRecords)
-            {
-                this.collection.Records.Add(record);
-            }
-
-            this.serializer.Serialize(this.writer, this.collection);
+            this.serializer.Serialize(writer, records);
         }
     }
 }

@@ -5,16 +5,11 @@ using System.Xml.Serialization;
 
 namespace FileCabinetApp.Service
 {
-    [XmlInclude(typeof(FileCabinetRecord))]
+    [XmlRoot("Records")]
     public class SerializableCollection
     {
-        public SerializableCollection()
-        {
-            this.Records = new List<FileCabinetRecord>();
-        }
-
-        [XmlArray("Records")]
-        [XmlArrayItem("Record")]
-        public List<FileCabinetRecord> Records { get; }
+        [XmlElement("Record")]
+        public SerializableRecord[] SerializeRecords { get; set; }
     }
 }
+

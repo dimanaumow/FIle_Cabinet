@@ -500,7 +500,22 @@ namespace FileCabinetApp
 
         private static void ImportXml(string path)
         {
+            var snapshot = new FileCabinetServiceSnapshot(Array.Empty<FileCabinetRecord>());
+            try
+            {
+                using (var stream = File.Open(@path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var st = new StreamReader(stream))
+                {
+                    snapshot.LoadFromXml(st);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"Import error: file {path} not exist");
+            }
 
+            int completed = fileCabinetService.Restore(snapshot);
+            Console.WriteLine($"{completed} recordses were imported from {path}");
         }
 
         private static void Stat(string parameters)

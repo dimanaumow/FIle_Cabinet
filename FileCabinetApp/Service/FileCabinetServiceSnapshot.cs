@@ -55,5 +55,16 @@ namespace FileCabinetApp.Service
             var csvReader = new FileCabinetRecordCsvReader(reader);
             this.records = csvReader.Read().ToArray();
         }
+
+        public void LoadFromXml(StreamReader reader)
+        {
+            if (reader is null)
+            {
+                throw new ArgumentNullException($"{nameof(reader)} cannot be null.");
+            }
+
+            var xmlReader = new FileCabinetRecordXmlReader(reader);
+            this.records = xmlReader.Read().ToArray();
+        }
     }
 }
