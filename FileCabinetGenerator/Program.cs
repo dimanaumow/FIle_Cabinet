@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Xml;
 using FileCabinetApp.Service;
 
 namespace FileCabinetGenerator
@@ -25,6 +27,10 @@ namespace FileCabinetGenerator
             Console.WriteLine(recordsAmount);
             Console.WriteLine(startId);
 
+            foreach (var record in GenerateRecords())
+            {
+                Console.WriteLine(record);
+            }
             Export();
         }
 
@@ -98,9 +104,9 @@ namespace FileCabinetGenerator
             {
                 ExportCsv();
             }
-            else if (string.Equals(outputType, exportTypeCsv, StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(outputType, exportTypeXml, StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine("xml");
+                ExportXml();
             }
             else
             {
@@ -112,12 +118,41 @@ namespace FileCabinetGenerator
         {
             using (var writer = new StreamWriter(outputPath))
             {
-                var csvWriter = new CsvWriter(writer);
+                var csvWriter = new RecordCsvWriter(writer);
 
                 foreach (var record in GenerateRecords())
                 {
                     csvWriter.Write(record);
                 }
+            }
+        }
+
+        private static void ExportXml()
+        {
+            var records = GenerateRecords();
+            var collection = new List<SerializableRecord>();
+
+            foreach (var record in records)
+            {
+                var serializeRecord = new SerializableRecord();
+                serializeRecord.Id = record.Id;
+                serializeRecord.FirstName = record.FirstName;
+                serializeRecord.LastName = record.LastName;
+                serializeRecord.dateOfBirth = record.DateOfBirth;
+                serializeRecord.Epirience = record.Expirience;
+                serializeRecord.Balance = record.Balance;
+                serializeRecord.Nationality = record.Nationality;
+
+                collection.Add(serializeRecord);
+            }
+
+            var serializableRecords = new SerializableCollection();
+            serializableRecords.SerializeRecords = collection.ToArray();
+
+            using (var writer = new StreamWriter(outputPath))
+            {
+                var xmlWriter = new RecordXmlWriter(XmlWriter.Create(writer), serializableRecords);
+                xmlWriter.Write();
             }
         }
     }
