@@ -120,6 +120,11 @@ namespace FileCabinetApp.Service
             return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
+        public bool Remove(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
             =>
             new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());

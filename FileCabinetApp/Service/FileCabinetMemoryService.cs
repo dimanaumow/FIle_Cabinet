@@ -200,6 +200,28 @@ namespace FileCabinetApp.Service
             }
         }
 
+        public bool Remove(int id)
+        {
+            if (id > this.list.Count)
+            {
+                return false;
+            }
+
+            foreach (var record in this.list)
+            {
+                if (record.Id == id)
+                {
+                    this.list.Remove(record);
+                    this.firstNameDictionary[record.FirstName.ToUpper()].Remove(record);
+                    this.lastNameDictionary[record.LastName.ToUpper()].Remove(record);
+                    this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Implements IFileCabinetRecord interface.
         /// </summary>

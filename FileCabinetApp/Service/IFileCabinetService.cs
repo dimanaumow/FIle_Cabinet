@@ -45,6 +45,8 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
 
+        public bool Remove(int id);
+
         /// <summary>
         /// Give all records.
         /// </summary>

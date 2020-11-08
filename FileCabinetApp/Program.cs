@@ -30,6 +30,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("remove", Remove),
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
             new Tuple<string, Action<string>>("exit", Exit),
@@ -45,6 +46,7 @@ namespace FileCabinetApp
             new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
             new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
             new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
+            new string[] { "remove", "remove an record from the service.", "The 'remove' command remove an record from the service." },
             new string[] { "export csv", "export records in csv format.", "The 'export csv' command export all records in csv format." },
             new string[] { "export xml", "export records in xml format.", "The 'export xml' command export all records in xml format." },
             new string[] { "import csv", "import records from csv file.", "The 'import csv' command import all records from csv file." },
@@ -405,6 +407,19 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
                     $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+            }
+        }
+
+        private static void Remove(string parameters)
+        {
+            var id = int.Parse(parameters);
+            if (fileCabinetService.Remove(id))
+            {
+                Console.WriteLine($"Record #{id} was removed");
+            }
+            else
+            {
+                Console.WriteLine($"Record #{id} not founded or not exist.");
             }
         }
 
