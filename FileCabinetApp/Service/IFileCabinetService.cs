@@ -45,6 +45,10 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
 
+        public bool Remove(int id);
+
+        public void Purge();
+
         /// <summary>
         /// Give all records.
         /// </summary>
@@ -55,7 +59,7 @@ namespace FileCabinetApp.Service
         /// Give the count of records.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public int GetStat();
+        public (int real, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

@@ -200,6 +200,28 @@ namespace FileCabinetApp.Service
             }
         }
 
+        public bool Remove(int id)
+        {
+            if (id > this.list.Count)
+            {
+                return false;
+            }
+
+            foreach (var record in this.list)
+            {
+                if (record.Id == id)
+                {
+                    this.list.Remove(record);
+                    this.firstNameDictionary[record.FirstName.ToUpper()].Remove(record);
+                    this.lastNameDictionary[record.LastName.ToUpper()].Remove(record);
+                    this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Implements IFileCabinetRecord interface.
         /// </summary>
@@ -213,9 +235,9 @@ namespace FileCabinetApp.Service
         /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public int GetStat()
+        public (int real, int removed) GetStat()
         {
-            return this.list.Count;
+            return (this.list.Count, 0);
         }
 
         public FileCabinetServiceSnapshot MakeSnapShot()
@@ -298,6 +320,10 @@ namespace FileCabinetApp.Service
             }
 
             return count;
+        }
+
+        public void Purge()
+        {
         }
     }
 }
