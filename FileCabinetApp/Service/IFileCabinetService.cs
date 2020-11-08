@@ -47,9 +47,7 @@ namespace FileCabinetApp.Service
 
         public bool Remove(int id);
 
-        public virtual void Purge()
-        {
-        }
+        public void Purge();
 
         /// <summary>
         /// Give all records.

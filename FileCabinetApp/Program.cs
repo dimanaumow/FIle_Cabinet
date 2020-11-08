@@ -31,6 +31,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("remove", Remove),
+            new Tuple<string, Action<string>>("purge", Purge),
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
             new Tuple<string, Action<string>>("exit", Exit),
@@ -318,7 +319,7 @@ namespace FileCabinetApp
         private static void Edit(string parameters)
         {
             var id = int.Parse(parameters);
-            if (id > fileCabinetService.GetStat())
+            if (id > fileCabinetService.GetStat().real)
             {
                 Console.WriteLine($"#{id} records is not found.");
             }
@@ -421,6 +422,12 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"Record #{id} not founded or not exist.");
             }
+        }
+
+        private static void Purge(string parameters)
+        {
+            fileCabinetService.Purge();
+            Console.WriteLine("Data file processing is completed");
         }
 
         private static void Export(string parameters)
@@ -536,7 +543,7 @@ namespace FileCabinetApp
         private static void Stat(string parameters)
         {
             var recordsCount = Program.fileCabinetService.GetStat();
-            Console.WriteLine($"{recordsCount} record(s).");
+            Console.WriteLine($"{recordsCount.real} record(s).");
         }
 
         private static void Exit(string parameters)

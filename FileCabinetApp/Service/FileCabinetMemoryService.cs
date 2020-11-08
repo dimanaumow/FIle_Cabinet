@@ -321,5 +321,9 @@ namespace FileCabinetApp.Service
 
             return count;
         }
+
+        public void Purge()
+        {
+        }
     }
 }
