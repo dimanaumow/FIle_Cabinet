@@ -47,6 +47,10 @@ namespace FileCabinetApp.Service
 
         public bool Remove(int id);
 
+        public virtual void Purge()
+        {
+        }
+
         /// <summary>
         /// Give all records.
         /// </summary>
@@ -57,7 +61,7 @@ namespace FileCabinetApp.Service
         /// Give the count of records.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public int GetStat();
+        public (int real, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

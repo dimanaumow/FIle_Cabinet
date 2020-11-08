@@ -147,8 +147,8 @@ namespace FileCabinetApp.Service
             =>
             new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
 
-        public int GetStat()
-            => this.GetRecordsCollection().Count;
+        public (int real, int removed) GetStat()
+            => (this.realIdRecord.Count, this.removeIdRecords.Count);
 
         public FileCabinetServiceSnapshot MakeSnapShot()
         {

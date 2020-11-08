@@ -235,9 +235,9 @@ namespace FileCabinetApp.Service
         /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public int GetStat()
+        public (int real, int removed) GetStat()
         {
-            return this.list.Count;
+            return (this.list.Count, 0);
         }
 
         public FileCabinetServiceSnapshot MakeSnapShot()
