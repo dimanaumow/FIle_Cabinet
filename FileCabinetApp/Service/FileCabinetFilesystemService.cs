@@ -13,6 +13,9 @@ namespace FileCabinetApp.Service
     {
         public const int LengtOfString = 120;
         public const int RecordSize = 518;
+        private const short isRealRecord = 0;
+        private const short isRemovedRecord = 1;
+
         private readonly FileStream fileStream;
         private readonly BinaryReader binReader;
         private readonly BinaryWriter binWriter;
@@ -20,6 +23,9 @@ namespace FileCabinetApp.Service
         private int position;
         private bool disposed;
         private int id;
+
+        private List<int> realIdRecord;
+        private List<int> removeIdRecords;
 
         public FileCabinetFilesystemService(FileStream fileStream)
             : this(new DefaultValidator(), fileStream)
@@ -45,6 +51,8 @@ namespace FileCabinetApp.Service
             this.disposed = true;
             this.position = 0;
             this.id = 1;
+            this.realIdRecord = new List<int>();
+            this.removeIdRecords = new List<int>();
         }
 
         public int CreateRecord(RecordData parameters)
@@ -52,12 +60,13 @@ namespace FileCabinetApp.Service
             this.validator.ValidatePararmeters(parameters);
             this.WriteRecordToBinaryFile(this.position, parameters, this.id);
             this.position += RecordSize;
+            this.realIdRecord.Add(this.id);
             return this.id++;
         }
 
         public void EditRecord(int id, RecordData parameters)
         {
-            if (id > this.id)
+            if (!this.realIdRecord.Contains(id))
             {
                 throw new ArgumentException($"Element with #{nameof(id)} can't fine in this records list.");
             }
@@ -122,7 +131,16 @@ namespace FileCabinetApp.Service
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            if (!this.realIdRecord.Contains(id))
+            {
+                return false;
+            }
+
+            this.binReader.BaseStream.Position = id * RecordSize;
+            this.binWriter.Write(isRemovedRecord);
+            this.realIdRecord.Add(id);
+            this.realIdRecord.Remove(id);
+            return true;
         }
 
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
@@ -140,7 +158,7 @@ namespace FileCabinetApp.Service
         private void WriteRecordToBinaryFile(int position, RecordData parameters, int id)
         {
             this.binWriter.Seek(position, SeekOrigin.Begin);
-            this.binWriter.Write((short)0);
+            this.binWriter.Write(isRealRecord);
             this.binWriter.Write(id);
             this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.firstName, new string(' ', LengtOfString - parameters.firstName.Length)).ToCharArray()));
             this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.lastName, new string(' ', LengtOfString - parameters.lastName.Length)).ToCharArray()));
@@ -202,8 +220,7 @@ namespace FileCabinetApp.Service
                         throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
                     }
 
-                    int countRecords = this.GetStat();
-                    int size = countRecords;
+                    int size = this.realIdRecord.Count + this.removeIdRecords.Count;
                     var data = new RecordData();
                     data.firstName = record.FirstName;
                     data.lastName = record.LastName;
@@ -212,7 +229,7 @@ namespace FileCabinetApp.Service
                     data.expirience = record.Expirience;
                     data.nationality = record.Nationality;
 
-                    if (id <= countRecords)
+                    if (this.realIdRecord.Contains(id))
                     {
                         this.EditRecord(id, data);
                         count++;
@@ -221,6 +238,7 @@ namespace FileCabinetApp.Service
                     {
                         this.WriteRecordToBinaryFile(RecordSize * size++, data, id);
                         this.position += RecordSize;
+                        this.realIdRecord.Add(id);
                         count++;
                     }
                 }
