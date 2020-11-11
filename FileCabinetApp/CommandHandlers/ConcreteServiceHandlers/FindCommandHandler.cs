@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Service;
 
@@ -7,10 +8,17 @@ namespace FileCabinetApp.CommandHandlers
     public class FindCommandHandler : ServiceCommandHandlerBase
     {
         public const string FindConstant = "find";
+        private readonly Action<IEnumerable<FileCabinetRecord>> printer;
 
-        public FindCommandHandler(IFileCabinetService fileCabinetService)
+        public FindCommandHandler(IFileCabinetService fileCabinetService, Action<IEnumerable<FileCabinetRecord>> printer)
             : base(fileCabinetService)
         {
+            if (printer is null)
+            {
+                throw new ArgumentNullException($"{nameof(printer)} cannot be null.");
+            }
+
+            this.printer = printer;
         }
 
         public override void Handle(AppCommandRequest commandRequest)
@@ -47,17 +55,12 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-
         private void FindFirstName(string firstName)
         {
             var temp = firstName.Substring(1, firstName.Length - 2);
             var findRecords = this.fileCabinetService.FindByFirstName(temp);
 
-            foreach (var record in findRecords)
-            {
-                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
-                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
-            }
+            this.printer(findRecords);
         }
 
         private void FindLastName(string lastName)
@@ -65,22 +68,14 @@ namespace FileCabinetApp.CommandHandlers
             var temp = lastName.Substring(1, lastName.Length - 2);
             var findRecords = this.fileCabinetService.FindByLastName(temp);
 
-            foreach (var record in findRecords)
-            {
-                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
-                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
-            }
+            this.printer(findRecords);
         }
 
         private void FindDateOfBirth(string dateOfBirth)
         {
             var findRecords = this.fileCabinetService.FindByDateOfBirth(dateOfBirth);
 
-            foreach (var record in findRecords)
-            {
-                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
-                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
-            }
+            this.printer(findRecords);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Service;
 
@@ -7,10 +8,17 @@ namespace FileCabinetApp.CommandHandlers
     public class ListCommandHandler : ServiceCommandHandlerBase
     {
         public const string ListConstant = "list";
+        private readonly Action<IEnumerable<FileCabinetRecord>> printer;
 
-        public ListCommandHandler(IFileCabinetService fileCabinetService)
+        public ListCommandHandler(IFileCabinetService fileCabinetService, Action<IEnumerable<FileCabinetRecord>> printer)
             : base(fileCabinetService)
         {
+            if (printer is null)
+            {
+                throw new ArgumentNullException($"{nameof(printer)} cannot be null.");
+            }
+
+            this.printer = printer;
         }
 
         public override void Handle(AppCommandRequest commandRequest)
@@ -34,11 +42,7 @@ namespace FileCabinetApp.CommandHandlers
         {
             var records = this.fileCabinetService.GetRecords();
 
-            foreach (var record in records)
-            {
-                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
-                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
-            }
+            this.printer(records);
         }
     }
 }
