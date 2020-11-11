@@ -15,39 +15,52 @@ namespace FileCabinetApp.Validators
         /// <param name="parameters">User's data.</param>
         public void ValidatePararmeters(RecordData parameters)
         {
-            if (string.IsNullOrWhiteSpace(parameters.firstName))
+            this.ValidateFirstName(parameters.firstName);
+            this.ValidateLastName(parameters.lastName);
+            this.ValidateDateOfBirth(parameters.dateOfBirth);
+        }
+
+        private void ValidateFirstName(string firstName)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
             {
-                if (parameters.firstName is null)
+                if (firstName is null)
                 {
-                    throw new ArgumentNullException($"{nameof(parameters.firstName)} cannot be null.");
+                    throw new ArgumentNullException($"{nameof(firstName)} cannot be null.");
                 }
 
-                if (parameters.firstName.Length < 2 || parameters.firstName.Length > 60)
+                if (firstName.Length < 2 || firstName.Length > 60)
                 {
-                    throw new ArgumentException($"{nameof(parameters.firstName.Length)} must be in range 2 to 60.");
+                    throw new ArgumentException($"{nameof(firstName.Length)} must be in range 2 to 60.");
                 }
 
-                throw new ArgumentException($"{nameof(parameters.firstName)} cannot be empty or whiteSpace.");
+                throw new ArgumentException($"{nameof(firstName)} cannot be empty or whiteSpace.");
             }
+        }
 
-            if (string.IsNullOrWhiteSpace(parameters.lastName))
+        private void ValidateLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
             {
-                if (parameters.lastName is null)
+                if (lastName is null)
                 {
-                    throw new ArgumentNullException($"{nameof(parameters.lastName)} cannot be null.");
+                    throw new ArgumentNullException($"{nameof(lastName)} cannot be null.");
                 }
 
-                if (parameters.lastName.Length < 2 || parameters.lastName.Length > 60)
+                if (lastName.Length < 2 || lastName.Length > 60)
                 {
-                    throw new ArgumentException($"{nameof(parameters.lastName.Length)} must be in range 2 to 60.");
+                    throw new ArgumentException($"{nameof(lastName.Length)} must be in range 2 to 60.");
                 }
 
-                throw new ArgumentException($"{nameof(parameters.lastName)} cannot be empty or whiteSpace.");
+                throw new ArgumentException($"{nameof(lastName)} cannot be empty or whiteSpace.");
             }
+        }
 
-            if (parameters.dateOfBirth < new DateTime(1950, 1, 1) || parameters.dateOfBirth > DateTime.Now)
+        private void ValidateDateOfBirth(DateTime dateOfBirth)
+        {
+            if (dateOfBirth < new DateTime(1950, 1, 1) || dateOfBirth > DateTime.Now)
             {
-                throw new ArgumentException($"{nameof(parameters.dateOfBirth)} is incorrect.");
+                throw new ArgumentException($"{nameof(dateOfBirth)} is incorrect.");
             }
         }
     }
