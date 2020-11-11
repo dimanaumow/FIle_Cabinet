@@ -74,18 +74,18 @@ namespace FileCabinetApp
                     fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     isDefaultRule = true;
-                    validator = new DefaultValidator();
+                    validator = new ValidatorBuilder().CreateDefault();
                     break;
                 case "CUSTOM":
                     fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                     Console.WriteLine("Using custom validation rules.");
-                    validator = new CustomValidator();
+                    validator = new ValidatorBuilder().CreateCustom();
                     break;
                 default:
                     fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
                     isDefaultRule = true;
-                    validator = new DefaultValidator();
+                    validator = new ValidatorBuilder().CreateDefault();
                     break;
             }
 
