@@ -51,9 +51,9 @@ namespace FileCabinetApp.Service
                 FirstName = parameters.firstName,
                 LastName = parameters.lastName,
                 DateOfBirth = parameters.dateOfBirth,
-                Expirience = parameters.expirience,
+                Experience = parameters.experience,
                 Balance = parameters.balance,
-                Nationality = parameters.nationality,
+                EnglishLevel = parameters.englishLevel,
             };
 
             this.list.Add(record);
@@ -108,9 +108,9 @@ namespace FileCabinetApp.Service
                 FirstName = parameters.firstName,
                 LastName = parameters.lastName,
                 DateOfBirth = parameters.dateOfBirth,
-                Expirience = parameters.expirience,
+                Experience = parameters.experience,
                 Balance = parameters.balance,
-                Nationality = parameters.nationality,
+                EnglishLevel = parameters.englishLevel,
             };
 
             this.list[id - 1] = record;
@@ -270,8 +270,8 @@ namespace FileCabinetApp.Service
                         data.lastName = record.LastName;
                         data.dateOfBirth = record.DateOfBirth;
                         data.balance = record.Balance;
-                        data.expirience = record.Expirience;
-                        data.nationality = record.Nationality;
+                        data.experience = record.Experience;
+                        data.englishLevel = record.EnglishLevel;
                         this.EditRecord(id, data);
                         count++;
                     }

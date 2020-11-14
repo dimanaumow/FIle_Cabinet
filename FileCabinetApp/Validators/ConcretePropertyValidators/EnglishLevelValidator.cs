@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
-    public class NationalityValidator : IRecordValidator
+    public class EnglishLevelValidator : IRecordValidator
     {
         public void ValidatePararmeters(RecordData parameters)
         {
@@ -13,9 +13,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (!char.IsLetter(parameters.nationality))
+            if (!(parameters.englishLevel == 'a' || parameters.englishLevel == 'b' || parameters.englishLevel == 'c'))
             {
-                throw new ArgumentException($"{nameof(parameters.nationality)} must be letter.");
+                throw new ArgumentException($"{nameof(parameters.englishLevel)} must be letter.");
             }
         }
     }

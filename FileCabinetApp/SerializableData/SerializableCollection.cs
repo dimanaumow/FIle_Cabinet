@@ -12,4 +12,3 @@ namespace FileCabinetApp.Service
         public SerializableRecord[] SerializeRecords { get; set; }
     }
 }
-

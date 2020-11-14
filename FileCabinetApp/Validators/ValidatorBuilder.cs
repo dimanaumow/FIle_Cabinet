@@ -29,9 +29,9 @@ namespace FileCabinetApp.Validators
             return this;
         }
 
-        public ValidatorBuilder ValidateExpirience(short min, short max)
+        public ValidatorBuilder ValidateExperience(short min, short max)
         {
-            this.validators.Add(new ExpirienceValidator(min, max));
+            this.validators.Add(new ExperienceValidator(min, max));
             return this;
         }
 
@@ -41,9 +41,9 @@ namespace FileCabinetApp.Validators
             return this;
         }
 
-        public ValidatorBuilder ValidateNationality()
+        public ValidatorBuilder ValidateEnglishLevel()
         {
-            this.validators.Add(new NationalityValidator());
+            this.validators.Add(new EnglishLevelValidator());
             return this;
         }
     }

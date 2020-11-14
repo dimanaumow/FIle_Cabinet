@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
-using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace FileCabinetApp.Service
 {
-    public class FileCabinetRecordCsvReader : IDisposable
+    public class FileCabinetRecordXmlReader : IDisposable
     {
         private readonly StreamReader streamReader;
         private bool disposed;
 
-        public FileCabinetRecordCsvReader(StreamReader streamReader)
+        public FileCabinetRecordXmlReader(StreamReader streamReader)
         {
             if (streamReader is null)
             {
@@ -20,7 +20,6 @@ namespace FileCabinetApp.Service
             }
 
             this.streamReader = streamReader;
-            this.disposed = true;
         }
 
         public ReadOnlyCollection<FileCabinetRecord> Read()
@@ -28,26 +27,30 @@ namespace FileCabinetApp.Service
             var readRecords = new List<FileCabinetRecord>();
             this.streamReader.BaseStream.Position = 0;
 
-            while (!this.streamReader.EndOfStream)
+            using (var xmlReader = new XmlTextReader(this.streamReader))
             {
-                var data = this.streamReader.ReadLine().Split(',');
-                var record = this.BuildRecord(data);
-                readRecords.Add(record);
+                var serializer = new XmlSerializer(typeof(SerializableCollection));
+                var serializableRecords = (SerializableCollection)serializer.Deserialize(xmlReader);
+
+                foreach (var serializableRecord in serializableRecords.SerializeRecords)
+                {
+                    readRecords.Add(this.BuildRecord(serializableRecord));
+                }
             }
 
             return new ReadOnlyCollection<FileCabinetRecord>(readRecords);
         }
 
-        private FileCabinetRecord BuildRecord(string[] data)
+        public FileCabinetRecord BuildRecord(SerializableRecord record)
             => new FileCabinetRecord
             {
-                Id = int.Parse(data[0].Substring(1).Trim(), CultureInfo.InvariantCulture),
-                FirstName = data[1].Trim(),
-                LastName = data[2].Trim(),
-                DateOfBirth = DateTime.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
-                Expirience = short.Parse(data[4].Trim(), CultureInfo.InvariantCulture),
-                Balance = decimal.Parse(data[5].Trim(), CultureInfo.InvariantCulture),
-                Nationality = char.Parse(data[6].Trim()),
+                Id = record.Id,
+                FirstName = record.FirstName,
+                LastName = record.LastName,
+                DateOfBirth = record.dateOfBirth,
+                Experience = record.Epirience,
+                Balance = record.Balance,
+                EnglishLevel = record.Nationality,
             };
 
         public void Dispose()

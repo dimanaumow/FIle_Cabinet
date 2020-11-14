@@ -42,16 +42,16 @@ namespace FileCabinetApp.CommandHandlers
             Console.Write("Date of birth: ");
             var dateOfBirth = InputValidator.ReadInput(InputValidator.dateConvrter, InputValidator.dateOfBirthValidator);
 
-            Console.Write("Nationality: ");
-            var nationality = InputValidator.ReadInput(InputValidator.nationalityConverter, InputValidator.nationalityValidator);
+            Console.Write("EnglishLevel: ");
+            var englishLevel = InputValidator.ReadInput(InputValidator.englishLevelConverter, InputValidator.englishLevelValidator);
 
-            Console.Write("Expirience: ");
-            var expirience = InputValidator.ReadInput(InputValidator.expirienceConverter, InputValidator.expirienceValidator);
+            Console.Write("Experience: ");
+            var experience = InputValidator.ReadInput(InputValidator.experienceConverter, InputValidator.experienceValidator);
 
             Console.Write("Balance: ");
             var balance = InputValidator.ReadInput(InputValidator.balanceConverter, InputValidator.balanceValidator);
 
-            var index = fileCabinetService.CreateRecord(new RecordData(firstName, lastName, dateOfBirth, expirience, balance, nationality));
+            var index = this.fileCabinetService.CreateRecord(new RecordData(firstName, lastName, dateOfBirth, experience, balance, englishLevel));
             Console.WriteLine($"Record #{index} is created.");
         }
     }

@@ -154,9 +154,9 @@ namespace FileCabinetApp.Service
                 data.firstName = record.FirstName;
                 data.lastName = record.LastName;
                 data.dateOfBirth = record.DateOfBirth;
-                data.expirience = record.Expirience;
+                data.experience = record.Experience;
                 data.balance = record.Balance;
-                data.nationality = record.Nationality;
+                data.englishLevel = record.EnglishLevel;
 
                 this.WriteRecordToBinaryFile(this.cursor, data, record.Id);
                 this.cursor += RecordSize;
@@ -215,8 +215,8 @@ namespace FileCabinetApp.Service
                     data.lastName = record.LastName;
                     data.dateOfBirth = record.DateOfBirth;
                     data.balance = record.Balance;
-                    data.expirience = record.Expirience;
-                    data.nationality = record.Nationality;
+                    data.experience = record.Experience;
+                    data.englishLevel = record.EnglishLevel;
 
                     if (this.records.ContainsKey(id))
                     {
@@ -286,9 +286,9 @@ namespace FileCabinetApp.Service
             this.binWriter.Write(parameters.dateOfBirth.Month);
             this.binWriter.Write(parameters.dateOfBirth.Day);
             this.binWriter.Write(parameters.dateOfBirth.Year);
-            this.binWriter.Write(parameters.expirience);
+            this.binWriter.Write(parameters.experience);
             this.binWriter.Write(parameters.balance);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.nationality.ToString(CultureInfo.InvariantCulture)));
+            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.englishLevel.ToString(CultureInfo.InvariantCulture)));
         }
 
         private FileCabinetRecord ReadRecordOutBinaryFile(long position, out bool removedKey)
@@ -303,9 +303,9 @@ namespace FileCabinetApp.Service
                 FirstName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
                 LastName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
                 DateOfBirth = DateTime.Parse($"{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}", CultureInfo.InvariantCulture),
-                Expirience = this.binReader.ReadInt16(),
+                Experience = this.binReader.ReadInt16(),
                 Balance = this.binReader.ReadDecimal(),
-                Nationality = Encoding.Unicode.GetString(this.binReader.ReadBytes(sizeof(char))).First(),
+                EnglishLevel = Encoding.Unicode.GetString(this.binReader.ReadBytes(sizeof(char))).First(),
             };
 
             return record;

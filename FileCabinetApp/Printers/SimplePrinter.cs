@@ -11,7 +11,7 @@ namespace FileCabinetApp.Printers
             foreach (var record in records)
             {
                 Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()}" +
-                    $" Expirience: {record.Expirience} years, Balance: {record.Balance}, Nationality: {record.Nationality}.");
+                    $" Expirience: {record.Experience} years, Balance: {record.Balance}, Nationality: {record.EnglishLevel}.");
             }
         }
     }

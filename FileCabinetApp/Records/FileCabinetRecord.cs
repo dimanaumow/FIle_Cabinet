@@ -38,7 +38,7 @@ namespace FileCabinetApp.Service
         /// Gets or sets the user's work expirience.
         /// </summary>
         /// <value>User expirience.</value>
-        public short Expirience { get; set; }
+        public short Experience { get; set; }
 
         /// <summary>
         /// Gets or sets the user's balance.
@@ -50,12 +50,12 @@ namespace FileCabinetApp.Service
         /// Gets or sets the user's nationality.
         /// </summary>
         /// <value>User nationality.</value>
-        public char Nationality { get; set; }
+        public char EnglishLevel { get; set; }
 
         public override string ToString()
         {
-            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}", 
-                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Expirience, this.Balance, this.Nationality);
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Experience, this.Balance, this.EnglishLevel);
         }
     }
 }

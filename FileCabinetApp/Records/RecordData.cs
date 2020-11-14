@@ -12,9 +12,9 @@ namespace FileCabinetApp
         public string firstName;
         public string lastName;
         public DateTime dateOfBirth;
-        public short expirience;
+        public short experience;
         public decimal balance;
-        public char nationality;
+        public char englishLevel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecordData"/> class.
@@ -29,18 +29,18 @@ namespace FileCabinetApp
         /// <param name="firstName">User firstName.</param>
         /// <param name="lastName">User lastName.</param>
         /// <param name="dateOfBirth">User's date of birth.</param>
-        /// <param name="expirience">User's expirience.</param>
+        /// <param name="experience">User's expirience.</param>
         /// <param name="balance">User's balance.</param>
-        /// <param name="nationality">User's nationality.</param>
-        public RecordData(string firstName, string lastName, DateTime dateOfBirth, short expirience, decimal balance, char nationality)
+        /// <param name="englishLevel">User's nationality.</param>
+        public RecordData(string firstName, string lastName, DateTime dateOfBirth, short experience, decimal balance, char englishLevel)
             : this()
         {
             this.firstName = firstName;
             this.lastName = lastName;
             this.dateOfBirth = dateOfBirth;
-            this.expirience = expirience;
+            this.experience = experience;
             this.balance = balance;
-            this.nationality = nationality;
+            this.englishLevel = englishLevel;
         }
     }
 }

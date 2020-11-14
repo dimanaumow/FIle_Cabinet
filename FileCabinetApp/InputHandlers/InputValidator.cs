@@ -49,12 +49,12 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, DateTime>(isValid, input, date);
         };
 
-        public static Func<string, Tuple<bool, string, short>> expirienceConverter = input =>
+        public static Func<string, Tuple<bool, string, short>> experienceConverter = input =>
         {
-            short expirience;
-            bool isValid = short.TryParse(input, out expirience);
+            short experience;
+            bool isValid = short.TryParse(input, out experience);
 
-            return new Tuple<bool, string, short>(isValid, input, expirience);
+            return new Tuple<bool, string, short>(isValid, input, experience);
         };
 
         public static Func<string, Tuple<bool, string, decimal>> balanceConverter = input =>
@@ -65,12 +65,12 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, decimal>(isValid, input, balance);
         };
 
-        public static Func<string, Tuple<bool, string, char>> nationalityConverter = input =>
+        public static Func<string, Tuple<bool, string, char>> englishLevelConverter = input =>
         {
-            char nationality;
-            bool isValid = char.TryParse(input, out nationality);
+            char englishLevel;
+            bool isValid = char.TryParse(input, out englishLevel);
 
-            return new Tuple<bool, string, char>(isValid, input, nationality);
+            return new Tuple<bool, string, char>(isValid, input, englishLevel);
         };
 
         public static Func<string, Tuple<bool, string>> firstNameValidator = input =>
@@ -91,7 +91,7 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string>(isValid, date.ToString());
         };
 
-        public static Func<short, Tuple<bool, string>> expirienceValidator = input =>
+        public static Func<short, Tuple<bool, string>> experienceValidator = input =>
         {
             bool isValid = input >= 0;
             return new Tuple<bool, string>(isValid, input.ToString());
@@ -103,10 +103,10 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string>(isValid, input.ToString());
         };
 
-        public static Func<char, Tuple<bool, string>> nationalityValidator = nationality =>
+        public static Func<char, Tuple<bool, string>> englishLevelValidator = input =>
         {
-            bool isValid = char.IsLetter(nationality);
-            return new Tuple<bool, string>(isValid, nationality.ToString());
+            bool isValid = input == 'a' || input == 'c' || input == 'b';
+            return new Tuple<bool, string>(isValid, input.ToString());
         };
     }
 }

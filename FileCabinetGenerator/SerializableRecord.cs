@@ -20,14 +20,14 @@ namespace FileCabinetGenerator
         [XmlElement("LastName")]
         public string LastName { get; set; }
 
-        [XmlElement("Expirience")]
-        public short Epirience { get; set; }
+        [XmlElement("Experience")]
+        public short Experience { get; set; }
 
         [XmlElement("Balance")]
         public decimal Balance { get; set; }
 
-        [XmlElement("Nationality")]
-        public char Nationality { get; set; }
+        [XmlElement("EnglishLevel")]
+        public char EnglishLevel { get; set; }
 
         [XmlElement("DateOfBirth")]
         public string DateOfBirth

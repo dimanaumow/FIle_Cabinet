@@ -4,12 +4,12 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
-    public class ExpirienceValidator : IRecordValidator
+    public class ExperienceValidator : IRecordValidator
     {
         private readonly int min;
         private readonly int max;
 
-        public ExpirienceValidator(int min, int max)
+        public ExperienceValidator(int min, int max)
         {
             if (max <= min)
             {
@@ -27,9 +27,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (parameters.expirience < this.min || parameters.expirience > this.max)
+            if (parameters.experience < this.min || parameters.experience > this.max)
             {
-                throw new ArgumentException($"{nameof(parameters.expirience)} must be in range from {nameof(min)} to {nameof(max)}.");
+                throw new ArgumentException($"{nameof(parameters.experience)} must be in range from {nameof(this.min)} to {nameof(this.max)}.");
             }
         }
     }

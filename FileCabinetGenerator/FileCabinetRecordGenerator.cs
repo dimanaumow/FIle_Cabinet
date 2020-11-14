@@ -25,8 +25,8 @@ namespace FileCabinetGenerator
             record.LastName = this.GenerateName(randomGenerator.Next(3, 60));
             record.DateOfBirth = GenerateDateOfBirth();
             record.Balance = randomGenerator.Next();
-            record.Expirience = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.DateOfBirth.Year));
-            record.Nationality = char.ToUpper(alphabet[randomGenerator.Next(alphabet.Length - 1)]);
+            record.Experience = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.DateOfBirth.Year));
+            record.EnglishLevel = char.ToUpper(alphabet[randomGenerator.Next(alphabet.Length - 1)]);
 
             return record;
         }
