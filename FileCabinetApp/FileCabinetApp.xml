@@ -4,37 +4,104 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
-        <member name="T:FileCabinetApp.Program">
+        <member name="T:FileCabinetApp.Service.IFileCabinetService">
             <summary>
-            Provide work with file cabinet service.
+            Provide interface service for work with user's record.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.CreateRecord(FileCabinetApp.RecordData)">
             <summary>
-            Start point for application.
+            Generates a unique user record.
             </summary>
-            <param name="args">Array of command-line keys passed to the program.</param>
+            <param name="parameters">Parameters of new record.</param>
+            <returns>Id of record.</returns>
         </member>
-        <member name="T:FileCabinetApp.RecordData">
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordData)">
             <summary>
-            Encapsulted data of record.
+            Changes the record by given ID.
             </summary>
+            <param name="id">Id of record.</param>
+            <param name="parameters">Parameters of record.</param>
         </member>
-        <member name="M:FileCabinetApp.RecordData.#ctor">
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByFirstName(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordData"/> class.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.RecordData.#ctor(System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordData"/> class.
+            Find all records with given firstName.
             </summary>
             <param name="firstName">User firstName.</param>
-            <param name="lastName">User lastName.</param>
-            <param name="dateOfBirth">User's date of birth.</param>
-            <param name="expirience">User's expirience.</param>
-            <param name="balance">User's balance.</param>
-            <param name="nationality">User's nationality.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Find all records with given lastName.
+            </summary>
+            <param name="lastName">User lastNeme.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByDateOfBirth(System.String)">
+            <summary>
+            Find all records with given date of birth.
+            </summary>
+            <param name="dateOfBirth">The user's date of birth.</param>
+            <returns>The array of finded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.GetRecords">
+            <summary>
+            Give all records.
+            </summary>
+            <returns>The array of all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.GetStat">
+            <summary>
+            Give the count of records.
+            </summary>
+            <returns>The count of records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecord">
+            <summary>
+            Encapsulates user data as a record.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets the user's id.
+            </summary>
+            <value>User id.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets the user's firstName.
+            </summary>
+            <value>User firstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets the user's lastName.
+            </summary>
+            <value>User lastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets the user's date of birth.
+            </summary>
+            <value>User date of birth.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Experience">
+            <summary>
+            Gets or sets the user's work expirience.
+            </summary>
+            <value>User expirience.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Balance">
+            <summary>
+            Gets or sets the user's balance.
+            </summary>
+            <value>User balance.</value>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetRecord.EnglishLevel">
+            <summary>
+            Gets or sets the user's nationality.
+            </summary>
+            <value>User nationality.</value>
         </member>
         <member name="T:FileCabinetApp.Service.FileCabinetMemoryService">
             <summary>
@@ -99,127 +166,6 @@
             </summary>
             <returns>The count of records.</returns>
         </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetRecord">
-            <summary>
-            Encapsulates user data as a record.
-            </summary>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Id">
-            <summary>
-            Gets or sets the user's id.
-            </summary>
-            <value>User id.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.FirstName">
-            <summary>
-            Gets or sets the user's firstName.
-            </summary>
-            <value>User firstName.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.LastName">
-            <summary>
-            Gets or sets the user's lastName.
-            </summary>
-            <value>User lastName.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.DateOfBirth">
-            <summary>
-            Gets or sets the user's date of birth.
-            </summary>
-            <value>User date of birth.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Expirience">
-            <summary>
-            Gets or sets the user's work expirience.
-            </summary>
-            <value>User expirience.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Balance">
-            <summary>
-            Gets or sets the user's balance.
-            </summary>
-            <value>User balance.</value>
-        </member>
-        <member name="P:FileCabinetApp.Service.FileCabinetRecord.Nationality">
-            <summary>
-            Gets or sets the user's nationality.
-            </summary>
-            <value>User nationality.</value>
-        </member>
-        <member name="T:FileCabinetApp.Service.IFileCabinetService">
-            <summary>
-            Provide interface service for work with user's record.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.CreateRecord(FileCabinetApp.RecordData)">
-            <summary>
-            Generates a unique user record.
-            </summary>
-            <param name="parameters">Parameters of new record.</param>
-            <returns>Id of record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.RecordData)">
-            <summary>
-            Changes the record by given ID.
-            </summary>
-            <param name="id">Id of record.</param>
-            <param name="parameters">Parameters of record.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Find all records with given firstName.
-            </summary>
-            <param name="firstName">User firstName.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Find all records with given lastName.
-            </summary>
-            <param name="lastName">User lastNeme.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByDateOfBirth(System.String)">
-            <summary>
-            Find all records with given date of birth.
-            </summary>
-            <param name="dateOfBirth">The user's date of birth.</param>
-            <returns>The array of finded records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.GetRecords">
-            <summary>
-            Give all records.
-            </summary>
-            <returns>The array of all records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.IFileCabinetService.GetStat">
-            <summary>
-            Give the count of records.
-            </summary>
-            <returns>The count of records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.Validators.CustomValidator">
-            <summary>
-            Implement IRecordValidator interface.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
-            <summary>
-            Validate record parameters using custom rules.
-            </summary>
-            <param name="parameters">User's data</param>
-        </member>
-        <member name="T:FileCabinetApp.Validators.DefaultValidator">
-            <summary>
-            Implement IRecordValidator.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidatePararmeters(FileCabinetApp.RecordData)">
-            <summary>
-            Validate record parameters using default rules.
-            </summary>
-            <param name="parameters">User's data.</param>
-        </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
             Provide interface for different validation rule.
@@ -230,6 +176,38 @@
             Validation rule for record parameters.
             </summary>
             <param name="parameters">User's data.</param>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Provide work with file cabinet service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            Start point for application.
+            </summary>
+            <param name="args">Array of command-line keys passed to the program.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordData">
+            <summary>
+            Encapsulted data of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordData"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordData.#ctor(System.String,System.String,System.DateTime,System.Int16,System.Decimal,System.Char)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordData"/> class.
+            </summary>
+            <param name="firstName">User firstName.</param>
+            <param name="lastName">User lastName.</param>
+            <param name="dateOfBirth">User's date of birth.</param>
+            <param name="experience">User's expirience.</param>
+            <param name="balance">User's balance.</param>
+            <param name="englishLevel">User's nationality.</param>
         </member>
     </members>
 </doc>
