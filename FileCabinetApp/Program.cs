@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
+using FileCabinetApp.CommandArgHandlers;
 using FileCabinetApp.CommandHandlers;
 using FileCabinetApp.CommandHandlers.ConcreteServiceHandlers;
 using FileCabinetApp.Printers;
@@ -21,14 +22,6 @@ namespace FileCabinetApp
         private static IRecordValidator validator;
         private static bool isRunning = true;
 
-        private static string[] comandLineParameters = new string[]
-        {
-            "--validation-rules",
-            "-v",
-            "--storage",
-            "-s",
-        };
-
         /// <summary>
         /// Start point for application.
         /// </summary>
@@ -36,7 +29,11 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
-            CommandAgrsHandler(args);
+            var collection = Handler.GetCurrentComandPairs(args);
+            foreach (var item in collection)
+            {
+                Console.WriteLine(item);
+            }
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -63,7 +60,7 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
-        private static void CommandAgrsHandler(string[] args)
+        /*private static void CommandAgrsHandler(string[] args)
         {
             string rule;
             int commandIndex = ParseRule(args, out rule);
@@ -139,7 +136,7 @@ namespace FileCabinetApp
 
             return index;
         }
-
+        */
         public static ICommandHandler CreateCommandHandlers()
         {
             static void Runner(bool x) => isRunning = x;
