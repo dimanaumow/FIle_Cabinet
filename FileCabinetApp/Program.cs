@@ -19,7 +19,6 @@ namespace FileCabinetApp
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static IFileCabinetService fileCabinetService;
         private static IRecordValidator validator;
-        private static bool isDefaultRule;
         private static bool isRunning = true;
 
         private static string[] comandLineParameters = new string[]
@@ -71,21 +70,16 @@ namespace FileCabinetApp
             switch (rule)
             {
                 case "DEFAULT":
-                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
-                    isDefaultRule = true;
-                    validator = new ValidatorBuilder().CreateDefault();
+                    validator = new ValidatorBuilder().Create();
                     break;
                 case "CUSTOM":
-                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                     Console.WriteLine("Using custom validation rules.");
-                    validator = new ValidatorBuilder().CreateCustom();
+                    validator = new ValidatorBuilder().Create("custom");
                     break;
                 default:
-                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine("Using default validation rules.");
-                    isDefaultRule = true;
-                    validator = new ValidatorBuilder().CreateDefault();
+                    validator = new ValidatorBuilder().Create();
                     break;
             }
 
@@ -100,7 +94,7 @@ namespace FileCabinetApp
                     case "FILE":
                         string fullPath = "cabinet-records.db";
                         FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        fileCabinetService = new FileCabinetFilesystemService(fileStream);
+                        fileCabinetService = new FileCabinetFilesystemService(validator, fileStream);
                         Console.WriteLine("Use file service");
                         break;
                 }

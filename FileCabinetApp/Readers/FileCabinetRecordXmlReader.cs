@@ -48,9 +48,9 @@ namespace FileCabinetApp.Service
                 FirstName = record.FirstName,
                 LastName = record.LastName,
                 DateOfBirth = record.dateOfBirth,
-                Experience = record.Epirience,
+                Experience = record.Eperience,
                 Balance = record.Balance,
-                EnglishLevel = record.Nationality,
+                EnglishLevel = record.EnglishLevel,
             };
 
         public void Dispose()

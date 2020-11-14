@@ -30,11 +30,6 @@ namespace FileCabinetApp.Service
         private Dictionary<int, bool> records;
         private Dictionary<int, int> idPositions;
 
-        public FileCabinetFilesystemService(FileStream fileStream)
-            : this(new DefaultValidator(), fileStream)
-        {
-        }
-
         public FileCabinetFilesystemService(IRecordValidator validator, FileStream fileStream)
         {
             if (validator is null)

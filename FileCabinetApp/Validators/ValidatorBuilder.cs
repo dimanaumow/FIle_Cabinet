@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.Validators
 {
@@ -41,9 +40,9 @@ namespace FileCabinetApp.Validators
             return this;
         }
 
-        public ValidatorBuilder ValidateEnglishLevel()
+        public ValidatorBuilder ValidateEnglishLevel(string levels)
         {
-            this.validators.Add(new EnglishLevelValidator());
+            this.validators.Add(new EnglishLevelValidator(levels));
             return this;
         }
     }

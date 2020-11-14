@@ -20,7 +20,7 @@
 			"min": 0
 		},
 		"englishLevel": {
-			"levels": [ "a", "b", "c" ]  
+			"levels": "abc"  
 		}
 	"custom": {
 		"firstName": {
@@ -43,7 +43,7 @@
 			"min": 0
 		},
 		"englishLevel": {
-			"levels": [ "a", "b", "c" ]
+			"levels": "abc"
 		}
 	}
 }
