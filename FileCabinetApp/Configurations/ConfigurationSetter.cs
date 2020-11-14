@@ -7,7 +7,7 @@ namespace FileCabinetApp.Configurations
 {
     public class ConfigurationSetter
     {
-        private const string settersPath = @"validation-rules.json";
+        private const string settersPath = @"d:\AutocodeEPAM\FileCabinet\validation-rules.json";
         private readonly IConfiguration configuration;
         private readonly string validationRule;
         private readonly JsonValidationParameters validationParameters;

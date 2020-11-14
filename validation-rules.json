@@ -1,49 +1,50 @@
 {
-	"default": {
-		"firstName": {
-			"min": 2,
-			"max": 60
-		},
-		"lastName": {
-			"min": 2,
-			"max": 60
-		},
-		"dateOfBirth": {
-			"from": "1/1/1950",
-			"to": "10/8/2019"
-		},
-		"experience": {
-			"min": 0,
-			"max": 15
-		},
-		"balance": {
-			"min": 0
-		},
-		"englishLevel": {
-			"levels": "abc"  
-		}
-	"custom": {
-		"firstName": {
-			"min": 4,
-			"max": 65
-		},
-		"lastName": {
-			"min": 4,
-			"max": 65
-		},
-		"dateOfBirth": {
-			"from": "1/1/1980",
-			"to": "10/8/2019"
-		},
-		"experience": {
-			"min": 0,
-			"max": 15
-		},
-		"balance": {
-			"min": 0
-		},
-		"englishLevel": {
-			"levels": "abc"
-		}
-	}
+  "custom": {
+    "dateOfBirth": {
+      "from": "1/1/1900",
+      "to": "1/5/2020"
+    },
+    "firstName": {
+      "min": 2,
+      "max": 50
+    },
+    "lastName": {
+      "min": 2,
+      "max": 50
+    },
+    "experience": {
+      "min": 0,
+      "max": 10
+    },
+    "balance": {
+      "min": 0
+    },
+    "englishLevel": {
+      "levels": "abc"
+    }
+  },
+  "default": {
+    "firstName": {
+      "min": 2,
+      "max": 60
+    },
+    "lastName": {
+      "min": 2,
+      "max": 60
+    },
+    "dateOfBirth": {
+      "from": "1/1/1900",
+      "to": "1/5/2020"
+    },
+    "experience": {
+      "min": 0,
+      "max": 10
+    },
+    "balance": {
+      "min": 0
+    },
+    "englishLevel": {
+      "levels": "abc"
+    }
+  }
 }

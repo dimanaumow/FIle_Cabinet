@@ -1,0 +1,4 @@
+14.11.2020 21:32:20 - Calling CreateRecord() with FirstName = 'Dima', LastName = 'Naumov', DateOfBirth = '07.05.2000 0:00:00', Experience = '1', Balance = '1', EnglishLevel = 'a'.
+14.11.2020 21:32:20 - CreateRecord return 1
+14.11.2020 21:32:22 - Calling GetRecords() with 
+14.11.2020 21:32:22 - GetRecords return System.Collections.ObjectModel.ReadOnlyCollection`1[FileCabinetApp.Service.FileCabinetRecord]

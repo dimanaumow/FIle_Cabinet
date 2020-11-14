@@ -19,7 +19,6 @@ namespace FileCabinetApp
         private const string DeveloperName = "Dzmitry Naumov";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static IFileCabinetService fileCabinetService;
-        private static IRecordValidator validator;
         private static bool isRunning = true;
 
         /// <summary>
@@ -29,11 +28,9 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
-            var collection = Handler.GetCurrentComandPairs(args);
-            foreach (var item in collection)
-            {
-                Console.WriteLine(item);
-            }
+            var handler = new Handler();
+            handler.Handle(args);
+            fileCabinetService = handler.GetService();
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -60,83 +57,6 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
-        /*private static void CommandAgrsHandler(string[] args)
-        {
-            string rule;
-            int commandIndex = ParseRule(args, out rule);
-            switch (rule)
-            {
-                case "DEFAULT":
-                    Console.WriteLine("Using default validation rules.");
-                    validator = new ValidatorBuilder().Create();
-                    break;
-                case "CUSTOM":
-                    Console.WriteLine("Using custom validation rules.");
-                    validator = new ValidatorBuilder().Create("custom");
-                    break;
-                default:
-                    Console.WriteLine("Using default validation rules.");
-                    validator = new ValidatorBuilder().Create();
-                    break;
-            }
-
-            if (commandIndex >= 3)
-            {
-                switch (rule)
-                {
-                    case "MEMORY":
-                        fileCabinetService = new FileCabinetMemoryService(validator);
-                        Console.WriteLine("Use memory service");
-                        break;
-                    case "FILE":
-                        string fullPath = "cabinet-records.db";
-                        FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        fileCabinetService = new FileCabinetFilesystemService(validator, fileStream);
-                        Console.WriteLine("Use file service");
-                        break;
-                }
-            }
-        }
-
-        private static int ParseRule(string[] args, out string rule)
-        {
-            if (args.Length == 0)
-            {
-                rule = string.Empty;
-                return -1;
-            }
-
-            int index = -1;
-
-            var parseText = args[0].Split(' ');
-            if (parseText[0] == comandLineParameters[0])
-            {
-                rule = parseText[parseText.Length - 1].ToUpper();
-                index = 0;
-            }
-            else if (parseText[0] == comandLineParameters[1])
-            {
-                rule = args[1].ToUpper();
-                index = 1;
-            }
-            else if (parseText[0] == comandLineParameters[2])
-            {
-                rule = parseText[parseText.Length - 1].ToUpper();
-                index = 3;
-            }
-            else if (parseText[0] == comandLineParameters[3])
-            {
-                rule = args[1].ToUpper();
-                index = 4;
-            }
-            else
-            {
-                rule = string.Empty;
-            }
-
-            return index;
-        }
-        */
         public static ICommandHandler CreateCommandHandlers()
         {
             static void Runner(bool x) => isRunning = x;
