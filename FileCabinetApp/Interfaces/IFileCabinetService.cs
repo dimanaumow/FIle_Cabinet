@@ -59,7 +59,7 @@ namespace FileCabinetApp.Service
         /// Give the count of records.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public (int real, int removed) GetStat();
+        public (int active, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

@@ -87,7 +87,7 @@ namespace FileCabinetApp.Information
             return collection;
         }
 
-        public (int real, int removed) GetStat()
+        public (int active, int removed) GetStat()
         {
             var stat = this.service.GetStat();
             this.WriteLogInFile(nameof(this.service.GetStat), string.Empty);
