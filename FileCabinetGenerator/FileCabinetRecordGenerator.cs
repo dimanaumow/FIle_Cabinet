@@ -49,5 +49,13 @@ namespace FileCabinetGenerator
         {
             return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
         }
+
+        private char GenerateEnglishLevel()
+        {
+            string levels = "abc";
+            var random = new Random();
+
+            return levels[random.Next(0, 2)];
+        }
     }
 }
