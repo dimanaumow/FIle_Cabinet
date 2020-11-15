@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Linq;
 
 namespace FileCabinetApp.Service
 {
@@ -148,15 +148,20 @@ namespace FileCabinetApp.Service
         /// </summary>
         /// <param name="firstName">User firstName.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(this.firstNameDictionary[firstName.ToUpper()]);
+                var collection = this.firstNameDictionary[firstName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
             }
             else
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(new List<FileCabinetRecord>());
+                yield break;
             }
         }
 
@@ -165,15 +170,20 @@ namespace FileCabinetApp.Service
         /// </summary>
         /// <param name="lastName">User lastNeme.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(this.lastNameDictionary[lastName.ToUpper()]);
+                var collection = this.lastNameDictionary[lastName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
             }
             else
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(new List<FileCabinetRecord>());
+                yield break;
             }
         }
 
@@ -182,7 +192,7 @@ namespace FileCabinetApp.Service
         /// </summary>
         /// <param name="dateOfBirth">The user's date of birth.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
             int month = int.Parse(dateOfBirth.Substring(0, 2));
             int day = int.Parse(dateOfBirth.Substring(3, 2));
@@ -192,11 +202,16 @@ namespace FileCabinetApp.Service
 
             if (this.dateOfBirthDictionary.ContainsKey(key))
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(this.dateOfBirthDictionary[key]);
+                var collection = this.dateOfBirthDictionary[key];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
             }
             else
             {
-                return new ReadOnlyCollection<FileCabinetRecord>(new List<FileCabinetRecord>());
+                yield break;
             }
         }
 
@@ -226,16 +241,19 @@ namespace FileCabinetApp.Service
         /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The array of all records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        public IEnumerable<FileCabinetRecord> GetRecords()
         {
-            return new ReadOnlyCollection<FileCabinetRecord>(this.list);
+            foreach (var item in this.list)
+            {
+                yield return item;
+            }
         }
 
         /// <summary>
         /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public (int real, int removed) GetStat()
+        public (int active, int removed) GetStat()
         {
             return (this.list.Count, 0);
         }

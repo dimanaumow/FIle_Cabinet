@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace FileCabinetApp.Service
@@ -29,21 +30,21 @@ namespace FileCabinetApp.Service
         /// </summary>
         /// <param name="firstName">User firstName.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName);
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
 
         /// <summary>
         /// Find all records with given lastName.
         /// </summary>
         /// <param name="lastName">User lastNeme.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName);
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
 
         /// <summary>
         /// Find all records with given date of birth.
         /// </summary>
         /// <param name="dateOfBirth">The user's date of birth.</param>
         /// <returns>The array of finded records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
 
         public bool Remove(int id);
 
@@ -53,13 +54,13 @@ namespace FileCabinetApp.Service
         /// Give all records.
         /// </summary>
         /// <returns>The array of all records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords();
+        public IEnumerable<FileCabinetRecord> GetRecords();
 
         /// <summary>
         /// Give the count of records.
         /// </summary>
         /// <returns>The count of records.</returns>
-        public (int real, int removed) GetStat();
+        public (int active, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

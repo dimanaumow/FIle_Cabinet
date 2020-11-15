@@ -34,7 +34,7 @@ namespace FileCabinetApp.CommandHandlers
         private void Edit(string parameters)
         {
             var id = int.Parse(parameters);
-            if (id > this.fileCabinetService.GetStat().real)
+            if (id > this.fileCabinetService.GetStat().active)
             {
                 Console.WriteLine($"#{id} records is not found.");
             }
