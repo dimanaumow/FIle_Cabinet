@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Diagnostics;
 using FileCabinetApp.Service;
 
@@ -38,7 +38,7 @@ namespace FileCabinetApp.Information
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
             var collection = this.service.FindByFirstName(firstName);
@@ -47,7 +47,7 @@ namespace FileCabinetApp.Information
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             this.stopwatch.Restart();
             var collection = this.service.FindByLastName(lastName);
@@ -56,7 +56,7 @@ namespace FileCabinetApp.Information
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
             this.stopwatch.Restart();
             var collection = this.service.FindByDateOfBirth(dateOfBirth);
@@ -82,7 +82,7 @@ namespace FileCabinetApp.Information
             this.Information(nameof(this.service.Purge), this.stopwatch.ElapsedTicks);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        public IEnumerable<FileCabinetRecord> GetRecords()
         {
             this.stopwatch.Restart();
             var collection = this.service.GetRecords();

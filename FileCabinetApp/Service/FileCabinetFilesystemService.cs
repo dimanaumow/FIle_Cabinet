@@ -1,10 +1,9 @@
-﻿using FileCabinetApp.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace FileCabinetApp.Service
@@ -86,42 +85,35 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.activeRecocrds[id], parameters, id);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var records = this.GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
 
             foreach (var record in records)
             {
                 if (string.Equals(record.FirstName, firstName, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            var records = GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
+            var records = this.GetRecordsCollection();
 
             foreach (var record in records)
             {
                 if (string.Equals(record.LastName, lastName, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
-            var records = GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
+            var records = this.GetRecordsCollection();
 
             int month = int.Parse(dateOfBirth.Substring(0, 2));
             int day = int.Parse(dateOfBirth.Substring(3, 2));
@@ -133,11 +125,9 @@ namespace FileCabinetApp.Service
             {
                 if (record.DateOfBirth == key)
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         public bool Remove(int id)
@@ -185,9 +175,13 @@ namespace FileCabinetApp.Service
             this.removedRecords.Clear();
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
-            =>
-            new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
+        public IEnumerable<FileCabinetRecord> GetRecords()
+        {
+            foreach (var record in this.GetRecordsCollection())
+            {
+                yield return record;
+            }
+        }
 
         public (int active, int removed) GetStat()
             => (this.activeRecocrds.Count, this.removedRecords.Count);
