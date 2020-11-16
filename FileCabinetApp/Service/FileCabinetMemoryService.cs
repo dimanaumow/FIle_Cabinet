@@ -10,6 +10,13 @@ namespace FileCabinetApp.Service
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
+        public const string FirstName = "firstName";
+        public const string LastName = "lastName";
+        public const string DateOfBirth = "dateOfBirth";
+        public const string Expirience = "expirience";
+        public const string Balance = "balance";
+        public const string EnglishLevel = "englishLevel";
+
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -143,6 +150,38 @@ namespace FileCabinetApp.Service
             }
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByFirstName(value);
+            }
+            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByLastName(value);
+            }
+            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByDateOfBirth(value);
+            }
+            else if (string.Equals(propertyName, Expirience, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByExpirience(value);
+            }
+            else if (string.Equals(propertyName, Balance, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByBalance(value);
+            }
+            else if (string.Equals(propertyName, EnglishLevel, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByEnglishLevel(value);
+            }
+            else
+            {
+                throw new ArgumentException($"This property {propertyName} is not exist.");
+            }
+        }
+
         /// <summary>
         /// Implements IFileCabinetRecord interface.
         /// </summary>
@@ -212,6 +251,43 @@ namespace FileCabinetApp.Service
             else
             {
                 yield break;
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
+        {
+            short exp= short.Parse(expirience);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
+        {
+            decimal bal = decimal.Parse(balance);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Balance == bal)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.EnglishLevel == englishLevel[0])
+                {
+                    yield return record;
+                }
             }
         }
 

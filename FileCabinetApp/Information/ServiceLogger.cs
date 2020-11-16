@@ -40,6 +40,14 @@ namespace FileCabinetApp.Information
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoRecordData(parameters));
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            var collection = this.service.FindBy(propertyName, value);
+            WriteLogInFile(nameof(this.service.FindBy), value);
+            WriteLogReturnInFile(nameof(this.service.FindBy), collection.ToString());
+            return collection;
+        }
+
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var collection = this.service.FindByFirstName(firstName);
@@ -61,6 +69,30 @@ namespace FileCabinetApp.Information
             var collection = this.service.FindByDateOfBirth(dateOfBirth);
             this.WriteLogInFile(nameof(this.service.FindByDateOfBirth), dateOfBirth);
             this.WriteLogReturnInFile(nameof(this.service.FindByDateOfBirth), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
+        {
+            var collection = this.service.FindByExpirience(expirience);
+            WriteLogInFile(nameof(this.service.FindByExpirience), expirience);
+            WriteLogReturnInFile(nameof(this.service.FindByExpirience), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
+        {
+            var collection = this.service.FindByBalance(balance);
+            WriteLogInFile(nameof(this.service.FindByBalance), balance);
+            WriteLogReturnInFile(nameof(this.service.FindByBalance), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
+        {
+            var collection = this.service.FindByEnglishLevel(englishLevel);
+            WriteLogInFile(nameof(this.service.FindByEnglishLevel), englishLevel);
+            WriteLogReturnInFile(nameof(this.service.FindByEnglishLevel), collection.ToString());
             return collection;
         }
 
