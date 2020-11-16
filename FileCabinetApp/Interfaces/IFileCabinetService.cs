@@ -25,6 +25,8 @@ namespace FileCabinetApp.Service
         /// <param name="parameters">Parameters of record.</param>
         public void EditRecord(int id, RecordData parameters);
 
+        public IEnumerable<FileCabinetRecord> FindBy(string properyName, string value);
+
         /// <summary>
         /// Find all records with given firstName.
         /// </summary>
@@ -45,6 +47,12 @@ namespace FileCabinetApp.Service
         /// <param name="dateOfBirth">The user's date of birth.</param>
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
+
+        public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience);
+
+        public IEnumerable<FileCabinetRecord> FindByBalance(string balance);
+
+        public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel);
 
         public bool Remove(int id);
 

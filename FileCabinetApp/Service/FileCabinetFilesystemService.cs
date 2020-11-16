@@ -10,6 +10,13 @@ namespace FileCabinetApp.Service
 {
     public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
+        public const string FirstName = "firstName";
+        public const string LastName = "lastName";
+        public const string DateOfBirth = "dateOfBirth";
+        public const string Expirience = "expirience";
+        public const string Balance = "balance";
+        public const string EnglishLevel = "englishLevel";
+
         public const int LengtOfString = 120;
         public const int RecordSize = 518;
 
@@ -85,6 +92,86 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.activeRecocrds[id], parameters, id);
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
+            {
+                var records = this.GetRecordsCollection();
+
+                foreach (var record in records)
+                {
+                    if (string.Equals(record.FirstName, value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return record;
+                    }
+                }
+            }
+            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                var records = this.GetRecordsCollection();
+
+                foreach (var record in records)
+                {
+                    if (string.Equals(record.LastName, value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return record;
+                    }
+                }
+            }
+            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
+            {
+                var records = this.GetRecordsCollection();
+
+                int month = int.Parse(value.Substring(0, 2));
+                int day = int.Parse(value.Substring(3, 2));
+                int year = int.Parse(value.Substring(6, 4));
+
+                var key = new DateTime(year, month, day);
+
+                foreach (var record in records)
+                {
+                    if (record.DateOfBirth == key)
+                    {
+                        yield return record;
+                    }
+                }
+            }
+            else if (string.Equals(propertyName, Expirience, StringComparison.OrdinalIgnoreCase))
+            {
+                short exp = short.Parse(value);
+
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.Experience == exp)
+                    {
+                        yield return record;
+                    }
+                }
+            }
+            else if (string.Equals(propertyName, Balance, StringComparison.OrdinalIgnoreCase))
+            {
+                decimal bal = decimal.Parse(value);
+
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.Balance == bal)
+                    {
+                        yield return record;
+                    }
+                }
+            }
+            else if (string.Equals(propertyName, EnglishLevel, StringComparison.OrdinalIgnoreCase))
+            {
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.EnglishLevel == value[0])
+                    {
+                        yield return record;
+                    }
+                }
+            }
+        }
+
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var records = this.GetRecordsCollection();
@@ -124,6 +211,43 @@ namespace FileCabinetApp.Service
             foreach (var record in records)
             {
                 if (record.DateOfBirth == key)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
+        {
+            short exp = short.Parse(expirience);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
+        {
+            decimal bal = decimal.Parse(balance);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Balance == bal)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.EnglishLevel == englishLevel[0])
                 {
                     yield return record;
                 }

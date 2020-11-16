@@ -38,6 +38,15 @@ namespace FileCabinetApp.Information
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindBy(propertyName, value);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindBy), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
@@ -62,6 +71,33 @@ namespace FileCabinetApp.Information
             var collection = this.service.FindByDateOfBirth(dateOfBirth);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.FindByDateOfBirth), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByExpirience(expirience);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByExpirience), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByBalance(balance);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByBalance), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByEnglishLevel(englishLevel);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByEnglishLevel), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
