@@ -75,8 +75,10 @@ namespace FileCabinetApp
             var editHandler = new EditCommandHandler(fileCabinetService);
             var insertHandler = new InsertCommandHandler(fileCabinetService);
             var deleteHandler = new DeleteComandHandler(fileCabinetService);
+            var updateHandler = new UpdateCommandHandler(fileCabinetService);
 
-            createHandler.SetNext(deleteHandler);
+            createHandler.SetNext(updateHandler);
+            updateHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(insertHandler);
             insertHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);

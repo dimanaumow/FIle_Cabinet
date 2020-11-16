@@ -22,6 +22,7 @@ namespace FileCabinetApp.CommandHandlers
             else
             {
                 Console.WriteLine($"There is no '{commandRequest.Commands}' command.");
+                CommandPromt.CommandPromtHandler.GetTheMostSimular(commandRequest.Commands);
                 Console.WriteLine();
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Service;
@@ -37,6 +37,14 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
         private void Delete(string parameters)
         {
             var (property, value) = this.Parse(parameters);
+
+            if (string.Equals(property, "id", StringComparison.OrdinalIgnoreCase))
+            {
+                int id = int.Parse(value, CultureInfo.InvariantCulture);
+                this.fileCabinetService.Remove(id);
+
+                Console.WriteLine($"Record #{id} are deleted.");
+            }
 
             var deletedRecords = this.fileCabinetService.FindBy(property, value);
             var sb = new StringBuilder();

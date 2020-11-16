@@ -96,31 +96,79 @@ namespace FileCabinetApp.Service
         {
             if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
             {
-                return this.FindByFirstName(value);
+                var records = this.GetRecordsCollection();
+
+                foreach (var record in records)
+                {
+                    if (string.Equals(record.FirstName, value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return record;
+                    }
+                }
             }
             else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
             {
-                return this.FindByLastName(value);
+                var records = this.GetRecordsCollection();
+
+                foreach (var record in records)
+                {
+                    if (string.Equals(record.LastName, value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return record;
+                    }
+                }
             }
             else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
             {
-                return this.FindByDateOfBirth(value);
+                var records = this.GetRecordsCollection();
+
+                int month = int.Parse(value.Substring(0, 2));
+                int day = int.Parse(value.Substring(3, 2));
+                int year = int.Parse(value.Substring(6, 4));
+
+                var key = new DateTime(year, month, day);
+
+                foreach (var record in records)
+                {
+                    if (record.DateOfBirth == key)
+                    {
+                        yield return record;
+                    }
+                }
             }
             else if (string.Equals(propertyName, Expirience, StringComparison.OrdinalIgnoreCase))
             {
-                return FindByExpirience(value);
+                short exp = short.Parse(value);
+
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.Experience == exp)
+                    {
+                        yield return record;
+                    }
+                }
             }
             else if (string.Equals(propertyName, Balance, StringComparison.OrdinalIgnoreCase))
             {
-                return FindByBalance(value);
+                decimal bal = decimal.Parse(value);
+
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.Balance == bal)
+                    {
+                        yield return record;
+                    }
+                }
             }
             else if (string.Equals(propertyName, EnglishLevel, StringComparison.OrdinalIgnoreCase))
             {
-                return FindByEnglishLevel(value);
-            }
-            else
-            {
-                throw new ArgumentException($"This property {propertyName} is not exist.");
+                foreach (var record in this.GetRecords())
+                {
+                    if (record.EnglishLevel == value[0])
+                    {
+                        yield return record;
+                    }
+                }
             }
         }
 
