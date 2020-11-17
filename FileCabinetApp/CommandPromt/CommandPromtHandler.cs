@@ -6,7 +6,7 @@ namespace FileCabinetApp.CommandPromt
 {
     public static class CommandPromtHandler
     {
-        private const int SubtokenLength = 3;
+        private const int SubtokenLength = 2;
         private const double ThresholdWord = 0.5d;
 
         private const string are = "are";
@@ -84,5 +84,9 @@ namespace FileCabinetApp.CommandPromt
 
             return ThresholdWord <= tanimoto;
         }
+
+        //две первые буквы совпадают
+        //длина одинаковая и совпадают три буквы на одинаковых позициях
+
     }
 }
