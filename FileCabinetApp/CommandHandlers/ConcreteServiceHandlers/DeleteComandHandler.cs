@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
+using FileCabinetApp.Memoization;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
@@ -56,6 +57,7 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             }
 
             Console.WriteLine($"Records {sb} are deleted.");
+            CashedData.ClearCashe();
         }
 
         private (string property, string value) Parse(string parameters)

@@ -28,10 +28,6 @@ namespace FileCabinetApp.Printers
                 throw new ArgumentNullException($"{nameof(property)} cannot be null.");
             }
 
-            //StringBuilder message = new StringBuilder(200);
-
-            //List<string> propNames = typeof(FileCabinetRecord).GetProperties().Select(x => x.Name).ToList();
-
             this.maxCeilLengths = this.GetMaxCeilLengths(records);
 
             this.PrintBorder(property);
@@ -104,7 +100,15 @@ namespace FileCabinetApp.Printers
             {
                 if (properties.FindIndex(x => x.Equals(prop.Name, StringComparison.OrdinalIgnoreCase)) != -1)
                 {
-                    string value = string.Format(CultureInfo.InvariantCulture, GetFormat(prop.PropertyType), prop.GetValue(record));
+                    string value;
+                    if (prop.GetType() != typeof(DateTime))
+                    {
+                        value = string.Format(CultureInfo.InvariantCulture, "{0:0}", prop.GetValue(record));
+                    }
+                    else
+                    {
+                        value = string.Format(CultureInfo.InvariantCulture, "{yyyy-MM-dd}", prop.GetValue(record));
+                    }
 
                     if (prop.PropertyType.IsValueType)
                     {
@@ -119,8 +123,6 @@ namespace FileCabinetApp.Printers
 
             sb.Append($"{VerticalBorder}");
             Console.WriteLine(sb);
-
-            static string GetFormat(Type type) => type.Equals(typeof(DateTime)) ? "{0:yyyy-MMM-dd}" : "{0:0}";
         }
 
         private Dictionary<string, int> GetMaxCeilLengths(IEnumerable<FileCabinetRecord> records)
