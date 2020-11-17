@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FileCabinetApp.Memoization;
 
 namespace FileCabinetApp.Service
 {
@@ -189,19 +190,13 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
+            if (CashedData.firstNameCashe.ContainsKey(firstName))
             {
-                var collection = this.firstNameDictionary[firstName.ToUpper()];
+                return CashedData.firstNameCashe[firstName];
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
-            {
-                yield break;
-            }
+            CashedData.firstNameCashe.Add(firstName, this.FindFirstName(firstName));
+            return this.FindFirstName(firstName);
         }
 
         /// <summary>
@@ -211,19 +206,13 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            if (CashedData.lastNameCashe.ContainsKey(lastName))
             {
-                var collection = this.lastNameDictionary[lastName.ToUpper()];
+                return CashedData.firstNameCashe[lastName];
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
-            {
-                yield break;
-            }
+            CashedData.lastNameCashe.Add(lastName, this.FindLastName(lastName));
+            return this.FindLastName(lastName);
         }
 
         /// <summary>
@@ -233,62 +222,46 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
-            int month = int.Parse(dateOfBirth.Substring(0, 2));
-            int day = int.Parse(dateOfBirth.Substring(3, 2));
-            int year = int.Parse(dateOfBirth.Substring(6, 4));
-
-            var key = new DateTime(year, month, day);
-
-            if (this.dateOfBirthDictionary.ContainsKey(key))
+            if (CashedData.dateOfBirtCashe.ContainsKey(dateOfBirth))
             {
-                var collection = this.dateOfBirthDictionary[key];
+                return CashedData.dateOfBirtCashe[dateOfBirth];
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
-            {
-                yield break;
-            }
+            CashedData.dateOfBirtCashe.Add(dateOfBirth, this.FindDateOfBirth(dateOfBirth));
+            return this.FindDateOfBirth(dateOfBirth);
         }
 
         public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
         {
-            short exp= short.Parse(expirience);
-
-            foreach (var record in this.GetRecords())
+            if (CashedData.experienceCashe.ContainsKey(expirience))
             {
-                if (record.Experience == exp)
-                {
-                    yield return record;
-                }
+                return CashedData.experienceCashe[expirience];
             }
+
+            CashedData.experienceCashe.Add(expirience, this.FindExpirience(expirience));
+            return this.FindExpirience(expirience);
         }
 
         public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
         {
-            decimal bal = decimal.Parse(balance);
-
-            foreach (var record in this.GetRecords())
+            if (CashedData.balanceCashe.ContainsKey(balance))
             {
-                if (record.Balance == bal)
-                {
-                    yield return record;
-                }
+                return CashedData.balanceCashe[balance];
             }
+
+            CashedData.balanceCashe.Add(balance, this.FindBalance(balance));
+            return this.FindBalance(balance);
         }
 
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
         {
-            foreach (var record in this.GetRecords())
+            if (CashedData.englishLevelCashe.ContainsKey(englishLevel))
             {
-                if (record.EnglishLevel == englishLevel[0])
-                {
-                    yield return record;
-                }
+                return CashedData.englishLevelCashe[englishLevel];
             }
+
+            CashedData.englishLevelCashe.Add(englishLevel, this.FindEnglishLevel(englishLevel));
+            return this.FindEnglishLevel(englishLevel);
         }
 
         public bool Remove(int id)
@@ -418,6 +391,100 @@ namespace FileCabinetApp.Service
 
         public void Purge()
         {
+        }
+
+        private IEnumerable<FileCabinetRecord> FindFirstName(string firstName)
+        {
+            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
+            {
+                var collection = this.firstNameDictionary[firstName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindLastName(string lastName)
+        {
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            {
+                var collection = this.lastNameDictionary[lastName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindDateOfBirth(string dateOfBirth)
+        {
+            int month = int.Parse(dateOfBirth.Substring(0, 2));
+            int day = int.Parse(dateOfBirth.Substring(3, 2));
+            int year = int.Parse(dateOfBirth.Substring(6, 4));
+
+            var key = new DateTime(year, month, day);
+
+            if (this.dateOfBirthDictionary.ContainsKey(key))
+            {
+                var collection = this.dateOfBirthDictionary[key];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindExpirience(string expirience)
+        {
+            short exp = short.Parse(expirience);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindBalance(string balance)
+        {
+            decimal bal = decimal.Parse(balance);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Balance == bal)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindEnglishLevel(string englishLevel)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.EnglishLevel == englishLevel[0])
+                {
+                    yield return record;
+                }
+            }
         }
     }
 }

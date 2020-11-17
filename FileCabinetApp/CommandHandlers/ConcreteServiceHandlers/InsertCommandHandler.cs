@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
+using FileCabinetApp.Memoization;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
@@ -70,6 +71,7 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             };
 
             this.fileCabinetService.CreateRecord(data);
+            CashedData.ClearCashe();
         }
 
         private (string[] properties, string[] values) Parse(string parameters)

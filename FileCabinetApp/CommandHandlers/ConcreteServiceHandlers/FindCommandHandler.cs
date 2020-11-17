@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
+using FileCabinetApp.Printers;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers
@@ -9,6 +10,11 @@ namespace FileCabinetApp.CommandHandlers
     {
         public const string FindConstant = "find";
         private readonly Action<IEnumerable<FileCabinetRecord>> printer;
+
+        public FindCommandHandler(IFileCabinetService fileCabinetService)
+            : this(fileCabinetService, new SimplePrinter().Print)
+        {
+        }
 
         public FindCommandHandler(IFileCabinetService fileCabinetService, Action<IEnumerable<FileCabinetRecord>> printer)
             : base(fileCabinetService)

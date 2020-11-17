@@ -61,13 +61,12 @@ namespace FileCabinetApp
         {
             static void Runner(bool x) => isRunning = x;
 
-            var printer = new SimplePrinter();
             var createHandler = new CreateCommandHandler(fileCabinetService);
             var exitHandler = new ExitCommandHandler(Runner);
             var exportHandler = new ExportCommandHandler(fileCabinetService);
-            var findHandler = new FindCommandHandler(fileCabinetService, printer.Print);
+            var findHandler = new FindCommandHandler(fileCabinetService);
             var importHandler = new ImportCommandHandler(fileCabinetService);
-            var listHandler = new ListCommandHandler(fileCabinetService, printer.Print);
+            var listHandler = new ListCommandHandler(fileCabinetService);
             var helpHandler = new HelpCommandHandler();
             var purgeHandler = new PurgeCommandHandler(fileCabinetService);
             var statHandler = new StatCommandHandler(fileCabinetService);
@@ -76,8 +75,10 @@ namespace FileCabinetApp
             var insertHandler = new InsertCommandHandler(fileCabinetService);
             var deleteHandler = new DeleteComandHandler(fileCabinetService);
             var updateHandler = new UpdateCommandHandler(fileCabinetService);
+            var selectHandler = new SelectCommandHandler(fileCabinetService);
 
-            createHandler.SetNext(updateHandler);
+            createHandler.SetNext(selectHandler);
+            selectHandler.SetNext(updateHandler);
             updateHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(insertHandler);
             insertHandler.SetNext(exitHandler);
