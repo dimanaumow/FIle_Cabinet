@@ -1,39 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace FileCabinetApp.Service
 {
+    /// <summary>
+    /// Xml writer.
+    /// </summary>
     public class FileCabinetRecordXmlWriter
     {
+        private readonly XmlSerializer serializer;
         private readonly XmlWriter writer;
-        private XmlSerializer serializer;
-        private SerializableCollection collection;
-        private FileCabinetRecord[] records;
+        private readonly SerializableRecordsArray records;
 
-        public FileCabinetRecordXmlWriter(XmlWriter writer, FileCabinetRecord[] records)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetRecordXmlWriter"/> class.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
+        /// <param name="records">The serializable records.</param>
+        public FileCabinetRecordXmlWriter(XmlWriter writer, SerializableRecordsArray records)
         {
-            if (writer is null)
-            {
-                throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
-            }
-
-            if (records is null)
-            {
-                throw new ArgumentNullException($"{nameof(records)} cannot be null.");
-            }
-
             this.writer = writer;
-            this.collection = new SerializableCollection();
-            this.serializer = new XmlSerializer(typeof(SerializableCollection));
             this.records = records;
+            this.serializer = new XmlSerializer(typeof(SerializableRecordsArray));
         }
 
+        /// <summary>
+        /// Write record in xml format.
+        /// </summary>
         public void Write()
         {
-            this.serializer.Serialize(writer, records);
+            this.serializer.Serialize(this.writer, this.records);
         }
     }
 }

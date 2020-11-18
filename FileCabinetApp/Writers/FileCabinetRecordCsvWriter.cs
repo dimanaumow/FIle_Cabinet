@@ -6,33 +6,39 @@ using System.Text;
 
 namespace FileCabinetApp.Service
 {
+    /// <summary>
+    /// The csv writer.
+    /// </summary>
     public class FileCabinetRecordCsvWriter
     {
         private TextWriter writer;
-        private FileCabinetRecord[] records;
 
-        public FileCabinetRecordCsvWriter(TextWriter writer, FileCabinetRecord[] records)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetRecordCsvWriter"/> class.
+        /// </summary>
+        /// <param name="writer">The csv writer.</param>
+        public FileCabinetRecordCsvWriter(TextWriter writer)
         {
             if (writer is null)
             {
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            if (records is null)
-            {
-                throw new ArgumentNullException($"{nameof(records)} cannot be null.");
-            }
-
             this.writer = writer;
-            this.records = records;
         }
 
-        public void Write()
+        /// <summary>
+        /// Write records in csv file.
+        /// </summary>
+        /// <param name="record">Record.</param>
+        public void Write(FileCabinetRecord record)
         {
-            foreach (var record in records)
+            if (record is null)
             {
-                writer.Write(record.ToString(), CultureInfo.InvariantCulture);
+                throw new ArgumentNullException($"{nameof(record)} cannot be null.");
             }
+
+            this.writer.WriteLine(record.ToString(), CultureInfo.InvariantCulture);
         }
     }
 }

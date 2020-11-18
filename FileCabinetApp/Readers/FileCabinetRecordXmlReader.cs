@@ -29,8 +29,8 @@ namespace FileCabinetApp.Service
 
             using (var xmlReader = new XmlTextReader(this.streamReader))
             {
-                var serializer = new XmlSerializer(typeof(SerializableCollection));
-                var serializableRecords = (SerializableCollection)serializer.Deserialize(xmlReader);
+                var serializer = new XmlSerializer(typeof(SerializableRecordsArray));
+                var serializableRecords = (SerializableRecordsArray)serializer.Deserialize(xmlReader);
 
                 foreach (var serializableRecord in serializableRecords.SerializeRecords)
                 {
