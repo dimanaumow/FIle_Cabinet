@@ -6,17 +6,29 @@ using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Memoization;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 {
+    /// <summary>
+    /// Update handler.
+    /// </summary>
     public class UpdateCommandHandler : ServiceCommandHandlerBase
     {
-        public const string UpdateConstant = "update";
+        private const string UpdateConstant = "update";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public UpdateCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

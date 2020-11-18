@@ -4,15 +4,26 @@ using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers
 {
+    /// <summary>
+    /// Purge handler.
+    /// </summary>
     public class PurgeCommandHandler : ServiceCommandHandlerBase
     {
-        public const string PurgeConstant = "purge";
+        private const string PurgeConstant = "purge";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PurgeCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public PurgeCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -22,7 +33,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (string.Equals(commandRequest.Commands, PurgeConstant, StringComparison.OrdinalIgnoreCase))
             {
-                this.Purge(commandRequest.Parameters);
+                this.Purge();
             }
             else
             {
@@ -30,7 +41,7 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-        private void Purge(string parameters)
+        private void Purge()
         {
             this.fileCabinetService.Purge();
             Console.WriteLine("Data file processing is completed");

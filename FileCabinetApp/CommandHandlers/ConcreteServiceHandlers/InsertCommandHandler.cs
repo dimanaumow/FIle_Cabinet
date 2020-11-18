@@ -1,23 +1,35 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
+using FileCabinetApp.Generators;
 using FileCabinetApp.Memoization;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 {
+    /// <summary>
+    /// Insert command handler.
+    /// </summary>
     public class InsertCommandHandler : ServiceCommandHandlerBase
     {
-        public const string InsertConstant = "insert";
-        private const string InsertKeyWord = "values";
+        private const string InsertConstant = "insert";
+        private const string Values = "values";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InsertCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public InsertCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -40,13 +52,8 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             var (properties, values) = this.Parse(parameters);
             var recordPropertyInfo = typeof(FileCabinetRecord).GetProperties();
 
-            var record = new FileCabinetRecord()
-            {
-                FirstName = this.GeneRateName(),
-                LastName = this.GeneRateName(),
-                DateOfBirth = this.GenerateDateOfBirth(),
-                EnglishLevel = this.GenerateEnglishLevel(),
-            };
+            var recordGenerator = new RecordGenerator();
+            var record = recordGenerator.Generate(1);
 
             for (int i = 0; i < properties.Length; i++)
             {
@@ -62,8 +69,8 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 
             var data = new RecordData()
             {
-                firstName = record.FirstName, //is null ? this.GeneRateName() : record.FirstName,
-                lastName = record.LastName, //is null ? this.GeneRateName() : record.LastName,
+                firstName = record.FirstName,
+                lastName = record.LastName,
                 dateOfBirth = record.DateOfBirth,
                 experience = record.Experience,
                 balance = record.Balance,
@@ -76,7 +83,7 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 
         private (string[] properties, string[] values) Parse(string parameters)
         {
-            var insertArray = parameters.Split(InsertKeyWord);
+            var insertArray = parameters.Split(Values);
 
             if (insertArray.Length != 2)
             {
@@ -90,37 +97,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             properties = properties.Where(x => x.Length != 0).ToArray();
 
             return (properties, values);
-        }
-
-        private string GeneRateName()
-        {
-            string alphabet = "abcdefghijklmnopqrstuvwxyz";
-            var random = new Random();
-            var sb = new StringBuilder();
-            int countSymbols = random.Next(8, 60);
-
-            for (int i = 0; i < countSymbols - 1; i++)
-            {
-                int position = random.Next(alphabet.Length - 1);
-                sb.Append(i == 0 ? char.ToUpper(alphabet[position]) : alphabet[position]);
-            }
-
-            return sb.ToString();
-        }
-
-        private DateTime GenerateDateOfBirth()
-        {
-            var randomGenerator = new Random();
-            DateTime startDate = new DateTime(1980, 1, 1);
-            return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
-        }
-
-        private char GenerateEnglishLevel()
-        {
-            string levels = "abc";
-            var random = new Random();
-
-            return levels[random.Next(0, 2)];
         }
     }
 }

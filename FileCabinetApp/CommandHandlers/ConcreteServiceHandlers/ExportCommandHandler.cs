@@ -1,19 +1,31 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers
 {
+    /// <summary>
+    /// Export handler.
+    /// </summary>
     public class ExportCommandHandler : ServiceCommandHandlerBase
     {
-        public const string ExportConstant = "export";
+        private const string ExportConstant = "export";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExportCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public ExportCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -35,7 +47,7 @@ namespace FileCabinetApp.CommandHandlers
         {
             var exportComandAttributes = parameters.Split(' ', 2);
 
-            switch (exportComandAttributes[0].ToUpper())
+            switch (exportComandAttributes[0].ToUpper(CultureInfo.InvariantCulture))
             {
                 case "CSV":
                     this.ExportToCsv(exportComandAttributes[1]);

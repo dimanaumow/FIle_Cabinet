@@ -6,21 +6,34 @@ using FileCabinetApp.Comparers;
 using FileCabinetApp.Printers;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 {
+    /// <summary>
+    /// Select command handler.
+    /// </summary>
     public class SelectCommandHandler : ServiceCommandHandlerBase
     {
-        public const string SelectConst = "select";
+        private const string SelectConst = "select";
         private readonly Action<IEnumerable<FileCabinetRecord>, List<string>> printer;
 
         private bool and;
         private bool or;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SelectCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public SelectCommandHandler(IFileCabinetService fileCabinetService)
             : this(fileCabinetService, new TablePrinter().Print)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SelectCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The cureent service.</param>
+        /// <param name="printer">The current printer.</param>
         public SelectCommandHandler(
             IFileCabinetService fileCabinetService,
             Action<IEnumerable<FileCabinetRecord>, List<string>> printer)
@@ -34,6 +47,10 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             this.printer = printer;
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

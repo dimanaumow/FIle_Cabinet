@@ -5,6 +5,7 @@ using FileCabinetApp.Information;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.CommandArgHandlers
 {
     /// <summary>

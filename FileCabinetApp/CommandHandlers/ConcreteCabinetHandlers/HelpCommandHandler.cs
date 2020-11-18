@@ -4,9 +4,12 @@ using System.Text;
 
 namespace FileCabinetApp.CommandHandlers
 {
+    /// <summary>
+    /// Help command handler.
+    /// </summary>
     public class HelpCommandHandler : CommandHandlerBase
     {
-        public const string HelpConstant = "help";
+        private const string HelpConstant = "help";
 
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
@@ -17,19 +20,21 @@ namespace FileCabinetApp.CommandHandlers
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and create new record.", "The 'exit' command receive user input and create new record." },
-            new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
-            new string[] { "edit", "edit record", "The 'edit' comand edit record" },
-            new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
-            new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' comand return a list of records with finded lastName." },
-            new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
-            new string[] { "remove", "remove an record from the service.", "The 'remove' command remove an record from the service." },
             new string[] { "export csv", "export records in csv format.", "The 'export csv' command export all records in csv format." },
             new string[] { "export xml", "export records in xml format.", "The 'export xml' command export all records in xml format." },
             new string[] { "import csv", "import records from csv file.", "The 'import csv' command import all records from csv file." },
             new string[] { "import xml", "import records from xml file.", "The 'import xml' command import all records from xml file." },
+            new string[] { "delete", "deleted the records by given arguments or id.", "The 'delete' command deleted the records by given arguments or id." },
+            new string[] { "insert", "edited the records with given arguments.", "The 'insert' command edited the records with given arguments." },
+            new string[] { "update", "update the selected property for selected records.", "The 'update' command update the selected property for selected records." },
+            new string[] { "select", "console selected records in the table format.", "The 'select' command console selected records in the table format" },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

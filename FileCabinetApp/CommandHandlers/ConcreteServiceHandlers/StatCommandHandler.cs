@@ -4,15 +4,26 @@ using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers
 {
+    /// <summary>
+    /// Stat handler.
+    /// </summary>
     public class StatCommandHandler : ServiceCommandHandlerBase
     {
-        public const string StatConstant = "stat";
+        private const string StatConstant = "stat";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public StatCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -22,7 +33,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (string.Equals(commandRequest.Commands, StatConstant, StringComparison.OrdinalIgnoreCase))
             {
-                this.Stat(commandRequest.Parameters);
+                this.Stat();
             }
             else
             {
@@ -30,7 +41,7 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-        private void Stat(string parameters)
+        private void Stat()
         {
             var recordsCount = this.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount.active} record(s).");
