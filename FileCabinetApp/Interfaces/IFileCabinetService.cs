@@ -25,8 +25,6 @@ namespace FileCabinetApp.Service
         /// <param name="parameters">Parameters of record.</param>
         public void EditRecord(int id, RecordData parameters);
 
-        public IEnumerable<FileCabinetRecord> FindBy(string properyName, string value);
-
         /// <summary>
         /// Find all records with given firstName.
         /// </summary>
