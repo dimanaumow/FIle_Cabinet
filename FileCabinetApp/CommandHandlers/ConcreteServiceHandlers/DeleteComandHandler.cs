@@ -6,18 +6,30 @@ using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Memoization;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 {
+    /// <summary>
+    /// Delete handler.
+    /// </summary>
     public class DeleteComandHandler : ServiceCommandHandlerBase
     {
-        public const string DeleteConstant = "delete";
-        public const string DeleteKeyWord = "where";
+        private const string DeleteConstant = "delete";
+        private const string Where = "where";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteComandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public DeleteComandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -47,7 +59,8 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 Console.WriteLine($"Record #{id} are deleted.");
             }
 
-            var deletedRecords = this.fileCabinetService.FindBy(property, value);
+            var deletedRecords = this.FindRecordForDelete(property, value);
+
             var sb = new StringBuilder();
 
             foreach (var record in deletedRecords)
@@ -62,12 +75,12 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 
         private (string property, string value) Parse(string parameters)
         {
-            if (!parameters.StartsWith(DeleteKeyWord, StringComparison.OrdinalIgnoreCase))
+            if (!parameters.StartsWith(Where, StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException($"{nameof(parameters)} must be start with {nameof(DeleteKeyWord)}");
+                throw new ArgumentException($"{nameof(parameters)} must be start with {nameof(Where)}");
             }
 
-            parameters = parameters.Substring(DeleteKeyWord.Length);
+            parameters = parameters.Substring(Where.Length);
 
             var deleteArray = parameters.Split(" = ");
 
@@ -77,35 +90,34 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             return (property, value);
         }
 
-        private string GeneRateName()
+        private List<FileCabinetRecord> FindRecordForDelete(string property, string value)
         {
-            string alphabet = "abcdefghijklmnopqrstuvwxyz";
-            var random = new Random();
-            var sb = new StringBuilder();
-            int countSymbols = random.Next(8, 60);
-
-            for (int i = 0; i < countSymbols - 1; i++)
+            if (string.Equals(property, "firstName", StringComparison.OrdinalIgnoreCase))
             {
-                int position = random.Next(alphabet.Length - 1);
-                sb.Append(i == 0 ? char.ToUpper(alphabet[position]) : alphabet[position]);
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByFirstName(value));
+            }
+            else if (string.Equals(property, "lastName", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByLastName(value));
+            }
+            else if (string.Equals(property, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByDateOfBirth(value));
+            }
+            else if (string.Equals(property, "experience", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByExpirience(value));
+            }
+            else if (string.Equals(property, "balance", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByBalance(value));
+            }
+            else if (string.Equals(property, "englishLevel", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByEnglishLevel(value));
             }
 
-            return sb.ToString();
-        }
-
-        private DateTime GenerateDateOfBirth()
-        {
-            var randomGenerator = new Random();
-            DateTime startDate = new DateTime(1980, 1, 1);
-            return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
-        }
-
-        private char GenerateEnglishLevel()
-        {
-            string levels = "abc";
-            var random = new Random();
-
-            return levels[random.Next(0, 2)];
+            return new List<FileCabinetRecord>();
         }
     }
 }

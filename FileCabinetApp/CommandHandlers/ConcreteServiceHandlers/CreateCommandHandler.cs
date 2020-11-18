@@ -5,15 +5,26 @@ using FileCabinetApp.Service;
 
 namespace FileCabinetApp.CommandHandlers
 {
+    /// <summary>
+    /// Create command handler.
+    /// </summary>
     public class CreateCommandHandler : ServiceCommandHandlerBase
     {
-        public const string CreateConstant = "create";
+        private const string CreateConstant = "create";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public CreateCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -23,7 +34,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (string.Equals(commandRequest.Commands, CreateConstant, StringComparison.OrdinalIgnoreCase))
             {
-                this.Create(commandRequest.Parameters);
+                this.Create();
             }
             else
             {
@@ -31,7 +42,7 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-        public void Create(string parameters)
+        private void Create()
         {
             Console.Write("First name: ");
             var firstName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.firstNameValidator);
@@ -51,7 +62,7 @@ namespace FileCabinetApp.CommandHandlers
             Console.Write("Balance: ");
             var balance = InputValidator.ReadInput(InputValidator.balanceConverter, InputValidator.balanceValidator);
 
-            var index = this.fileCabinetService.CreateRecord(new RecordData(firstName, lastName, dateOfBirth, experience, balance, englishLevel));
+            var index = this.fileCabinetService.CreateRecord(new RecordData { FirstName = firstName, LastName = lastName, Balance = balance, DateOfBirth = dateOfBirth, EnglishLevel = englishLevel, Experience = experience});
             Console.WriteLine($"Record #{index} is created.");
         }
     }

@@ -1,12 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
+#pragma warning disable
 namespace FileCabinetApp.InputHandlers
 {
+    /// <summary>
+    /// Input handlers.
+    /// </summary>
     public static class InputValidator
     {
+        /// <summary>
+        /// Read input data.
+        /// </summary>
+        /// <typeparam name="T">Data.</typeparam>
+        /// <param name="converter">Data converter delegate.</param>
+        /// <param name="validator">Data validator delegate.</param>
+        /// <returns>Validated data.</returns>
         public static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
         {
             do
@@ -36,6 +45,7 @@ namespace FileCabinetApp.InputHandlers
             while (true);
         }
 
+        #region Converters
         public static Func<string, Tuple<bool, string, string>> stringConvrter = input =>
         {
             return new Tuple<bool, string, string>(true, input, input);
@@ -73,6 +83,8 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, char>(isValid, input, englishLevel);
         };
 
+        #endregion
+        #region Validators
         public static Func<string, Tuple<bool, string>> firstNameValidator = input =>
         {
             bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
@@ -108,5 +120,7 @@ namespace FileCabinetApp.InputHandlers
             bool isValid = input == 'a' || input == 'c' || input == 'b';
             return new Tuple<bool, string>(isValid, input.ToString());
         };
+
+        #endregion
     }
 }

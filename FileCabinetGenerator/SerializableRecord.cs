@@ -9,8 +9,6 @@ namespace FileCabinetGenerator
     [Serializable]
     public class SerializableRecord
     {
-        public DateTime dateOfBirth;
-
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
@@ -30,9 +28,6 @@ namespace FileCabinetGenerator
         public char EnglishLevel { get; set; }
 
         [XmlElement("DateOfBirth")]
-        public string DateOfBirth
-        {
-            get => this.dateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-        }
+        public DateTime DateOfBirth { get; set; }
     }
 }

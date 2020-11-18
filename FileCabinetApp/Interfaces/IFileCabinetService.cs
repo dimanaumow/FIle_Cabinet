@@ -25,37 +25,58 @@ namespace FileCabinetApp.Service
         /// <param name="parameters">Parameters of record.</param>
         public void EditRecord(int id, RecordData parameters);
 
-        public IEnumerable<FileCabinetRecord> FindBy(string properyName, string value);
-
         /// <summary>
         /// Find all records with given firstName.
         /// </summary>
         /// <param name="firstName">User firstName.</param>
-        /// <returns>The array of finded records.</returns>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
 
         /// <summary>
         /// Find all records with given lastName.
         /// </summary>
         /// <param name="lastName">User lastNeme.</param>
-        /// <returns>The array of finded records.</returns>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
 
         /// <summary>
         /// Find all records with given date of birth.
         /// </summary>
         /// <param name="dateOfBirth">The user's date of birth.</param>
-        /// <returns>The array of finded records.</returns>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth);
 
+        /// <summary>
+        /// Find all records with given experience.
+        /// </summary>
+        /// <param name="expirience">The user's experience.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience);
 
+        /// <summary>
+        /// Find all records with given balance.
+        /// </summary>
+        /// <param name="balance">The user's balance.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByBalance(string balance);
 
+        /// <summary>
+        /// Find all records with given english level.
+        /// </summary>
+        /// <param name="englishLevel">The user's english level.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel);
 
+        /// <summary>
+        /// Remove record with given id.
+        /// </summary>
+        /// <param name="id">The id of removed record.</param>
+        /// <returns>Is removed record.</returns>
         public bool Remove(int id);
 
+        /// <summary>
+        /// Deleted all removed record from file.
+        /// </summary>
         public void Purge();
 
         /// <summary>
@@ -70,8 +91,17 @@ namespace FileCabinetApp.Service
         /// <returns>The count of records.</returns>
         public (int active, int removed) GetStat();
 
+        /// <summary>
+        /// Make snapshot of the current service.
+        /// </summary>
+        /// <returns>Snapshot of the current service.</returns>
         public FileCabinetServiceSnapshot MakeSnapShot();
 
+        /// <summary>
+        /// Recovers saved snapshot recordings.
+        /// </summary>
+        /// <param name="snapshot">Snapshot.</param>
+        /// <returns>Count of recorves record.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot);
     }
 }
