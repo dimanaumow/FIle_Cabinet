@@ -39,9 +39,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (parameters.dateOfBirth < this.from || parameters.dateOfBirth > this.to)
+            if (parameters.DateOfBirth < this.from || parameters.DateOfBirth > this.to)
             {
-                throw new ArgumentException($"{nameof(parameters.dateOfBirth)} is incorrect.");
+                throw new ArgumentException($"{nameof(parameters.DateOfBirth)} is incorrect.");
             }
         }
     }

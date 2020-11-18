@@ -36,9 +36,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (!this.levels.Contains(parameters.englishLevel, StringComparison.Ordinal))
+            if (!this.levels.Contains(parameters.EnglishLevel, StringComparison.Ordinal))
             {
-                throw new ArgumentException($"{nameof(parameters.englishLevel)} must be correct english level.");
+                throw new ArgumentException($"{nameof(parameters.EnglishLevel)} must be correct english level.");
             }
         }
     }

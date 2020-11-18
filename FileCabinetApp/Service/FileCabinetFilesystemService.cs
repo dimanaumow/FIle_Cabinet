@@ -203,12 +203,12 @@ namespace FileCabinetApp.Service
                 int id = recod.Id;
                 var data = new RecordData()
                 {
-                    balance = recod.Balance,
-                    dateOfBirth = recod.DateOfBirth,
-                    firstName = recod.FirstName,
-                    lastName = recod.LastName,
-                    experience = recod.Experience,
-                    englishLevel = recod.EnglishLevel,
+                    Balance = recod.Balance,
+                    DateOfBirth = recod.DateOfBirth,
+                    FirstName = recod.FirstName,
+                    LastName = recod.LastName,
+                    Experience = recod.Experience,
+                    EnglishLevel = recod.EnglishLevel,
                 };
 
                 this.WriteRecordToBinaryFile(currentPosition, data, id);
@@ -248,12 +248,12 @@ namespace FileCabinetApp.Service
                 try
                 {
                     var data = new RecordData();
-                    data.firstName = record.FirstName;
-                    data.lastName = record.LastName;
-                    data.dateOfBirth = record.DateOfBirth;
-                    data.balance = record.Balance;
-                    data.experience = record.Experience;
-                    data.englishLevel = record.EnglishLevel;
+                    data.FirstName = record.FirstName;
+                    data.LastName = record.LastName;
+                    data.DateOfBirth = record.DateOfBirth;
+                    data.Balance = record.Balance;
+                    data.Experience = record.Experience;
+                    data.EnglishLevel = record.EnglishLevel;
 
                     if (this.GetRecordsCollection().Any(item => item.Id == record.Id))
                     {
@@ -324,14 +324,14 @@ namespace FileCabinetApp.Service
             this.binWriter.Seek((int)position, SeekOrigin.Begin);
             this.binWriter.Write(isActiveRecord);
             this.binWriter.Write(id);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.firstName, new string(' ', LengtOfString - parameters.firstName.Length)).ToCharArray()));
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.lastName, new string(' ', LengtOfString - parameters.lastName.Length)).ToCharArray()));
-            this.binWriter.Write(parameters.dateOfBirth.Month);
-            this.binWriter.Write(parameters.dateOfBirth.Day);
-            this.binWriter.Write(parameters.dateOfBirth.Year);
-            this.binWriter.Write(parameters.experience);
-            this.binWriter.Write(parameters.balance);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.englishLevel.ToString(CultureInfo.InvariantCulture)));
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.FirstName, new string(' ', LengtOfString - parameters.FirstName.Length)).ToCharArray()));
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.LastName, new string(' ', LengtOfString - parameters.LastName.Length)).ToCharArray()));
+            this.binWriter.Write(parameters.DateOfBirth.Month);
+            this.binWriter.Write(parameters.DateOfBirth.Day);
+            this.binWriter.Write(parameters.DateOfBirth.Year);
+            this.binWriter.Write(parameters.Experience);
+            this.binWriter.Write(parameters.Balance);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.EnglishLevel.ToString(CultureInfo.InvariantCulture)));
         }
 
         private FileCabinetRecord ReadRecordOutBinaryFile(long position)

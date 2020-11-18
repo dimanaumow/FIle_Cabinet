@@ -31,9 +31,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (parameters.balance < this.min)
+            if (parameters.Balance < this.min)
             {
-                throw new ArgumentException($"{nameof(parameters.balance)} must be greatest than {this.min}");
+                throw new ArgumentException($"{nameof(parameters.Balance)} must be greatest than {this.min}");
             }
         }
     }

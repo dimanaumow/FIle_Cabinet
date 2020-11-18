@@ -7,6 +7,9 @@ using FileCabinetApp.Service;
 
 namespace FileCabinetApp.Printers
 {
+    /// <summary>
+    /// Table printer.
+    /// </summary>
     public class TablePrinter
     {
         private const char Plus = '+';
@@ -16,6 +19,11 @@ namespace FileCabinetApp.Printers
 
         private Dictionary<string, int> maxCeilLengths;
 
+        /// <summary>
+        /// Print record in table format.
+        /// </summary>
+        /// <param name="records">The records collection.</param>
+        /// <param name="property">The property to print.</param>
         public void Print(IEnumerable<FileCabinetRecord> records, List<string> property)
         {
             if (records is null)

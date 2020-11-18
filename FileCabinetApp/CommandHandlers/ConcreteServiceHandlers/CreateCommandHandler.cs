@@ -62,7 +62,7 @@ namespace FileCabinetApp.CommandHandlers
             Console.Write("Balance: ");
             var balance = InputValidator.ReadInput(InputValidator.balanceConverter, InputValidator.balanceValidator);
 
-            var index = this.fileCabinetService.CreateRecord(new RecordData(firstName, lastName, dateOfBirth, experience, balance, englishLevel));
+            var index = this.fileCabinetService.CreateRecord(new RecordData { FirstName = firstName, LastName = lastName, Balance = balance, DateOfBirth = dateOfBirth, EnglishLevel = englishLevel, Experience = experience});
             Console.WriteLine($"Record #{index} is created.");
         }
     }

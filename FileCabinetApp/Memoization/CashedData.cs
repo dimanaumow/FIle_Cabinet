@@ -5,34 +5,58 @@ using FileCabinetApp.Service;
 
 namespace FileCabinetApp.Memoization
 {
-    public static class CashedData 
+    /// <summary>
+    /// Cache data calculation.
+    /// </summary>
+    public static class CashedData
     {
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> dateOfBirtCashe =
+        /// <summary>
+        /// Date cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> DateOfBirtCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> firstNameCashe =
+        /// <summary>
+        /// FirstName cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> FirstNameCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> lastNameCashe =
+        /// <summary>
+        /// LastName cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> LastNameCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> experienceCashe =
+        /// <summary>
+        /// Experience cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> ExperienceCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> balanceCashe =
+        /// <summary>
+        /// Balance cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> BalanceCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
-        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> englishLevelCashe =
+        /// <summary>
+        /// English level cache.
+        /// </summary>
+        public static readonly Dictionary<string, IEnumerable<FileCabinetRecord>> EnglishLevelCashe =
             new Dictionary<string, IEnumerable<FileCabinetRecord>>();
 
+        /// <summary>
+        /// Clear all cache.
+        /// </summary>
         public static void ClearCashe()
         {
-            dateOfBirtCashe.Clear();
-            firstNameCashe.Clear();
-            lastNameCashe.Clear();
-            experienceCashe.Clear();
-            balanceCashe.Clear();
-            englishLevelCashe.Clear();
+            DateOfBirtCashe.Clear();
+            FirstNameCashe.Clear();
+            LastNameCashe.Clear();
+            ExperienceCashe.Clear();
+            BalanceCashe.Clear();
+            EnglishLevelCashe.Clear();
         }
     }
 }

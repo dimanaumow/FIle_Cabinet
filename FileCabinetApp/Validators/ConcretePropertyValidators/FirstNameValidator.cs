@@ -39,19 +39,19 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (string.IsNullOrWhiteSpace(parameters.firstName))
+            if (string.IsNullOrWhiteSpace(parameters.FirstName))
             {
-                if (parameters.firstName is null)
+                if (parameters.FirstName is null)
                 {
-                    throw new ArgumentNullException($"{nameof(parameters.firstName)} cannot be null.");
+                    throw new ArgumentNullException($"{nameof(parameters.FirstName)} cannot be null.");
                 }
 
-                if (parameters.firstName.Length < this.minLength || parameters.firstName.Length > this.maxLength)
+                if (parameters.FirstName.Length < this.minLength || parameters.FirstName.Length > this.maxLength)
                 {
-                    throw new ArgumentException($"{nameof(parameters.firstName.Length)} must be in range 2 to 60.");
+                    throw new ArgumentException($"{nameof(parameters.FirstName.Length)} must be in range 2 to 60.");
                 }
 
-                throw new ArgumentException($"{nameof(parameters.firstName)} cannot be empty or whiteSpace.");
+                throw new ArgumentException($"{nameof(parameters.FirstName)} cannot be empty or whiteSpace.");
             }
         }
     }

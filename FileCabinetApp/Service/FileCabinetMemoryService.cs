@@ -56,12 +56,12 @@ namespace FileCabinetApp.Service
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
-                FirstName = parameters.firstName,
-                LastName = parameters.lastName,
-                DateOfBirth = parameters.dateOfBirth,
-                Experience = parameters.experience,
-                Balance = parameters.balance,
-                EnglishLevel = parameters.englishLevel,
+                FirstName = parameters.FirstName,
+                LastName = parameters.LastName,
+                DateOfBirth = parameters.DateOfBirth,
+                Experience = parameters.Experience,
+                Balance = parameters.Balance,
+                EnglishLevel = parameters.EnglishLevel,
             };
 
             this.list.Add(record);
@@ -113,12 +113,12 @@ namespace FileCabinetApp.Service
             var record = new FileCabinetRecord
             {
                 Id = id,
-                FirstName = parameters.firstName,
-                LastName = parameters.lastName,
-                DateOfBirth = parameters.dateOfBirth,
-                Experience = parameters.experience,
-                Balance = parameters.balance,
-                EnglishLevel = parameters.englishLevel,
+                FirstName = parameters.FirstName,
+                LastName = parameters.LastName,
+                DateOfBirth = parameters.DateOfBirth,
+                Experience = parameters.Experience,
+                Balance = parameters.Balance,
+                EnglishLevel = parameters.EnglishLevel,
             };
 
             this.list[id - 1] = record;
@@ -158,12 +158,12 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            if (CashedData.firstNameCashe.ContainsKey(firstName))
+            if (CashedData.FirstNameCashe.ContainsKey(firstName))
             {
-                return CashedData.firstNameCashe[firstName];
+                return CashedData.FirstNameCashe[firstName];
             }
 
-            CashedData.firstNameCashe.Add(firstName, this.FindFirstName(firstName));
+            CashedData.FirstNameCashe.Add(firstName, this.FindFirstName(firstName));
             return this.FindFirstName(firstName);
         }
 
@@ -174,12 +174,12 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            if (CashedData.lastNameCashe.ContainsKey(lastName))
+            if (CashedData.LastNameCashe.ContainsKey(lastName))
             {
-                return CashedData.firstNameCashe[lastName];
+                return CashedData.FirstNameCashe[lastName];
             }
 
-            CashedData.lastNameCashe.Add(lastName, this.FindLastName(lastName));
+            CashedData.LastNameCashe.Add(lastName, this.FindLastName(lastName));
             return this.FindLastName(lastName);
         }
 
@@ -190,45 +190,45 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
-            if (CashedData.dateOfBirtCashe.ContainsKey(dateOfBirth))
+            if (CashedData.DateOfBirtCashe.ContainsKey(dateOfBirth))
             {
-                return CashedData.dateOfBirtCashe[dateOfBirth];
+                return CashedData.DateOfBirtCashe[dateOfBirth];
             }
 
-            CashedData.dateOfBirtCashe.Add(dateOfBirth, this.FindDateOfBirth(dateOfBirth));
+            CashedData.DateOfBirtCashe.Add(dateOfBirth, this.FindDateOfBirth(dateOfBirth));
             return this.FindDateOfBirth(dateOfBirth);
         }
 
         public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
         {
-            if (CashedData.experienceCashe.ContainsKey(expirience))
+            if (CashedData.ExperienceCashe.ContainsKey(expirience))
             {
-                return CashedData.experienceCashe[expirience];
+                return CashedData.ExperienceCashe[expirience];
             }
 
-            CashedData.experienceCashe.Add(expirience, this.FindExpirience(expirience));
+            CashedData.ExperienceCashe.Add(expirience, this.FindExpirience(expirience));
             return this.FindExpirience(expirience);
         }
 
         public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
         {
-            if (CashedData.balanceCashe.ContainsKey(balance))
+            if (CashedData.BalanceCashe.ContainsKey(balance))
             {
-                return CashedData.balanceCashe[balance];
+                return CashedData.BalanceCashe[balance];
             }
 
-            CashedData.balanceCashe.Add(balance, this.FindBalance(balance));
+            CashedData.BalanceCashe.Add(balance, this.FindBalance(balance));
             return this.FindBalance(balance);
         }
 
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
         {
-            if (CashedData.englishLevelCashe.ContainsKey(englishLevel))
+            if (CashedData.EnglishLevelCashe.ContainsKey(englishLevel))
             {
-                return CashedData.englishLevelCashe[englishLevel];
+                return CashedData.EnglishLevelCashe[englishLevel];
             }
 
-            CashedData.englishLevelCashe.Add(englishLevel, this.FindEnglishLevel(englishLevel));
+            CashedData.EnglishLevelCashe.Add(englishLevel, this.FindEnglishLevel(englishLevel));
             return this.FindEnglishLevel(englishLevel);
         }
 
@@ -301,12 +301,12 @@ namespace FileCabinetApp.Service
                     if (id <= this.list.Count)
                     {
                         var data = new RecordData();
-                        data.firstName = record.FirstName;
-                        data.lastName = record.LastName;
-                        data.dateOfBirth = record.DateOfBirth;
-                        data.balance = record.Balance;
-                        data.experience = record.Experience;
-                        data.englishLevel = record.EnglishLevel;
+                        data.FirstName = record.FirstName;
+                        data.LastName = record.LastName;
+                        data.DateOfBirth = record.DateOfBirth;
+                        data.Balance = record.Balance;
+                        data.Experience = record.Experience;
+                        data.EnglishLevel = record.EnglishLevel;
                         this.EditRecord(id, data);
                         count++;
                     }

@@ -52,10 +52,13 @@ namespace FileCabinetApp.Service
         /// <value>User nationality.</value>
         public char EnglishLevel { get; set; }
 
+        /// <summary>
+        /// Record to string.
+        /// </summary>
+        /// <returns>String record data.</returns>
         public override string ToString()
         {
-            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Experience, this.Balance, this.EnglishLevel);
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}", this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Experience, this.Balance, this.EnglishLevel);
         }
     }
 }

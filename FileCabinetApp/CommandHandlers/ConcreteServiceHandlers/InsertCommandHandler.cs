@@ -69,12 +69,12 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
 
             var data = new RecordData()
             {
-                firstName = record.FirstName,
-                lastName = record.LastName,
-                dateOfBirth = record.DateOfBirth,
-                experience = record.Experience,
-                balance = record.Balance,
-                englishLevel = record.EnglishLevel,
+                FirstName = record.FirstName,
+                LastName = record.LastName,
+                DateOfBirth = record.DateOfBirth,
+                Experience = record.Experience,
+                Balance = record.Balance,
+                EnglishLevel = record.EnglishLevel,
             };
 
             this.fileCabinetService.CreateRecord(data);

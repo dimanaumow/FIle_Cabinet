@@ -142,39 +142,39 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
         {
             RecordData data = new RecordData()
             {
-                firstName = record.FirstName,
-                lastName = record.LastName,
-                dateOfBirth = record.DateOfBirth,
-                experience = record.Experience,
-                englishLevel = record.EnglishLevel,
-                balance = record.Balance,
+                FirstName = record.FirstName,
+                LastName = record.LastName,
+                DateOfBirth = record.DateOfBirth,
+                Experience = record.Experience,
+                EnglishLevel = record.EnglishLevel,
+                Balance = record.Balance,
             };
 
             foreach (var item in editParameters)
             {
                 if (string.Equals(item.prop, "firstName", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.firstName = item.value;
+                    data.FirstName = item.value;
                 }
                 else if (string.Equals(item.prop, "lastName", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.lastName = item.value;
+                    data.LastName = item.value;
                 }
                 else if (string.Equals(item.prop, "dateofbirth", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.dateOfBirth = DateTime.Parse(item.value, CultureInfo.InvariantCulture);
+                    data.DateOfBirth = DateTime.Parse(item.value, CultureInfo.InvariantCulture);
                 }
                 else if (string.Equals(item.prop, "experience", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.experience = short.Parse(item.value, CultureInfo.InvariantCulture);
+                    data.Experience = short.Parse(item.value, CultureInfo.InvariantCulture);
                 }
                 else if (string.Equals(item.prop, "balance", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.balance = decimal.Parse(item.value, CultureInfo.InvariantCulture);
+                    data.Balance = decimal.Parse(item.value, CultureInfo.InvariantCulture);
                 }
                 else if (string.Equals(item.prop, "englishlevel", StringComparison.OrdinalIgnoreCase))
                 {
-                    data.englishLevel = item.value[0];
+                    data.EnglishLevel = item.value[0];
                 }
             }
 

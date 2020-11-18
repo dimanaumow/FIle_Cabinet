@@ -39,9 +39,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(parameters)} cannot be null.");
             }
 
-            if (parameters.experience < this.min || parameters.experience > this.max)
+            if (parameters.Experience < this.min || parameters.Experience > this.max)
             {
-                throw new ArgumentException($"{nameof(parameters.experience)} must be in range from {nameof(this.min)} to {nameof(this.max)}.");
+                throw new ArgumentException($"{nameof(parameters.Experience)} must be in range from {nameof(this.min)} to {nameof(this.max)}.");
             }
         }
     }

@@ -46,8 +46,12 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            var csvWriter = new FileCabinetRecordCsvWriter(writer, this.records);
-            csvWriter.Write();
+            var csvWriter = new FileCabinetRecordCsvWriter(writer);
+
+            foreach (var record in this.records)
+            {
+                csvWriter.Write(record);
+            }
         }
 
         /// <summary>
@@ -61,7 +65,26 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), this.records);
+            var collection = new List<SerializableRecord>();
+
+            foreach (var record in this.records)
+            {
+                var serializeRecord = new SerializableRecord();
+                serializeRecord.Id = record.Id;
+                serializeRecord.FirstName = record.FirstName;
+                serializeRecord.LastName = record.LastName;
+                serializeRecord.dateOfBirth = record.DateOfBirth;
+                serializeRecord.Eperience = record.Experience;
+                serializeRecord.Balance = record.Balance;
+                serializeRecord.EnglishLevel = record.EnglishLevel;
+
+                collection.Add(serializeRecord);
+            }
+
+            var serializableRecords = new SerializableRecordsArray();
+            serializableRecords.SerializeRecords = collection.ToArray();
+
+            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), serializableRecords);
             xmlWriter.Write();
         }
 

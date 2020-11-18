@@ -167,8 +167,8 @@ namespace FileCabinetApp.Information
         }
 
         private string GetInfoRecordData(RecordData parameters)
-            => $"FirstName = '{parameters.firstName}', LastName = '{parameters.lastName}', " +
-                $"DateOfBirth = '{parameters.dateOfBirth}', Experience = '{parameters.experience}', " +
-                $"Balance = '{parameters.balance}', EnglishLevel = '{parameters.englishLevel}'.";
+            => $"FirstName = '{parameters.FirstName}', LastName = '{parameters.LastName}', " +
+                $"DateOfBirth = '{parameters.DateOfBirth}', Experience = '{parameters.Experience}', " +
+                $"Balance = '{parameters.Balance}', EnglishLevel = '{parameters.EnglishLevel}'.";
     }
 }

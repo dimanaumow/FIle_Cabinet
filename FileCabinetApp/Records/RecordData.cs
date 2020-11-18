@@ -9,38 +9,40 @@ namespace FileCabinetApp
     /// </summary>
     public class RecordData
     {
-        public string firstName;
-        public string lastName;
-        public DateTime dateOfBirth;
-        public short experience;
-        public decimal balance;
-        public char englishLevel;
+        /// <summary>
+        /// Gets or sets the user's firstName.
+        /// </summary>
+        /// <value>User firstName.</value>
+        public string FirstName { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordData"/> class.
+        /// Gets or sets the user's lastName.
         /// </summary>
-        public RecordData()
-        {
-        }
+        /// <value>User lastName.</value>
+        public string LastName { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordData"/> class.
+        /// Gets or sets the user's date of birth.
         /// </summary>
-        /// <param name="firstName">User firstName.</param>
-        /// <param name="lastName">User lastName.</param>
-        /// <param name="dateOfBirth">User's date of birth.</param>
-        /// <param name="experience">User's expirience.</param>
-        /// <param name="balance">User's balance.</param>
-        /// <param name="englishLevel">User's nationality.</param>
-        public RecordData(string firstName, string lastName, DateTime dateOfBirth, short experience, decimal balance, char englishLevel)
-            : this()
-        {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.dateOfBirth = dateOfBirth;
-            this.experience = experience;
-            this.balance = balance;
-            this.englishLevel = englishLevel;
-        }
+        /// <value>User date of birth.</value>
+        public DateTime DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user's work expirience.
+        /// </summary>
+        /// <value>User expirience.</value>
+        public short Experience { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user's balance.
+        /// </summary>
+        /// <value>User balance.</value>
+        public decimal Balance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user's nationality.
+        /// </summary>
+        /// <value>User nationality.</value>
+        public char EnglishLevel { get; set; }
     }
 }

@@ -97,8 +97,6 @@ namespace FileCabinetApp.CommandPromt
             return ThresholdWord <= tanimoto;
         }
 
-        //две первые буквы совпадают
-        //длина одинаковая и совпадают три буквы на одинаковых позициях
         private static bool IsSimularVersionTwo(string firstToken, string secondToken)
         {
             if (firstToken.Length < 2)
