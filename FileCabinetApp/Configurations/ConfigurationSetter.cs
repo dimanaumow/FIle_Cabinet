@@ -5,13 +5,20 @@ using Microsoft.Extensions.Configuration;
 
 namespace FileCabinetApp.Configurations
 {
+    /// <summary>
+    /// Maintains setting current configurations for FileCabinetRecord options.
+    /// </summary>
     public class ConfigurationSetter
     {
-        private const string settersPath = @"d:\AutocodeEPAM\FileCabinet\validation-rules.json";
+        private const string SettersPath = @"d:\AutocodeEPAM\FileCabinet\validation-rules.json";
         private readonly IConfiguration configuration;
         private readonly string validationRule;
         private readonly JsonValidationParameters validationParameters;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationSetter"/> class.
+        /// </summary>
+        /// <param name="validationRule">Is validation rule.</param>
         public ConfigurationSetter(string validationRule)
         {
             if (validationRule is null)
@@ -20,10 +27,14 @@ namespace FileCabinetApp.Configurations
             }
 
             this.validationRule = validationRule;
-            this.configuration = new ConfigurationBuilder().AddJsonFile(settersPath).Build();
+            this.configuration = new ConfigurationBuilder().AddJsonFile(SettersPath).Build();
             this.validationParameters = new JsonValidationParameters();
         }
 
+        /// <summary>
+        /// Get configuration parameters.
+        /// </summary>
+        /// <returns>Json validation parameters.</returns>
         public JsonValidationParameters GetParameters()
         {
             this.SetParameters();

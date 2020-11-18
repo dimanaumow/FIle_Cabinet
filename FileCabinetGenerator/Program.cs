@@ -22,15 +22,6 @@ namespace FileCabinetGenerator
         {
             var commandPairs = GetCurrentComandPairs(args);
             Handle(commandPairs);
-            Console.WriteLine(outputType);
-            Console.WriteLine(outputPath);
-            Console.WriteLine(recordsAmount);
-            Console.WriteLine(startId);
-
-            foreach (var record in GenerateRecords())
-            {
-                Console.WriteLine(record);
-            }
             Export();
         }
 
@@ -110,7 +101,7 @@ namespace FileCabinetGenerator
             }
             else
             {
-                Console.WriteLine($"This .{nameof(outputType)} type file is incorrect.");
+                Console.WriteLine($"This {nameof(outputType)} type file is incorrect.");
             }
         }
 
@@ -146,7 +137,7 @@ namespace FileCabinetGenerator
                 collection.Add(serializeRecord);
             }
 
-            var serializableRecords = new SerializableCollection();
+            var serializableRecords = new SerializableRecordsArray();
             serializableRecords.SerializeRecords = collection.ToArray();
 
             using (var writer = new StreamWriter(outputPath))

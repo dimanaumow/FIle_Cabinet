@@ -40,14 +40,6 @@ namespace FileCabinetApp.Information
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoRecordData(parameters));
         }
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
-        {
-            var collection = this.service.FindBy(propertyName, value);
-            WriteLogInFile(nameof(this.service.FindBy), value);
-            WriteLogReturnInFile(nameof(this.service.FindBy), collection.ToString());
-            return collection;
-        }
-
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var collection = this.service.FindByFirstName(firstName);

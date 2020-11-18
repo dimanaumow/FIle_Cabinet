@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace FileCabinetGenerator
 {
     [XmlRoot("Records")]
-    public class SerializableCollection
+    public class SerializableRecordsArray
     {
         [XmlElement("Record")]
         public SerializableRecord[] SerializeRecords { get; set; }

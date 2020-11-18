@@ -10,13 +10,13 @@ namespace FileCabinetGenerator
     {
         private readonly XmlSerializer serializer;
         private readonly XmlWriter writer;
-        private readonly SerializableCollection records;
+        private readonly SerializableRecordsArray records;
 
-        public RecordXmlWriter(XmlWriter writer, SerializableCollection records)
+        public RecordXmlWriter(XmlWriter writer, SerializableRecordsArray records)
         {
             this.writer = writer;
             this.records = records;
-            this.serializer = new XmlSerializer(typeof(SerializableCollection));
+            this.serializer = new XmlSerializer(typeof(SerializableRecordsArray));
         }
 
         public void Write()

@@ -38,15 +38,6 @@ namespace FileCabinetApp.Information
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
-        {
-            this.stopwatch.Restart();
-            var collection = this.service.FindBy(propertyName, value);
-            this.stopwatch.Stop();
-            this.Information(nameof(this.service.FindBy), this.stopwatch.ElapsedTicks);
-            return collection;
-        }
-
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
