@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
 using FileCabinetApp.CommandArgHandlers;
 using FileCabinetApp.CommandHandlers;
 using FileCabinetApp.CommandHandlers.ConcreteServiceHandlers;
-using FileCabinetApp.Printers;
 using FileCabinetApp.Service;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -57,13 +52,17 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
+        /// <summary>
+        /// Create command handler.
+        /// </summary>
+        /// <returns>Command handler.</returns>
         public static ICommandHandler CreateCommandHandlers()
         {
             static void Runner(bool x) => isRunning = x;
-
             var createHandler = new CreateCommandHandler(fileCabinetService);
             var exitHandler = new ExitCommandHandler(Runner);
             var exportHandler = new ExportCommandHandler(fileCabinetService);
+            var selectHandler = new SelectCommandHandler(fileCabinetService);
             var importHandler = new ImportCommandHandler(fileCabinetService);
             var helpHandler = new HelpCommandHandler();
             var purgeHandler = new PurgeCommandHandler(fileCabinetService);
@@ -71,18 +70,17 @@ namespace FileCabinetApp
             var insertHandler = new InsertCommandHandler(fileCabinetService);
             var deleteHandler = new DeleteComandHandler(fileCabinetService);
             var updateHandler = new UpdateCommandHandler(fileCabinetService);
-            var selectHandler = new SelectCommandHandler(fileCabinetService);
 
-            createHandler.SetNext(selectHandler);
-            selectHandler.SetNext(updateHandler);
-            updateHandler.SetNext(deleteHandler);
-            deleteHandler.SetNext(insertHandler);
-            insertHandler.SetNext(exitHandler);
+            createHandler.SetNext(updateHandler);
+            updateHandler.SetNext(exitHandler);
             exitHandler.SetNext(exportHandler);
-            exportHandler.SetNext(importHandler);
+            exportHandler.SetNext(selectHandler);
+            selectHandler.SetNext(importHandler);
             importHandler.SetNext(helpHandler);
             helpHandler.SetNext(purgeHandler);
-            purgeHandler.SetNext(statHandler);
+            purgeHandler.SetNext(deleteHandler);
+            deleteHandler.SetNext(statHandler);
+            statHandler.SetNext(insertHandler);
 
             return createHandler;
         }

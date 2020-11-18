@@ -1,7 +1,7 @@
 {
   "custom": {
     "dateOfBirth": {
-      "from": "1/1/1900",
+      "from": "1/1/1970",
       "to": "1/5/2020"
     },
     "firstName": {
@@ -33,7 +33,7 @@
       "max": 60
     },
     "dateOfBirth": {
-      "from": "1/1/1900",
+      "from": "1/1/1970",
       "to": "1/5/2020"
     },
     "experience": {

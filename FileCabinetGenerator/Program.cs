@@ -129,7 +129,7 @@ namespace FileCabinetGenerator
                 serializeRecord.Id = record.Id;
                 serializeRecord.FirstName = record.FirstName;
                 serializeRecord.LastName = record.LastName;
-                serializeRecord.dateOfBirth = record.DateOfBirth;
+                serializeRecord.DateOfBirth = record.DateOfBirth;
                 serializeRecord.Experience = record.Experience;
                 serializeRecord.Balance = record.Balance;
                 serializeRecord.EnglishLevel = record.EnglishLevel;

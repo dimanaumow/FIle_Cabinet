@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Globalization;
 using FileCabinetApp.Memoization;
 
+#pragma warning disable CA1062
 namespace FileCabinetApp.Service
 {
     /// <summary>
@@ -11,13 +11,6 @@ namespace FileCabinetApp.Service
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
-        public const string FirstName = "firstName";
-        public const string LastName = "lastName";
-        public const string DateOfBirth = "dateOfBirth";
-        public const string Expirience = "expirience";
-        public const string Balance = "balance";
-        public const string EnglishLevel = "englishLevel";
-
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -27,7 +20,9 @@ namespace FileCabinetApp.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
-        public FileCabinetMemoryService() { }
+        public FileCabinetMemoryService()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
@@ -66,22 +61,22 @@ namespace FileCabinetApp.Service
 
             this.list.Add(record);
 
-            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
             }
             else
             {
-                this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
             }
 
-            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
             }
             else
             {
-                this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
             }
 
             if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
@@ -123,22 +118,22 @@ namespace FileCabinetApp.Service
 
             this.list[id - 1] = record;
 
-            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
             }
             else
             {
-                this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
             }
 
-            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
             }
             else
             {
-                this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
             }
 
             if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
@@ -158,6 +153,11 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
+            if (firstName is null)
+            {
+                throw new ArgumentNullException($"{nameof(firstName)} cannot be null.");
+            }
+
             if (CashedData.FirstNameCashe.ContainsKey(firstName))
             {
                 return CashedData.FirstNameCashe[firstName];
@@ -174,6 +174,11 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
+            if (lastName is null)
+            {
+                throw new ArgumentNullException($"{nameof(lastName)} cannot be null.");
+            }
+
             if (CashedData.LastNameCashe.ContainsKey(lastName))
             {
                 return CashedData.FirstNameCashe[lastName];
@@ -190,6 +195,11 @@ namespace FileCabinetApp.Service
         /// <returns>The array of finded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(string dateOfBirth)
         {
+            if (dateOfBirth is null)
+            {
+                throw new ArgumentNullException($"{nameof(dateOfBirth)} cannot be null.");
+            }
+
             if (CashedData.DateOfBirtCashe.ContainsKey(dateOfBirth))
             {
                 return CashedData.DateOfBirtCashe[dateOfBirth];
@@ -199,8 +209,18 @@ namespace FileCabinetApp.Service
             return this.FindDateOfBirth(dateOfBirth);
         }
 
+        /// <summary>
+        /// Find by experience.
+        /// </summary>
+        /// <param name="expirience">Experience.</param>
+        /// <returns>The sequance of record.</returns>
         public IEnumerable<FileCabinetRecord> FindByExpirience(string expirience)
         {
+            if (expirience is null)
+            {
+                throw new ArgumentNullException($"{nameof(expirience)} cannot be null.");
+            }
+
             if (CashedData.ExperienceCashe.ContainsKey(expirience))
             {
                 return CashedData.ExperienceCashe[expirience];
@@ -210,8 +230,18 @@ namespace FileCabinetApp.Service
             return this.FindExpirience(expirience);
         }
 
+        /// <summary>
+        /// Find by balance.
+        /// </summary>
+        /// <param name="balance">Balance.</param>
+        /// <returns>The sequance of records.</returns>
         public IEnumerable<FileCabinetRecord> FindByBalance(string balance)
         {
+            if (balance is null)
+            {
+                throw new ArgumentNullException($"{nameof(balance)} cannot be null");
+            }
+
             if (CashedData.BalanceCashe.ContainsKey(balance))
             {
                 return CashedData.BalanceCashe[balance];
@@ -221,8 +251,18 @@ namespace FileCabinetApp.Service
             return this.FindBalance(balance);
         }
 
+        /// <summary>
+        /// Find by english level.
+        /// </summary>
+        /// <param name="englishLevel">English level.</param>
+        /// <returns>the sequance of records.</returns>
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
         {
+            if (englishLevel is null)
+            {
+                throw new ArgumentNullException($"{nameof(englishLevel)} cannot be null.");
+            }
+
             if (CashedData.EnglishLevelCashe.ContainsKey(englishLevel))
             {
                 return CashedData.EnglishLevelCashe[englishLevel];
@@ -232,6 +272,11 @@ namespace FileCabinetApp.Service
             return this.FindEnglishLevel(englishLevel);
         }
 
+        /// <summary>
+        /// Remove record with given id.
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>Is removed.</returns>
         public bool Remove(int id)
         {
             if (id > this.list.Count)
@@ -244,8 +289,8 @@ namespace FileCabinetApp.Service
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.firstNameDictionary[record.FirstName.ToUpper()].Remove(record);
-                    this.lastNameDictionary[record.LastName.ToUpper()].Remove(record);
+                    this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
+                    this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
                     return true;
                 }
@@ -275,11 +320,20 @@ namespace FileCabinetApp.Service
             return (this.list.Count, 0);
         }
 
+        /// <summary>
+        /// Make snapshot.
+        /// </summary>
+        /// <returns>Snapshot.</returns>
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
             return new FileCabinetServiceSnapshot(this.list.ToArray());
         }
 
+        /// <summary>
+        /// Remove deleted records from file.
+        /// </summary>
+        /// <param name="snapshot">Snapshot</param>
+        /// <returns>Count restored records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
@@ -314,22 +368,22 @@ namespace FileCabinetApp.Service
                     {
                         this.list.Add(record);
 
-                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
                         {
-                            this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                            this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
                         }
                         else
                         {
-                            this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
                         }
 
-                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
                         {
-                            this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                            this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
                         }
                         else
                         {
-                            this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
                         }
 
                         if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
@@ -348,24 +402,23 @@ namespace FileCabinetApp.Service
                 {
                     Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
                 }
-                catch (Exception exception)
-                {
-                    Console.WriteLine($"Import record with id {record.Id} failed: {exception.Message}");
-                }
             }
 
             return count;
         }
 
+        /// <summary>
+        /// Only file service.
+        /// </summary>
         public void Purge()
         {
         }
 
         private IEnumerable<FileCabinetRecord> FindFirstName(string firstName)
         {
-            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
+            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                var collection = this.firstNameDictionary[firstName.ToUpper()];
+                var collection = this.firstNameDictionary[firstName.ToUpper(CultureInfo.InvariantCulture)];
 
                 foreach (var item in collection)
                 {
@@ -380,9 +433,9 @@ namespace FileCabinetApp.Service
 
         private IEnumerable<FileCabinetRecord> FindLastName(string lastName)
         {
-            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                var collection = this.lastNameDictionary[lastName.ToUpper()];
+                var collection = this.lastNameDictionary[lastName.ToUpper(CultureInfo.InvariantCulture)];
 
                 foreach (var item in collection)
                 {
@@ -397,9 +450,9 @@ namespace FileCabinetApp.Service
 
         private IEnumerable<FileCabinetRecord> FindDateOfBirth(string dateOfBirth)
         {
-            int month = int.Parse(dateOfBirth.Substring(0, 2));
-            int day = int.Parse(dateOfBirth.Substring(3, 2));
-            int year = int.Parse(dateOfBirth.Substring(6, 4));
+            int month = int.Parse(dateOfBirth.Substring(0, 2), CultureInfo.InvariantCulture);
+            int day = int.Parse(dateOfBirth.Substring(3, 2), CultureInfo.InvariantCulture);
+            int year = int.Parse(dateOfBirth.Substring(6, 4), CultureInfo.InvariantCulture);
 
             var key = new DateTime(year, month, day);
 
@@ -420,7 +473,7 @@ namespace FileCabinetApp.Service
 
         private IEnumerable<FileCabinetRecord> FindExpirience(string expirience)
         {
-            short exp = short.Parse(expirience);
+            short exp = short.Parse(expirience, CultureInfo.InvariantCulture);
 
             foreach (var record in this.GetRecords())
             {
@@ -433,7 +486,7 @@ namespace FileCabinetApp.Service
 
         private IEnumerable<FileCabinetRecord> FindBalance(string balance)
         {
-            decimal bal = decimal.Parse(balance);
+            decimal bal = decimal.Parse(balance, CultureInfo.InvariantCulture);
 
             foreach (var record in this.GetRecords())
             {

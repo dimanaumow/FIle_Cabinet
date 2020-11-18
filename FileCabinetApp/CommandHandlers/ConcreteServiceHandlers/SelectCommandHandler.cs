@@ -62,6 +62,10 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             {
                 this.Select(commandRequest.Parameters);
             }
+            else
+            {
+                base.Handle(commandRequest);
+            }
         }
 
         private void Select(string parameters)
@@ -134,6 +138,11 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             var arguments = parameters.Split("where");
 
             var properies = arguments[0].Split(',').Select(x => x.Trim()).ToList();
+
+            if (arguments.Length == 1)
+            {
+                return (properies, new List<(string whereProp, string whereVal)>());
+            }
 
             var whereProperties = this.WhereParse(arguments[1]);
 

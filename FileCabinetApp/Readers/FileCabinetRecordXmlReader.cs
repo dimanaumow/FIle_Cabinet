@@ -92,7 +92,7 @@ namespace FileCabinetApp.Service
                 Id = record.Id,
                 FirstName = record.FirstName,
                 LastName = record.LastName,
-                DateOfBirth = record.dateOfBirth,
+                DateOfBirth = record.DateOfBirth,
                 Experience = record.Eperience,
                 Balance = record.Balance,
                 EnglishLevel = record.EnglishLevel,

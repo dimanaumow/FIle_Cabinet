@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace FileCabinetApp
@@ -12,11 +9,6 @@ namespace FileCabinetApp
     [Serializable]
     public class SerializableRecord
     {
-        /// <summary>
-        /// Date of birth.
-        /// </summary>
-        public DateTime dateOfBirth;
-
         /// <summary>
         /// Gets or sets records id.
         /// </summary>
@@ -60,13 +52,10 @@ namespace FileCabinetApp
         public char EnglishLevel { get; set; }
 
         /// <summary>
-        /// Gets records date of birth.
+        /// Gets or sets records date of birth.
         /// </summary>
         /// <value>The records date of birth.</value>
         [XmlElement("DateOfBirth")]
-        public string DateOfBirth
-        {
-            get => this.dateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-        }
+        public DateTime DateOfBirth { get; set; }
     }
 }
