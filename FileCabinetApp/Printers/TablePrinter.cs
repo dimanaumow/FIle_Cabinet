@@ -109,13 +109,13 @@ namespace FileCabinetApp.Printers
                 if (properties.FindIndex(x => x.Equals(prop.Name, StringComparison.OrdinalIgnoreCase)) != -1)
                 {
                     string value;
-                    if (prop.GetType() != typeof(DateTime))
+                    if (!prop.PropertyType.Equals(typeof(DateTime)))
                     {
                         value = string.Format(CultureInfo.InvariantCulture, "{0:0}", prop.GetValue(record));
                     }
                     else
                     {
-                        value = string.Format(CultureInfo.InvariantCulture, "{yyyy-MM-dd}", prop.GetValue(record));
+                        value = string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", prop.GetValue(record));
                     }
 
                     if (prop.PropertyType.IsValueType)

@@ -11,7 +11,9 @@ namespace FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure
         /// <summary>
         /// The current service.
         /// </summary>
+#pragma warning disable SA1401 // Fields should be private
         protected readonly IFileCabinetService fileCabinetService;
+#pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase"/> class.

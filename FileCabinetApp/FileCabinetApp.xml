@@ -567,7 +567,7 @@
         </member>
         <member name="M:FileCabinetApp.Information.ServiceLogger.Dispose">
             <summary>
-            Dispose
+            Dispose.
             </summary>
         </member>
         <member name="M:FileCabinetApp.Information.ServiceLogger.Dispose(System.Boolean)">

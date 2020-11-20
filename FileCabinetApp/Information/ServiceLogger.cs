@@ -140,8 +140,8 @@ namespace FileCabinetApp.Information
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
         {
             var collection = this.service.FindByEnglishLevel(englishLevel);
-            WriteLogInFile(nameof(this.service.FindByEnglishLevel), englishLevel);
-            WriteLogReturnInFile(nameof(this.service.FindByEnglishLevel), collection.ToString());
+            this.WriteLogInFile(nameof(this.service.FindByEnglishLevel), englishLevel);
+            this.WriteLogReturnInFile(nameof(this.service.FindByEnglishLevel), collection.ToString());
             return collection;
         }
 
@@ -216,7 +216,7 @@ namespace FileCabinetApp.Information
         }
 
         /// <summary>
-        /// Dispose
+        /// Dispose.
         /// </summary>
         public void Dispose()
         {
