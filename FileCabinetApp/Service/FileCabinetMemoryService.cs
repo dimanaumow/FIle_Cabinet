@@ -275,7 +275,7 @@ namespace FileCabinetApp.Service
         /// <summary>
         /// Remove record with given id.
         /// </summary>
-        /// <param name="id">Id</param>
+        /// <param name="id">Id.</param>
         /// <returns>Is removed.</returns>
         public bool Remove(int id)
         {
@@ -332,7 +332,7 @@ namespace FileCabinetApp.Service
         /// <summary>
         /// Remove deleted records from file.
         /// </summary>
-        /// <param name="snapshot">Snapshot</param>
+        /// <param name="snapshot">Snapshot.</param>
         /// <returns>Count restored records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {

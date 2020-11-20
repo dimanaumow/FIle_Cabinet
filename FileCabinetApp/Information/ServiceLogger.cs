@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.Information
 {
     /// <summary>

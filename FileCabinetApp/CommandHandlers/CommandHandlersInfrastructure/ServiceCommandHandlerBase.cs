@@ -1,6 +1,7 @@
 ﻿using System;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1051
 namespace FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure
 {
     /// <summary>

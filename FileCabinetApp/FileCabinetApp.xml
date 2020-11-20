@@ -906,6 +906,12 @@
             Serializeble record array.
             </summary>
         </member>
+        <member name="P:FileCabinetApp.Service.SerializableRecordsArray.SerializeRecords">
+            <summary>
+            Gets or sets serializable record.
+            </summary>
+            <value>Serializable record.</value>
+        </member>
         <member name="T:FileCabinetApp.Service.FileCabinetFilesystemService">
             <summary>
             FileSystem service.
@@ -916,7 +922,7 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFilesystemService"/> class.
             </summary>
             <param name="validator">The validator.</param>
-            <param name="fileStream">The filestream</param>
+            <param name="fileStream">The filestream.</param>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.RecordData)">
             <summary>
@@ -1098,7 +1104,7 @@
             <summary>
             Remove record with given id.
             </summary>
-            <param name="id">Id</param>
+            <param name="id">Id.</param>
             <returns>Is removed.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.GetRecords">
@@ -1123,7 +1129,7 @@
             <summary>
             Remove deleted records from file.
             </summary>
-            <param name="snapshot">Snapshot</param>
+            <param name="snapshot">Snapshot.</param>
             <returns>Count restored records.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.Purge">

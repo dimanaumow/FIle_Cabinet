@@ -33,7 +33,7 @@ namespace FileCabinetApp.Service
         /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
         /// </summary>
         /// <param name="validator">The validator.</param>
-        /// <param name="fileStream">The filestream</param>
+        /// <param name="fileStream">The filestream.</param>
         public FileCabinetFilesystemService(IRecordValidator validator, FileStream fileStream)
         {
             if (validator is null)

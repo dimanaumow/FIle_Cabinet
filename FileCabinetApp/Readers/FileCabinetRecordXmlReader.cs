@@ -45,7 +45,7 @@ namespace FileCabinetApp.Service
 
                 foreach (var serializableRecord in serializableRecords.SerializeRecords)
                 {
-                    readRecords.Add(this.BuildRecord(serializableRecord));
+                    readRecords.Add(BuildRecord(serializableRecord));
                 }
             }
 
@@ -80,7 +80,7 @@ namespace FileCabinetApp.Service
             this.disposed = true;
         }
 
-        private FileCabinetRecord BuildRecord(SerializableRecord record)
+        private static FileCabinetRecord BuildRecord(SerializableRecord record)
         {
             if (record is null)
             {

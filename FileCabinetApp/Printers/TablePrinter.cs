@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.Printers
 {
     /// <summary>
@@ -115,7 +116,7 @@ namespace FileCabinetApp.Printers
                     }
                     else
                     {
-                        value = string.Format(CultureInfo.InvariantCulture, "{0:yyyy-MM-dd}", prop.GetValue(record));
+                        value = string.Format(CultureInfo.InvariantCulture, "{0:MM-dd-yyyy}", prop.GetValue(record));
                     }
 
                     if (prop.PropertyType.IsValueType)

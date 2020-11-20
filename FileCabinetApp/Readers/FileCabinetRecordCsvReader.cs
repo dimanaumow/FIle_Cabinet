@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Text;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.Service
 {
     /// <summary>

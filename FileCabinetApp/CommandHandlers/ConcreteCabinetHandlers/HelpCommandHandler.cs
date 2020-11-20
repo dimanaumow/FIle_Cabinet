@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -44,7 +42,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (string.Equals(commandRequest.Commands, HelpConstant, StringComparison.OrdinalIgnoreCase))
             {
-                this.Help(commandRequest.Parameters);
+                Help(commandRequest.Parameters);
             }
             else
             {
@@ -52,7 +50,7 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-        private void Help(string parameters)
+        private static void Help(string parameters)
         {
             if (!string.IsNullOrEmpty(parameters))
             {
