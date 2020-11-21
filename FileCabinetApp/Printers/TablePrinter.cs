@@ -6,6 +6,7 @@ using System.Text;
 using FileCabinetApp.Service;
 
 #pragma warning disable CA1822
+#pragma warning disable CA1002
 namespace FileCabinetApp.Printers
 {
     /// <summary>
@@ -109,15 +110,7 @@ namespace FileCabinetApp.Printers
             {
                 if (properties.FindIndex(x => x.Equals(prop.Name, StringComparison.OrdinalIgnoreCase)) != -1)
                 {
-                    string value;
-                    if (!prop.PropertyType.Equals(typeof(DateTime)))
-                    {
-                        value = string.Format(CultureInfo.InvariantCulture, "{0:0}", prop.GetValue(record));
-                    }
-                    else
-                    {
-                        value = string.Format(CultureInfo.InvariantCulture, "{0:MM-dd-yyyy}", prop.GetValue(record));
-                    }
+                    string value = string.Format(CultureInfo.InvariantCulture, this.FormatValue(prop.GetValue(record)), prop.GetValue(record));
 
                     if (prop.PropertyType.IsValueType)
                     {
@@ -132,6 +125,16 @@ namespace FileCabinetApp.Printers
 
             sb.Append($"{VerticalBorder}");
             Console.WriteLine(sb);
+        }
+
+        private string FormatValue(object o)
+        {
+            if (o is DateTime)
+            {
+                return "{0:MM-dd-yyyy}";
+            }
+
+            return "{0:0}";
         }
 
         private Dictionary<string, int> GetMaxCeilLengths(IEnumerable<FileCabinetRecord> records)
