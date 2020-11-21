@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 
 namespace FileCabinetApp.Configurations
@@ -10,7 +8,7 @@ namespace FileCabinetApp.Configurations
     /// </summary>
     public class ConfigurationSetter
     {
-        private const string SettersPath = @"d:\AutocodeEPAM\FileCabinet\validation-rules.json";
+        private const string SettersPath = "validation-rules.json";
         private readonly IConfiguration configuration;
         private readonly string validationRule;
         private readonly JsonValidationParameters validationParameters;
@@ -27,6 +25,7 @@ namespace FileCabinetApp.Configurations
             }
 
             this.validationRule = validationRule;
+
             this.configuration = new ConfigurationBuilder().AddJsonFile(SettersPath).Build();
             this.validationParameters = new JsonValidationParameters();
         }

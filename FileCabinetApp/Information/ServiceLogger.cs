@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
 namespace FileCabinetApp.Information
 {
     /// <summary>
@@ -65,6 +66,42 @@ namespace FileCabinetApp.Information
 
             this.service.EditRecord(id, parameters);
             this.WriteLogInFile(nameof(this.service.EditRecord), this.GetInfoRecordData(parameters));
+        }
+
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
+        {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
+            var collection = this.service.FindByAnd(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            return collection;
+        }
+
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
+            var collection = this.service.FindByOr(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByOr), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByOr), conditions.ToString());
+            return collection;
         }
 
         /// <summary>
@@ -140,8 +177,8 @@ namespace FileCabinetApp.Information
         public IEnumerable<FileCabinetRecord> FindByEnglishLevel(string englishLevel)
         {
             var collection = this.service.FindByEnglishLevel(englishLevel);
-            WriteLogInFile(nameof(this.service.FindByEnglishLevel), englishLevel);
-            WriteLogReturnInFile(nameof(this.service.FindByEnglishLevel), collection.ToString());
+            this.WriteLogInFile(nameof(this.service.FindByEnglishLevel), englishLevel);
+            this.WriteLogReturnInFile(nameof(this.service.FindByEnglishLevel), collection.ToString());
             return collection;
         }
 
@@ -216,7 +253,7 @@ namespace FileCabinetApp.Information
         }
 
         /// <summary>
-        /// Dispose
+        /// Dispose.
         /// </summary>
         public void Dispose()
         {

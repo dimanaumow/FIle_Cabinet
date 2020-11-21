@@ -16,12 +16,10 @@ namespace FileCabinetApp.CommandPromt
         private const string Is = "is";
         private static string[] commands =
         {
-            "find",
             "update",
             "exit",
             "help",
             "delete",
-            "list",
             "import",
             "purge",
             "stat",
@@ -94,7 +92,7 @@ namespace FileCabinetApp.CommandPromt
 
             var tanimoto = (1.0 * equalSubtokensCount) / (subtokenFirstCount + subtokenSecondCount - equalSubtokensCount);
 
-            return ThresholdWord <= tanimoto;
+            return tanimoto >= ThresholdWord;
         }
 
         private static bool IsSimularVersionTwo(string firstToken, string secondToken)

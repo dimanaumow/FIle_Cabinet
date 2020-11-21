@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace FileCabinetApp.Service
 {
@@ -11,7 +8,13 @@ namespace FileCabinetApp.Service
     [XmlRoot("Records")]
     public class SerializableRecordsArray
     {
+        /// <summary>
+        /// Gets or sets serializable record.
+        /// </summary>
+        /// <value>Serializable record.</value>
         [XmlElement("Record")]
+#pragma warning disable CA1819
         public SerializableRecord[] SerializeRecords { get; set; }
+#pragma warning restore CA1819
     }
 }

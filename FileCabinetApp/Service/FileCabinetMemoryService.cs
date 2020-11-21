@@ -147,6 +147,100 @@ namespace FileCabinetApp.Service
         }
 
         /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
+        {
+            bool isMath = true;
+            foreach (var item in this.GetRecords())
+            {
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName && isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName && isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth && isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience && isMath;
+                }
+
+                if (conditions.Balance != null)
+                {
+                    isMath = conditions.Balance == item.Balance && isMath;
+                }
+
+                if (conditions.EnglishLevel != null)
+                {
+                    isMath = conditions.EnglishLevel == item.EnglishLevel && isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            bool isMath = false;
+            foreach (var item in this.GetRecords())
+            {
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName || isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName || isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth || isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience || isMath;
+                }
+
+                if (conditions.Balance != null)
+                {
+                    isMath = conditions.Balance == item.Balance || isMath;
+                }
+
+                if (conditions.EnglishLevel != null)
+                {
+                    isMath = conditions.EnglishLevel == item.EnglishLevel || isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        /// <summary>
         /// Implements IFileCabinetRecord interface.
         /// </summary>
         /// <param name="firstName">User firstName.</param>
@@ -275,7 +369,7 @@ namespace FileCabinetApp.Service
         /// <summary>
         /// Remove record with given id.
         /// </summary>
-        /// <param name="id">Id</param>
+        /// <param name="id">Id.</param>
         /// <returns>Is removed.</returns>
         public bool Remove(int id)
         {
@@ -332,7 +426,7 @@ namespace FileCabinetApp.Service
         /// <summary>
         /// Remove deleted records from file.
         /// </summary>
-        /// <param name="snapshot">Snapshot</param>
+        /// <param name="snapshot">Snapshot.</param>
         /// <returns>Count restored records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {

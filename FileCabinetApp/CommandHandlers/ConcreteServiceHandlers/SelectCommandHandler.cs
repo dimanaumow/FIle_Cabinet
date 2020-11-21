@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Comparers;
@@ -78,59 +79,28 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 return;
             }
 
-            var finded = new List<List<FileCabinetRecord>>();
-            foreach (var item in whereProp)
+            var condition = new WhereConditions()
             {
-                if (string.Equals(item.whereProp, "firstName", StringComparison.OrdinalIgnoreCase))
-                {
-                    var firstNames = new List<FileCabinetRecord>(this.fileCabinetService.FindByFirstName(item.whereVal));
-                    finded.Add(firstNames);
-                }
-                else if (string.Equals(item.whereProp, "lastName", StringComparison.OrdinalIgnoreCase))
-                {
-                    var lastNames = new List<FileCabinetRecord>(this.fileCabinetService.FindByLastName(item.whereVal));
-                    finded.Add(lastNames);
-                }
-                else if (string.Equals(item.whereProp, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
-                {
-                    var dates = new List<FileCabinetRecord>(this.fileCabinetService.FindByDateOfBirth(item.whereVal));
-                    finded.Add(dates);
-                }
-                else if (string.Equals(item.whereProp, "experience", StringComparison.OrdinalIgnoreCase))
-                {
-                    var experiences = new List<FileCabinetRecord>(this.fileCabinetService.FindByExpirience(item.whereVal));
-                    finded.Add(experiences);
-                }
-                else if (string.Equals(item.whereProp, "balance", StringComparison.OrdinalIgnoreCase))
-                {
-                    var balances = new List<FileCabinetRecord>(this.fileCabinetService.FindByBalance(item.whereVal));
-                    finded.Add(balances);
-                }
-                else if (string.Equals(item.whereProp, "englishLevel", StringComparison.OrdinalIgnoreCase))
-                {
-                    var levels = new List<FileCabinetRecord>(this.fileCabinetService.FindByEnglishLevel(item.whereVal));
-                    finded.Add(levels);
-                }
-            }
+                FirstName = null,
+                LastName = null,
+                DateOfBirth = null,
+                Experience = null,
+                Balance = null,
+                EnglishLevel = null,
+            };
 
-            var selected = finded[0];
+            this.CreateCondition(whereProp, ref condition);
 
-            if (this.and)
+            if (this.or)
             {
-                foreach (var item in finded)
-                {
-                    selected = this.Insert(item, selected);
-                }
+                var selected = this.fileCabinetService.FindByOr(condition);
+                this.printer(selected, prop);
             }
-            else if (this.or)
+            else if (this.and)
             {
-                foreach (var item in finded)
-                {
-                    selected = this.Union(item, selected);
-                }
+                var selected = this.fileCabinetService.FindByAnd(condition);
+                this.printer(selected, prop);
             }
-
-            this.printer(selected, prop);
         }
 
         private (List<string>, List<(string whereProp, string whereVal)>) Parse(string parameters)
@@ -184,43 +154,35 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             return result;
         }
 
-        private List<FileCabinetRecord> Insert(List<FileCabinetRecord> lhs, List<FileCabinetRecord> rhs)
+        private void CreateCondition(List<(string whereProp, string whereVal)> createParameters, ref WhereConditions conditions)
         {
-            var result = new List<FileCabinetRecord>();
-            foreach (var lhsItem in lhs)
+            foreach (var item in createParameters)
             {
-                foreach (var rhsItem in rhs)
+                if (string.Equals(item.whereProp, "firstName", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (lhsItem.FirstName == rhsItem.FirstName &&
-                        lhsItem.LastName == rhsItem.LastName &&
-                        lhsItem.DateOfBirth == rhsItem.DateOfBirth &&
-                        lhsItem.Experience == rhsItem.Experience &&
-                        lhsItem.Balance == rhsItem.Balance &&
-                        lhsItem.EnglishLevel == rhsItem.EnglishLevel)
-                    {
-                        result.Add(lhsItem);
-                    }
+                    conditions.FirstName = item.whereVal;
+                }
+                else if (string.Equals(item.whereProp, "lastName", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.LastName = item.whereVal;
+                }
+                else if (string.Equals(item.whereProp, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.DateOfBirth = DateTime.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "experience", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.Experience = short.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "balance", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.Balance = decimal.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "englishLevel", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.EnglishLevel = item.whereVal[0];
                 }
             }
-
-            return result;
-        }
-
-        private List<FileCabinetRecord> Union(List<FileCabinetRecord> lhs, List<FileCabinetRecord> rhs)
-        {
-            var result = new List<FileCabinetRecord>(lhs.Count);
-
-            var lhsSet = new SortedSet<FileCabinetRecord>(lhs, new RecordComparer());
-            var rhsSet = new SortedSet<FileCabinetRecord>(rhs, new RecordComparer());
-
-            lhsSet.UnionWith(rhsSet);
-
-            foreach (var item in lhsSet)
-            {
-                result.Add(item);
-            }
-
-            return result;
         }
     }
 }
