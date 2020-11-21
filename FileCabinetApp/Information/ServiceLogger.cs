@@ -69,6 +69,42 @@ namespace FileCabinetApp.Information
         }
 
         /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
+        {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
+            var collection = this.service.FindByAnd(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            return collection;
+        }
+
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
+            var collection = this.service.FindByOr(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByOr), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByOr), conditions.ToString());
+            return collection;
+        }
+
+        /// <summary>
         /// Find all records with given firstName.
         /// </summary>
         /// <param name="firstName">User firstName.</param>

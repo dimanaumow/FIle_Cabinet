@@ -26,6 +26,20 @@ namespace FileCabinetApp.Service
         public void EditRecord(int id, RecordData parameters);
 
         /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions);
+
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions);
+
+        /// <summary>
         /// Find all records with given firstName.
         /// </summary>
         /// <param name="firstName">User firstName.</param>

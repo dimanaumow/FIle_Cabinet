@@ -486,6 +486,20 @@
             <param name="id">Id of record.</param>
             <param name="parameters">Parameters of record.</param>
         </member>
+        <member name="M:FileCabinetApp.Information.ServiceLogger.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Information.ServiceLogger.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
         <member name="M:FileCabinetApp.Information.ServiceLogger.FindByFirstName(System.String)">
             <summary>
             Find all records with given firstName.
@@ -601,6 +615,20 @@
             <param name="id">Id of record.</param>
             <param name="parameters">Parameters of record.</param>
         </member>
+        <member name="M:FileCabinetApp.Information.ServiceMeter.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Information.ServiceMeter.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
         <member name="M:FileCabinetApp.Information.ServiceMeter.FindByFirstName(System.String)">
             <summary>
             Find all records with given firstName.
@@ -712,6 +740,20 @@
             </summary>
             <param name="id">Id of record.</param>
             <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.IFileCabinetService.FindByFirstName(System.String)">
             <summary>
@@ -938,6 +980,20 @@
             <param name="id">Id.</param>
             <param name="parameters">Record data.</param>
         </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByFirstName(System.String)">
             <summary>
             Find by firstName.
@@ -1057,6 +1113,20 @@
             </summary>
             <param name="id">Id of record.</param>
             <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.FindByFirstName(System.String)">
             <summary>
@@ -1573,6 +1643,47 @@
             <param name="builder">The VaildatorBuilder.</param>
             <param name="validationRule">The validation rule.</param>
             <returns>The record validator.</returns>
+        </member>
+        <member name="T:FileCabinetApp.WhereConditions">
+            <summary>
+            Conditions for improved find.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.FirstName">
+            <summary>
+            Gets or sets condition firstName.
+            </summary>
+            <value>FirstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.LastName">
+            <summary>
+            Gets or sets condition lastName.
+            </summary>
+            <value>LastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.DateOfBirth">
+            <summary>
+            Gets or sets condition nullable dateOfBirth.
+            </summary>
+            <value>Nullable date.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Experience">
+            <summary>
+            Gets or sets condition nullable expirience.
+            </summary>
+            <value>Nullable expirience.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Balance">
+            <summary>
+            Gets or sets condition nullable balance.
+            </summary>
+            <value>Nullable balance.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.EnglishLevel">
+            <summary>
+            Gets or sets condition nullable english level.
+            </summary>
+            <value>Nullable english level.</value>
         </member>
     </members>
 </doc>

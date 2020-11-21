@@ -52,46 +52,18 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             var set = newProp;
             var where = whereProp;
 
-            var finded = new List<List<FileCabinetRecord>>();
-            foreach (var item in where)
+            var condition = new WhereConditions()
             {
-                if (string.Equals(item.whereProp, "firstName", StringComparison.OrdinalIgnoreCase))
-                {
-                    var firstNames = new List<FileCabinetRecord>(this.fileCabinetService.FindByFirstName(item.whereVal));
-                    finded.Add(firstNames);
-                }
-                else if (string.Equals(item.whereProp, "lastName", StringComparison.OrdinalIgnoreCase))
-                {
-                    var lastNames = new List<FileCabinetRecord>(this.fileCabinetService.FindByLastName(item.whereVal));
-                    finded.Add(lastNames);
-                }
-                else if (string.Equals(item.whereProp, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
-                {
-                    var dates = new List<FileCabinetRecord>(this.fileCabinetService.FindByDateOfBirth(item.whereVal));
-                    finded.Add(dates);
-                }
-                else if (string.Equals(item.whereProp, "experience", StringComparison.OrdinalIgnoreCase))
-                {
-                    var experiences = new List<FileCabinetRecord>(this.fileCabinetService.FindByExpirience(item.whereVal));
-                    finded.Add(experiences);
-                }
-                else if (string.Equals(item.whereProp, "balance", StringComparison.OrdinalIgnoreCase))
-                {
-                    var balances = new List<FileCabinetRecord>(this.fileCabinetService.FindByBalance(item.whereVal));
-                    finded.Add(balances);
-                }
-                else if (string.Equals(item.whereProp, "englishLevel", StringComparison.OrdinalIgnoreCase))
-                {
-                    var levels = new List<FileCabinetRecord>(this.fileCabinetService.FindByEnglishLevel(item.whereVal));
-                    finded.Add(levels);
-                }
-            }
+                FirstName = null,
+                LastName = null,
+                DateOfBirth = null,
+                Experience = null,
+                Balance = null,
+                EnglishLevel = null,
+            };
 
-            var updated = finded[0];
-            foreach (var find in finded)
-            {
-                updated = this.Insert(updated, find);
-            }
+            this.CreateCondition(where, ref condition);
+            var updated = this.fileCabinetService.FindByAnd(condition);
 
             foreach (var record in updated)
             {
@@ -135,6 +107,37 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             }
 
             return listWhere;
+        }
+
+        private void CreateCondition(List<(string whereProp, string whereVal)> createParameters, ref WhereConditions conditions)
+        {
+            foreach (var item in createParameters)
+            {
+                if (string.Equals(item.whereProp, "firstName", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.FirstName = item.whereVal;
+                }
+                else if (string.Equals(item.whereProp, "lastName", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.LastName = item.whereVal;
+                }
+                else if (string.Equals(item.whereProp, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.DateOfBirth = DateTime.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "experience", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.Experience = short.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "balance", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.Balance = decimal.Parse(item.whereVal, CultureInfo.InvariantCulture);
+                }
+                else if (string.Equals(item.whereProp, "englishLevel", StringComparison.OrdinalIgnoreCase))
+                {
+                    conditions.EnglishLevel = item.whereVal[0];
+                }
+            }
         }
 
         private RecordData CreateDataForEditing(FileCabinetRecord record, List<(string prop, string value)> editParameters)
