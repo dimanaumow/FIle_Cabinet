@@ -29,7 +29,7 @@ namespace FileCabinetApp.Information
 
             this.service = service;
 
-            string path = @"d:\AutocodeEPAM\FileCabinet\logData.txt";
+            string path = "logData.txt";
             var stream = File.Exists(path) ? File.OpenWrite(path) : File.Create(path);
             this.writer = new StreamWriter(stream);
         }
