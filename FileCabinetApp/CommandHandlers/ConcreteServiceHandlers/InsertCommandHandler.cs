@@ -78,7 +78,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             };
 
             this.fileCabinetService.CreateRecord(data);
-            CashedData.ClearCashe();
         }
 
         private (string[] properties, string[] values) Parse(string parameters)

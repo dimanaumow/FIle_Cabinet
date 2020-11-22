@@ -70,8 +70,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 RecordData data = this.CreateDataForEditing(record, set);
                 this.fileCabinetService.EditRecord(record.Id, data);
             }
-
-            CashedData.ClearCashe();
         }
 
         private (List<(string prop, string val)>, List<(string whereProp, string whereVal)>) Parse(string parameters)

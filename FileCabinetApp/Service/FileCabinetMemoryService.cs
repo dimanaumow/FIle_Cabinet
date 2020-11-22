@@ -144,6 +144,8 @@ namespace FileCabinetApp.Service
             {
                 this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
             }
+
+            CashedData.ClearCashe();
         }
 
         /// <summary>
@@ -386,10 +388,12 @@ namespace FileCabinetApp.Service
                     this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
                     this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+                    CashedData.ClearCashe();
                     return true;
                 }
             }
 
+            CashedData.ClearCashe();
             return false;
         }
 
