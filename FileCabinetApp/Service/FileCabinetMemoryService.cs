@@ -427,15 +427,13 @@ namespace FileCabinetApp.Service
         /// Remove deleted records from file.
         /// </summary>
         /// <param name="snapshot">Snapshot.</param>
-        /// <returns>Count restored records.</returns>
-        public int Restore(FileCabinetServiceSnapshot snapshot)
+        public void Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
             {
                 throw new ArgumentNullException($"{nameof(snapshot)} cannot be null.");
             }
 
-            int count = 0;
             foreach (var record in snapshot.Records)
             {
                 try
@@ -456,7 +454,6 @@ namespace FileCabinetApp.Service
                         data.Experience = record.Experience;
                         data.EnglishLevel = record.EnglishLevel;
                         this.EditRecord(id, data);
-                        count++;
                     }
                     else
                     {
@@ -488,17 +485,13 @@ namespace FileCabinetApp.Service
                         {
                             this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
                         }
-
-                        count++;
                     }
                 }
                 catch (IndexOutOfRangeException indexOutOfRangeException)
                 {
-                    Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
+                    snapshot.NotImported.Add($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
                 }
             }
-
-            return count;
         }
 
         /// <summary>

@@ -77,7 +77,8 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 Console.WriteLine($"Import error: file {path} not exist");
             }
 
-            int completed = this.fileCabinetService.Restore(snapshot);
+            this.fileCabinetService.Restore(snapshot);
+            int completed = snapshot.Records.Count - snapshot.NotImported.Count;
             Console.WriteLine($"{completed} recordses were imported from {path}");
         }
 
@@ -97,7 +98,8 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 Console.WriteLine($"Import error: file {path} not exist");
             }
 
-            int completed = this.fileCabinetService.Restore(snapshot);
+            this.fileCabinetService.Restore(snapshot);
+            int completed = snapshot.Records.Count - snapshot.NotImported.Count;
             Console.WriteLine($"{completed} recordses were imported from {path}");
         }
     }

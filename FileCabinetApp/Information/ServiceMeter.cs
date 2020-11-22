@@ -246,14 +246,12 @@ namespace FileCabinetApp.Information
         /// Recovers saved snapshot recordings.
         /// </summary>
         /// <param name="snapshot">Snapshot.</param>
-        /// <returns>Count of recorves record.</returns>
-        public int Restore(FileCabinetServiceSnapshot snapshot)
+        public void Restore(FileCabinetServiceSnapshot snapshot)
         {
             this.stopwatch.Restart();
-            var count = this.service.Restore(snapshot);
+            this.service.Restore(snapshot);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.Restore), this.stopwatch.ElapsedTicks);
-            return count;
         }
 
         private void Information(string methodName, long ticks)

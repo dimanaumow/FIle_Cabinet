@@ -577,7 +577,6 @@
             Recovers saved snapshot recordings.
             </summary>
             <param name="snapshot">Snapshot.</param>
-            <returns>Count of recorves record.</returns>
         </member>
         <member name="M:FileCabinetApp.Information.ServiceLogger.Dispose">
             <summary>
@@ -706,7 +705,6 @@
             Recovers saved snapshot recordings.
             </summary>
             <param name="snapshot">Snapshot.</param>
-            <returns>Count of recorves record.</returns>
         </member>
         <member name="T:FileCabinetApp.InputHandlers.InputValidator">
             <summary>
@@ -832,7 +830,6 @@
             Recovers saved snapshot recordings.
             </summary>
             <param name="snapshot">Snapshot.</param>
-            <returns>Count of recorves record.</returns>
         </member>
         <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvReader">
             <summary>
@@ -1071,7 +1068,6 @@
             Add records from snapshot.
             </summary>
             <param name="snapshot">Snapshot.</param>
-            <returns>Count of restored records.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Dispose">
             <summary>
@@ -1200,7 +1196,6 @@
             Remove deleted records from file.
             </summary>
             <param name="snapshot">Snapshot.</param>
-            <returns>Count restored records.</returns>
         </member>
         <member name="M:FileCabinetApp.Service.FileCabinetMemoryService.Purge">
             <summary>
@@ -1218,6 +1213,12 @@
             </summary>
             <param name="records">The array of records.</param>
             <exception cref="T:System.ArgumentNullException">Throws, when records is null.</exception>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetServiceSnapshot.NotImported">
+            <summary>
+            Gets list of not imorted records.
+            </summary>
+            <value>Count of imported records.</value>
         </member>
         <member name="P:FileCabinetApp.Service.FileCabinetServiceSnapshot.Records">
             <summary>
