@@ -12,7 +12,7 @@ namespace FileCabinetGenerator
         public const string OUTPUTSHORT = "-o";
         public const string AMOUNT = "--records-amount";
         public const string AMOUNTSHORT = "-a";
-        public const string ID = "--start - id";
+        public const string ID = "--start-id";
         public const string IDSHORT = "-i";
     }
 }

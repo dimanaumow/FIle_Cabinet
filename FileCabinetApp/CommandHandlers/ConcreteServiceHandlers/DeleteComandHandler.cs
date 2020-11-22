@@ -70,7 +70,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             }
 
             Console.WriteLine($"Records {sb} are deleted.");
-            CashedData.ClearCashe();
         }
 
         private (string property, string value) Parse(string parameters)

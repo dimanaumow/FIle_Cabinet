@@ -70,8 +70,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
                 RecordData data = this.CreateDataForEditing(record, set);
                 this.fileCabinetService.EditRecord(record.Id, data);
             }
-
-            CashedData.ClearCashe();
         }
 
         private (List<(string prop, string val)>, List<(string whereProp, string whereVal)>) Parse(string parameters)
@@ -181,28 +179,6 @@ namespace FileCabinetApp.CommandHandlers.ConcreteServiceHandlers
             }
 
             return data;
-        }
-
-        private List<FileCabinetRecord> Insert(List<FileCabinetRecord> lhs, List<FileCabinetRecord> rhs)
-        {
-            var result = new List<FileCabinetRecord>();
-            foreach (var lhsItem in lhs)
-            {
-                foreach (var rhsItem in rhs)
-                {
-                    if (lhsItem.FirstName == rhsItem.FirstName &&
-                        lhsItem.LastName == rhsItem.LastName &&
-                        lhsItem.DateOfBirth == rhsItem.DateOfBirth &&
-                        lhsItem.Experience == rhsItem.Experience &&
-                        lhsItem.Balance == rhsItem.Balance &&
-                        lhsItem.EnglishLevel == rhsItem.EnglishLevel)
-                    {
-                        result.Add(lhsItem);
-                    }
-                }
-            }
-
-            return result;
         }
     }
 }

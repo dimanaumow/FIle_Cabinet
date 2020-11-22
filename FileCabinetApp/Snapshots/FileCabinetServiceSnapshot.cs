@@ -26,7 +26,14 @@ namespace FileCabinetApp.Service
             }
 
             this.records = records;
+            this.NotImported = new List<string>();
         }
+
+        /// <summary>
+        /// Gets list of not imorted records.
+        /// </summary>
+        /// <value>Count of imported records.</value>
+        public IList<string> NotImported { get; }
 
         /// <summary>
         /// Gets record collection.
@@ -98,6 +105,7 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(reader)} cannot be null.");
             }
 
+            this.NotImported.Clear();
             using var csvReader = new FileCabinetRecordCsvReader(reader);
             this.records = csvReader.Read().ToArray();
         }
@@ -108,6 +116,7 @@ namespace FileCabinetApp.Service
         /// <param name="reader">The xml reader.</param>
         public void LoadFromXml(StreamReader reader)
         {
+            this.NotImported.Clear();
             if (reader is null)
             {
                 throw new ArgumentNullException($"{nameof(reader)} cannot be null.");

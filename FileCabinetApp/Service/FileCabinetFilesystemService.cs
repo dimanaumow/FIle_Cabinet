@@ -434,15 +434,13 @@ namespace FileCabinetApp.Service
         /// Add records from snapshot.
         /// </summary>
         /// <param name="snapshot">Snapshot.</param>
-        /// <returns>Count of restored records.</returns>
-        public int Restore(FileCabinetServiceSnapshot snapshot)
+        public void Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
             {
                 throw new ArgumentNullException($"{nameof(snapshot)} cannot be null.");
             }
 
-            int count = 0;
             foreach (var record in snapshot.Records)
             {
                 try
@@ -458,21 +456,17 @@ namespace FileCabinetApp.Service
                     if (this.GetRecordsCollection().Any(item => item.Id == record.Id))
                     {
                         this.EditRecord(record.Id, data);
-                        count++;
                     }
                     else
                     {
                         this.CreateRecordWithId(data, record.Id);
-                        count++;
                     }
                 }
                 catch (IndexOutOfRangeException indexOutOfRangeException)
                 {
-                    Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
+                    snapshot.NotImported.Add($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
                 }
             }
-
-            return count;
         }
 
         /// <summary>
