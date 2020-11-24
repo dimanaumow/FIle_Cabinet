@@ -14,7 +14,7 @@ namespace FileCabinetApp
         private const string DeveloperName = "Dzmitry Naumov";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static IFileCabinetService fileCabinetService;
-        private static bool isRunning = tue;
+        private static bool isRunning = true;
 
         /// <summary>
         /// Start point for application.
