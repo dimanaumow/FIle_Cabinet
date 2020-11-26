@@ -45,22 +45,22 @@ namespace FileCabinetApp.CommandHandlers
         private void Create()
         {
             Console.Write("First name: ");
-            var firstName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.firstNameValidator);
+            var firstName = Input.ReadInput(Input.stringConvrter, Input.firstNameValidator);
 
             Console.Write("Last name: ");
-            var lastName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.lastNameValidator);
+            var lastName = Input.ReadInput(Input.stringConvrter, Input.lastNameValidator);
 
             Console.Write("Date of birth: ");
-            var dateOfBirth = InputValidator.ReadInput(InputValidator.dateConvrter, InputValidator.dateOfBirthValidator);
+            var dateOfBirth = Input.ReadInput(Input.dateConvrter, Input.dateOfBirthValidator);
 
             Console.Write("EnglishLevel: ");
-            var englishLevel = InputValidator.ReadInput(InputValidator.englishLevelConverter, InputValidator.englishLevelValidator);
+            var englishLevel = Input.ReadInput(Input.englishLevelConverter, Input.englishLevelValidator);
 
             Console.Write("Experience: ");
-            var experience = InputValidator.ReadInput(InputValidator.experienceConverter, InputValidator.experienceValidator);
+            var experience = Input.ReadInput(Input.experienceConverter, Input.experienceValidator);
 
             Console.Write("Balance: ");
-            var balance = InputValidator.ReadInput(InputValidator.balanceConverter, InputValidator.balanceValidator);
+            var balance = Input.ReadInput(Input.balanceConverter, Input.balanceValidator);
 
             try
             {

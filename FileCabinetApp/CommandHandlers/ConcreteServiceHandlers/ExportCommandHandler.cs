@@ -4,6 +4,8 @@ using System.IO;
 using FileCabinetApp.CommandHandlers.CommandHandlersInfrastructure;
 using FileCabinetApp.Service;
 
+#pragma warning disable CA1822
+
 namespace FileCabinetApp.CommandHandlers
 {
     /// <summary>
@@ -46,6 +48,14 @@ namespace FileCabinetApp.CommandHandlers
         private void Export(string parameters)
         {
             var exportComandAttributes = parameters.Split(' ', 2);
+
+            if (File.Exists(exportComandAttributes[1]))
+            {
+                if (!this.Rewrite($"File is exist - rewrite {exportComandAttributes[1]}?"))
+                {
+                    return;
+                }
+            }
 
             switch (exportComandAttributes[0].ToUpper(CultureInfo.InvariantCulture))
             {
@@ -93,6 +103,32 @@ namespace FileCabinetApp.CommandHandlers
             {
                 Console.WriteLine($"Cannot be open this file {fileName}");
             }
+        }
+
+        private bool Rewrite(string question, bool defaultAnswer = true)
+        {
+            string yesOrNo = defaultAnswer ? "[Y/n] " : "[y/N] ";
+            Console.Write($"{question} {yesOrNo}");
+
+            do
+            {
+                var answer = Console.ReadLine().ToUpperInvariant();
+                if (string.IsNullOrWhiteSpace(answer))
+                {
+                    return defaultAnswer;
+                }
+                else if (answer == "Y")
+                {
+                    return true;
+                }
+                else if (answer == "N")
+                {
+                    return false;
+                }
+
+                Console.Write(yesOrNo);
+            }
+            while (true);
         }
     }
 }

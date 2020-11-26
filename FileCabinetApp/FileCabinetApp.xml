@@ -706,12 +706,12 @@
             </summary>
             <param name="snapshot">Snapshot.</param>
         </member>
-        <member name="T:FileCabinetApp.InputHandlers.InputValidator">
+        <member name="T:FileCabinetApp.InputHandlers.Input">
             <summary>
             Input handlers.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.InputHandlers.InputValidator.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+        <member name="M:FileCabinetApp.InputHandlers.Input.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
             <summary>
             Read input data.
             </summary>
@@ -719,6 +719,61 @@
             <param name="converter">Data converter delegate.</param>
             <param name="validator">Data validator delegate.</param>
             <returns>Validated data.</returns>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.stringConvrter">
+            <summary>
+            String converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.dateConvrter">
+            <summary>
+            DateOfBirth converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.experienceConverter">
+            <summary>
+            Expirience converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.balanceConverter">
+            <summary>
+            Balance converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.englishLevelConverter">
+            <summary>
+            EnglishLevel converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.firstNameValidator">
+            <summary>
+            FirstName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.lastNameValidator">
+            <summary>
+            LastName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.dateOfBirthValidator">
+            <summary>
+            DateOfBirth validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.experienceValidator">
+            <summary>
+            Expirience validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.balanceValidator">
+            <summary>
+            Balance validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.englishLevelValidator">
+            <summary>
+            English level validator.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.Service.IFileCabinetService">
             <summary>
